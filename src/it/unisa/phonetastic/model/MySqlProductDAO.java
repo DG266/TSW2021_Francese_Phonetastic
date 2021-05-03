@@ -32,7 +32,7 @@ public class MySqlProductDAO implements ProductDAO{
 
 	// TODO Should I use synchronized?
 	
-	public void doSave(ProductBean product) throws SQLException {
+	public synchronized void doSave(ProductBean product) throws SQLException {
 		
 		String insertSQL = "INSERT INTO " + MySqlProductDAO.TABLE_NAME
 						 + " (product_name, product_description, quantity, price, iva, discount) VALUES (?, ?, ?, ?, ?, ?)";
@@ -55,7 +55,7 @@ public class MySqlProductDAO implements ProductDAO{
 		}		
 	}
 
-	public boolean doDelete(int id) throws SQLException {
+	public synchronized boolean doDelete(int id) throws SQLException {
 		
 		int result = 0;
 		
@@ -70,7 +70,7 @@ public class MySqlProductDAO implements ProductDAO{
 		return (result != 0);	
 	}
 
-	public ProductBean doRetrieveByKey(int id) throws SQLException {
+	public synchronized ProductBean doRetrieveByKey(int id) throws SQLException {
 
 		ProductBean bean = new ProductBean();
 
@@ -100,13 +100,24 @@ public class MySqlProductDAO implements ProductDAO{
 		return bean;
 	}
 
-	public Collection<ProductBean> doRetrieveAll(String order) throws SQLException {
+	public synchronized Collection<ProductBean> doRetrieveAll(String order) throws SQLException {
 		
 		Collection<ProductBean> products = new LinkedList<ProductBean>();
 
 		String selectSQL = "SELECT * FROM " + MySqlProductDAO.TABLE_NAME;
 		
+		
 		if (order != null && !order.equals("")) {
+			
+			if(order.equalsIgnoreCase("id")) {
+				order = "product_id";
+			}
+			else if(order.equalsIgnoreCase("name")) {
+				order = "product_name";
+			}
+			else if(order.equalsIgnoreCase("description")) {
+				order = "product_description";
+			}
 			selectSQL += " ORDER BY " + order;
 		}
 		
