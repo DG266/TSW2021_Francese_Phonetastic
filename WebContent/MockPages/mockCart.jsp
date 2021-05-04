@@ -39,8 +39,8 @@
 			<%} %>
 		</table>
 		<br>	
-		<form>
-			<!--<input type="submit" value="Procedi con il pagamento">-->
+		<form action="checkout">
+			<input type="submit" value="Procedi con il pagamento">
 		</form>	
 		<% } else {%>	
 		<h2>Carrello vuoto</h2>
