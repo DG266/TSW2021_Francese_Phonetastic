@@ -7,6 +7,7 @@
 <html>
 <%@ page contentType="text/html; charset=UTF-8" import="java.util.*,java.math.BigDecimal,it.unisa.phonetastic.model.ProductBean,it.unisa.phonetastic.model.Cart,it.unisa.phonetastic.model.CartItem"%>
 	<head>
+		<link href="MockPages/mockStyles.css" rel="stylesheet" type="text/css">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Il tuo carrello</title>
 	</head>

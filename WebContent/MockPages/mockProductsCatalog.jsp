@@ -14,10 +14,11 @@
 <%@ page contentType="text/html; charset=UTF-8" import="java.util.*,it.unisa.phonetastic.model.ProductBean"%>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link href="MockPages/mockStyles.css" rel="stylesheet" type="text/css">
 		<title>Catalogo Phonetastic</title>
 	</head>
-	<body>
-		<h2>Prodotti</h2>
+	</style>
+		<h2> <div class="b"> <p class="b">🐕🐕🐕Prodotti🐕🐕🐕</p> </div> </h2> 
 		<a href="catalog">Catalogo</a>
 		<a href="cart">Carrello</a>
 		<table border="1">
@@ -38,7 +39,7 @@
 				<td><%=bean.getName()%></td>
 				<td><%=bean.getDescription()%></td>
 				<td>
-					<!--<a href="catalog?action=read&id=<%=bean.getId()%>">Dettagli</a><br>  -->
+					<a href="info?id=<%=bean.getId()%>">Dettagli</a><br>
 					<a href="catalog?action=addCart&id=<%=bean.getId()%>">Aggiungi al carrello</a>
 				</td>
 			</tr>
