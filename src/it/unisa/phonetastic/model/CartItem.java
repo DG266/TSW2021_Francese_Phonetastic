@@ -1,5 +1,7 @@
 package it.unisa.phonetastic.model;
 
+import it.unisa.phonetastic.model.beans.ProductBean;
+
 public class CartItem {
 
 	private ProductBean product;

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@ page contentType="text/html; charset=UTF-8" import="java.util.*,it.unisa.phonetastic.model.ProductBean"%>
+<%@ page contentType="text/html; charset=UTF-8" import="java.util.*,it.unisa.phonetastic.model.beans.ProductBean"%>
 <%
     ProductBean p = (ProductBean) request.getAttribute("pInfo");
 %>

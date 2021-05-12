@@ -2,6 +2,8 @@ package it.unisa.phonetastic.model;
 
 import java.util.ArrayList;
 
+import it.unisa.phonetastic.model.beans.ProductBean;
+
 public class Cart {
 
 	private ArrayList<CartItem> products;

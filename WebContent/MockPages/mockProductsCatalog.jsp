@@ -11,13 +11,30 @@
     
 <!DOCTYPE html>
 <html>
-<%@ page contentType="text/html; charset=UTF-8" import="java.util.*,it.unisa.phonetastic.model.ProductBean"%>
+<%@ page contentType="text/html; charset=UTF-8" import="java.util.*,it.unisa.phonetastic.model.beans.*"%>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="MockPages/mockStyles.css" rel="stylesheet" type="text/css">
 		<title>Catalogo Phonetastic</title>
 	</head>
-	</style>
+	<body>
+	
+		<!-- Added for testing purposes - It will probably be removed. -->
+		<%
+			UserBean currentUser = (UserBean) session.getAttribute("currentSessionUser");
+			if(currentUser == null || !currentUser.isValid()){
+		%>
+		<form action="login" method="POST">
+			<p><b>Login</b></p>	
+			<input type="email" name="email" placeholder="Email"/>		
+			<input type="password" name="pwd" placeholder="Password"/>
+			<input type="submit" value="Login">			
+		</form>
+		<%	} else { %>
+		<a href="login?action=logout">Logout</a>
+		<%  } %>
+		<!-- END COMMENT -->
+		
 		<h2> <div class="b"> <p class="b">🐕🐕🐕Prodotti🐕🐕🐕</p> </div> </h2> 
 		<a href="catalog">Catalogo</a>
 		<a href="cart">Carrello</a>

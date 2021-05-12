@@ -1,10 +1,12 @@
-package it.unisa.phonetastic.model;
+package it.unisa.phonetastic.model.dao;
 
 public abstract class DAOFactory {
 
 	public static final int MYSQL = 1;
 	
 	public abstract ProductDAO getProductDAO();
+	public abstract UserDAO getUserDAO();
+	public abstract OrderDAO getOrderDAO();
 	// if more DAOs are needed, they will be added here...
 	// getUserDAO()
 	// getOrderInfoDAO()

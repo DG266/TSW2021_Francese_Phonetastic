@@ -7,22 +7,12 @@ CREATE TABLE user_info (
     user_id INT AUTO_INCREMENT,
     email VARCHAR(255) UNIQUE NOT NULL,
     pwd VARCHAR(32) NOT NULL,
-    category CHAR(3) NOT NULL,				# = REG for "registered user", = ADM for "admin", etc.
-    PRIMARY KEY (user_id)
-);
-
-CREATE TABLE user_personal_info(
-	user_id		INT,
 	first_name	VARCHAR(255),
     last_name	VARCHAR(255),
     birth_date	DATE,
     sex			CHAR,
     tel_number	VARCHAR(255),
-    PRIMARY KEY(user_id),
-    FOREIGN KEY(user_id)
-			REFERENCES user_info(user_id)
-			ON UPDATE CASCADE
-            ON DELETE CASCADE
+    PRIMARY KEY (user_id)
 );
 
 CREATE TABLE user_address(
@@ -84,6 +74,8 @@ CREATE TABLE product(
     iva						DECIMAL(4,2) NOT NULL,
     discount				DECIMAL(4,2),	
 #   image					BLOB,
+# Possible solution to maintain product information (even if they're discontinued etc.)
+#	is_deleted				BOOLEAN DEFAULT(FALSE),    
 	PRIMARY KEY(product_id)
 );
 
@@ -102,7 +94,7 @@ CREATE TABLE product_categories(
 );
 
 CREATE TABLE order_info(
-	order_id 			INT AUTO_INCREMENT,
+	order_id 			BIGINT AUTO_INCREMENT,
 #   total 				DECIMAL(10,2),
     coupon_id			VARCHAR(255),
     state				CHAR NOT NULL,		# Might be "S" for "shipped", "N" for "not shipped", etc.
@@ -122,7 +114,7 @@ CREATE TABLE order_info(
 
 
 CREATE TABLE payment_details(
-	order_id		INT,
+	order_id		BIGINT,
     state			CHAR NOT NULL,			# Very similar to order_info(state): "P" for "paid", "N" for "not paid", etc.
     payment_date	TIMESTAMP,
     user_id			INT,
@@ -139,7 +131,7 @@ CREATE TABLE payment_details(
 );	
 
 CREATE TABLE order_composition(
-	order_id		INT,
+	order_id		BIGINT,
     product_id		INT,
     quantity		INT NOT NULL,
     price			DECIMAL(10,2) NOT NULL,
@@ -153,7 +145,7 @@ CREATE TABLE order_composition(
 	FOREIGN KEY(product_id)
 			REFERENCES product(product_id)
             ON UPDATE CASCADE
-            ON DELETE NO ACTION					# Vedi un po' come gestire la cosa
+            ON DELETE NO ACTION					# TODO: find a solution to the products deletion problem
 );
 
 CREATE TABLE review(
@@ -173,3 +165,8 @@ CREATE TABLE review(
             ON UPDATE CASCADE
             ON DELETE CASCADE
 );
+
+# CUSTOM AUTO_INCREMENT VALUES 
+ALTER TABLE user_info AUTO_INCREMENT = 100100;
+ALTER TABLE order_info AUTO_INCREMENT= 200200;
+# MORE...

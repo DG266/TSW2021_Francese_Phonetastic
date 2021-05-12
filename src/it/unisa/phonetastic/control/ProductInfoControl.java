@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import it.unisa.phonetastic.model.Cart;
-import it.unisa.phonetastic.model.DAOFactory;
-import it.unisa.phonetastic.model.ProductDAO;
+import it.unisa.phonetastic.model.dao.DAOFactory;
+import it.unisa.phonetastic.model.dao.ProductDAO;
 
 public class ProductInfoControl extends HttpServlet{
 
@@ -32,20 +32,21 @@ public class ProductInfoControl extends HttpServlet{
 		}
 		
 		try {
-			request.setAttribute("pInfo", model.doRetrieveByKey(productId));
+			request.setAttribute("pInfo", model.retrieveProductByID(productId));
 			
 			String action = request.getParameter("action");
 			
 			if(action != null) {
 				if(action.equalsIgnoreCase("addCart"));
 				Cart c = (Cart) request.getSession().getAttribute("cart");
-				c.addProduct(model.doRetrieveByKey(productId));
+				c.addProduct(model.retrieveProductByID(productId));
 			}
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
 		}
 		
+		// TODO Remember to use the real jsp
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/MockPages/mockProductInfo.jsp");
 		dispatcher.forward(request, response);
 	}

@@ -1,4 +1,4 @@
-package it.unisa.phonetastic.model;
+package it.unisa.phonetastic.model.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,6 +11,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+import it.unisa.phonetastic.model.beans.ProductBean;
 
 public class MySqlProductDAO implements ProductDAO{
 
@@ -32,7 +34,7 @@ public class MySqlProductDAO implements ProductDAO{
 
 	// TODO Should I use synchronized?
 	
-	public synchronized void doSave(ProductBean product) throws SQLException {
+	public synchronized void insertProduct(ProductBean product) throws SQLException {
 		
 		String insertSQL = "INSERT INTO " + MySqlProductDAO.TABLE_NAME
 						 + " (product_name, product_description, quantity, price, iva, discount) VALUES (?, ?, ?, ?, ?, ?)";
@@ -55,11 +57,11 @@ public class MySqlProductDAO implements ProductDAO{
 		}		
 	}
 
-	public synchronized boolean doDelete(int id) throws SQLException {
+	public synchronized boolean deleteProduct(int id) throws SQLException {
 		
 		int result = 0;
 		
-		String deleteSQL = "DELETE FROM " + MySqlProductDAO.TABLE_NAME + " WHERE CODE = ?";
+		String deleteSQL = "DELETE FROM " + MySqlProductDAO.TABLE_NAME + " WHERE product_id = ?";
 		
 		try(Connection conn = ds.getConnection()){
 			try(PreparedStatement ps = conn.prepareStatement(deleteSQL)){
@@ -70,7 +72,7 @@ public class MySqlProductDAO implements ProductDAO{
 		return (result != 0);	
 	}
 
-	public synchronized ProductBean doRetrieveByKey(int id) throws SQLException {
+	public synchronized ProductBean retrieveProductByID(int id) throws SQLException {
 
 		ProductBean bean = new ProductBean();
 
@@ -100,7 +102,7 @@ public class MySqlProductDAO implements ProductDAO{
 		return bean;
 	}
 
-	public synchronized Collection<ProductBean> doRetrieveAll(String order) throws SQLException {
+	public synchronized Collection<ProductBean> retrieveAllProducts(String order) throws SQLException {
 		
 		Collection<ProductBean> products = new LinkedList<ProductBean>();
 
@@ -143,4 +145,29 @@ public class MySqlProductDAO implements ProductDAO{
 		return products;
 	}
 
+	public void updateProduct(ProductBean product) throws SQLException {
+		
+		String updateSQL = "UPDATE " + MySqlProductDAO.TABLE_NAME
+  	 	  		 		 + "SET product_name = ?, product_description = ?, quantity = ?, price = ?, iva = ?, discount = ?"
+  	 	  		 		 + "WHERE product_id = ?"; 
+		
+		try(Connection conn = ds.getConnection()){
+			conn.setAutoCommit(false);
+			try(PreparedStatement ps = conn.prepareStatement(updateSQL)){
+				
+				ps.setString(1, product.getName());
+				ps.setString(2, product.getDescription());
+				ps.setInt(3, product.getQuantity());
+				ps.setBigDecimal(4, product.getPrice());
+				ps.setBigDecimal(5, product.getIva());
+				ps.setBigDecimal(6, product.getDiscount());
+				
+				ps.setInt(7, product.getId());
+				
+				ps.executeUpdate();
+				
+				conn.commit();
+			}
+		}
+	}
 }

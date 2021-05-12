@@ -1,4 +1,4 @@
-package it.unisa.phonetastic.model;
+package it.unisa.phonetastic.model.beans;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

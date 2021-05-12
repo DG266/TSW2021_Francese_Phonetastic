@@ -5,7 +5,7 @@
 %>
 <!DOCTYPE html>
 <html>
-<%@ page contentType="text/html; charset=UTF-8" import="java.util.*,java.math.BigDecimal,it.unisa.phonetastic.model.ProductBean,it.unisa.phonetastic.model.Cart,it.unisa.phonetastic.model.CartItem"%>
+<%@ page contentType="text/html; charset=UTF-8" import="java.util.*,java.math.BigDecimal,it.unisa.phonetastic.model.beans.ProductBean,it.unisa.phonetastic.model.Cart,it.unisa.phonetastic.model.CartItem"%>
 	<head>
 		<link href="MockPages/mockStyles.css" rel="stylesheet" type="text/css">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -27,7 +27,8 @@
 			%>
 			<tr>
 				<td><%=item.getProduct().getName()%></td>
-				<td><form>
+				<td>
+					<form action="cart" method="GET">
 						<input type="text" name="quantity" size="2" value="<%=item.getQuantity()%>">
 						<input type="hidden" name="id" value="<%=item.getProduct().getId()%>">
 						<input type="submit" value="Aggiorna ordine">
@@ -39,7 +40,7 @@
 			<%} %>
 		</table>
 		<br>	
-		<form action="checkout">
+		<form action="checkout" method="GET">
 			<input type="submit" value="Procedi con il pagamento">
 		</form>	
 		<% } else {%>	

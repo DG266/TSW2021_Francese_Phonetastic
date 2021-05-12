@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import it.unisa.phonetastic.model.Cart;
-import it.unisa.phonetastic.model.DAOFactory;
-import it.unisa.phonetastic.model.ProductDAO;
+import it.unisa.phonetastic.model.dao.DAOFactory;
+import it.unisa.phonetastic.model.dao.ProductDAO;
 
 public class CartControl extends HttpServlet{
 	
@@ -34,7 +34,7 @@ public class CartControl extends HttpServlet{
 				// check if the user deleted a product
 				if (action.equalsIgnoreCase("deleteCart")) {
 					int id = Integer.parseInt(request.getParameter("id"));
-					cart.deleteProduct(model.doRetrieveByKey(id));
+					cart.deleteProduct(model.retrieveProductByID(id));
 				} 
 			}
 		}
