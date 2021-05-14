@@ -18,22 +18,14 @@
 		<title>Catalogo Phonetastic</title>
 	</head>
 	<body>
-	
-		<!-- Added for testing purposes - It will probably be removed. -->
-		<%
-			UserBean currentUser = (UserBean) session.getAttribute("currentSessionUser");
-			if(currentUser == null || !currentUser.isValid()){
-		%>
-		<form action="login" method="POST">
-			<p><b>Login</b></p>	
-			<input type="email" name="email" placeholder="Email"/>		
-			<input type="password" name="pwd" placeholder="Password"/>
-			<input type="submit" value="Login">			
-		</form>
+	<%
+		UserBean currentUser = (UserBean) session.getAttribute("currentSessionUser");
+		if(currentUser == null || !currentUser.isValid()){
+	%>
+		<a href="login">Login</a>
 		<%	} else { %>
-		<a href="login?action=logout">Logout</a>
-		<%  } %>
-		<!-- END COMMENT -->
+			<a href="login?action=logout">Logout</a>
+			<%  } %>
 		
 		<h2> <div class="b"> <p class="b">🐕🐕🐕Prodotti🐕🐕🐕</p> </div> </h2> 
 		<a href="catalog">Catalogo</a>
