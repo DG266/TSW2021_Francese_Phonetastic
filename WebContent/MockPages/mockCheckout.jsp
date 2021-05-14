@@ -3,13 +3,13 @@
 <!DOCTYPE html>
 <html>
 <%@ page contentType="text/html; charset=UTF-8" import="it.unisa.phonetastic.model.beans.*"%>
+<%@ include file="mockHeader.jsp" %>
 	<head>
 		<meta charset="UTF-8">
 		<link href="MockPages/mockStyles.css" rel="stylesheet" type="text/css">
 		<title>Acquisto effettuato</title>
 	</head>
 	<%
-		UserBean currentUser = (UserBean) session.getAttribute("currentSessionUser");
 		if(currentUser == null || !currentUser.isValid()){
 	%>
 	<body>
@@ -24,4 +24,5 @@
 		<a href="catalog">Torna al Catalogo</a>
 	</body>
 	<%	} %>
+<%@ include file="mockFooter.jsp" %>
 </html>

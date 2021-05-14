@@ -6,6 +6,7 @@
 <!DOCTYPE html>
 <html>
 <%@ page contentType="text/html; charset=UTF-8" import="java.util.*,java.math.BigDecimal,it.unisa.phonetastic.model.beans.ProductBean,it.unisa.phonetastic.model.Cart,it.unisa.phonetastic.model.CartItem"%>
+<%@ include file="mockHeader.jsp" %>
 	<head>
 		<link href="MockPages/mockStyles.css" rel="stylesheet" type="text/css">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -47,4 +48,5 @@
 		<h2>Carrello vuoto</h2>
 		<%} %>
 	</body>
+<%@ include file="mockFooter.jsp" %>
 </html>

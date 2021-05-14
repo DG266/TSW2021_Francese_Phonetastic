@@ -8,6 +8,7 @@
 
 <!DOCTYPE html>
 <html>
+<%@ include file="mockHeader.jsp" %>
     <head>
         <link href="MockPages/mockStyles.css" rel="stylesheet" type="text/css">
         <meta charset="ISO-8859-1">
@@ -32,4 +33,5 @@
         <h2> <a href="catalog"> Torna al Catalogo </a> </h2>
 
     </body>
+<%@ include file="mockFooter.jsp" %>
 </html>

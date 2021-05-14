@@ -12,24 +12,14 @@
 <!DOCTYPE html>
 <html>
 <%@ page contentType="text/html; charset=UTF-8" import="java.util.*,it.unisa.phonetastic.model.beans.*"%>
+	<%@ include file="mockHeader.jsp" %>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="MockPages/mockStyles.css" rel="stylesheet" type="text/css">
 		<title>Catalogo Phonetastic</title>
 	</head>
 	<body>
-	<%
-		UserBean currentUser = (UserBean) session.getAttribute("currentSessionUser");
-		if(currentUser == null || !currentUser.isValid()){
-	%>
-		<a href="login">Login</a>
-		<%	} else { %>
-			<a href="login?action=logout">Logout</a>
-			<%  } %>
-		
 		<h2> <div class="b"> <p class="b">🐕🐕🐕Prodotti🐕🐕🐕</p> </div> </h2> 
-		<a href="catalog">Catalogo</a>
-		<a href="cart">Carrello</a>
 		<table border="1">
 			<tr>
 				<th>ID <a href="catalog?sort=id">Ordina</a></th>
@@ -64,4 +54,5 @@
 			%>
 		</table>
 	</body>
+	<%@ include file="mockFooter.jsp" %>
 </html>
