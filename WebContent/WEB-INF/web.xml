@@ -55,4 +55,20 @@
         <servlet-name>LoginControl</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>OrderListControl</servlet-name>
+        <servlet-class>it.unisa.phonetastic.control.OrderListControl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderListControl</servlet-name>
+        <url-pattern>/my-orders</url-pattern>
+    </servlet-mapping>
+     <servlet>
+        <servlet-name>OrderDetailsControl</servlet-name>
+        <servlet-class>it.unisa.phonetastic.control.OrderDetailsControl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderDetailsControl</servlet-name>
+        <url-pattern>/order-details</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -43,7 +43,12 @@ public class MySqlUserDAO implements UserDAO {
 				ps.setString(3, user.getFirstName());
 				ps.setString(4, user.getLastName());
 				ps.setDate(5, user.getBirthDate());
-				ps.setString(6, String.valueOf(user.getSex()));
+				if(user.getSex() == '\u0000') {
+					ps.setString(6, null);
+				}
+				else {
+					ps.setString(6, String.valueOf(user.getSex()));
+				}
 				ps.setString(7, user.getPhoneNumber());
 				
 				ps.executeUpdate();

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="mockHeader.jsp" %>
     
 <%
 	Collection<?> products = (Collection<?>) request.getAttribute("products");
@@ -12,7 +13,6 @@
 <!DOCTYPE html>
 <html>
 <%@ page contentType="text/html; charset=UTF-8" import="java.util.*,it.unisa.phonetastic.model.beans.*"%>
-	<%@ include file="mockHeader.jsp" %>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="MockPages/mockStyles.css" rel="stylesheet" type="text/css">

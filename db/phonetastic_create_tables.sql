@@ -95,9 +95,9 @@ CREATE TABLE product_categories(
 
 CREATE TABLE order_info(
 	order_id 			BIGINT AUTO_INCREMENT,
-#   total 				DECIMAL(10,2),
+	total 				DECIMAL(10,2) NOT NULL,
     coupon_id			VARCHAR(255),
-    state				CHAR NOT NULL,		# Might be "S" for "shipped", "N" for "not shipped", etc.
+#	state				CHAR NOT NULL,		# Might be "S" for "shipped", "N" for "not shipped", etc.
     creation_date		TIMESTAMP NOT NULL,
     last_update_date	TIMESTAMP NOT NULL,
     customer_id			INT,

@@ -26,8 +26,8 @@ INSERT INTO product_categories(product_id, cat_id)
 VALUES ((SELECT product_id FROM product WHERE product_name = "Xiaomi Redmi Note 5 Pro"), (SELECT cat_id FROM category WHERE cat_name = "Smartphone")),
 	   ((SELECT product_id FROM product WHERE product_name = "Xiaomi Redmi Note 5 Pro"), (SELECT cat_id FROM category WHERE cat_name = "Smartphone nuovi"));
 
-INSERT INTO order_info(coupon_id, state, creation_date, last_update_date, customer_id)
-VALUES(NULL, "P", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 100100);
+INSERT INTO order_info(total, coupon_id, creation_date, last_update_date, customer_id)
+VALUES(199.99, NULL, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 100100);
 
 INSERT INTO payment_details(order_id, state, payment_date, user_id, p_method_id)
 VALUES (200200, "G", CURRENT_TIMESTAMP(), 100100, 1);

@@ -20,13 +20,13 @@ public class UserBean implements Serializable{
 	
 	public UserBean() {
 		id = -1;
-		email = "";
-		password = "";
-		firstName = "";
-		lastName = "";
+		email = null;
+		password = null;
+		firstName = null;
+		lastName = null;
 		birthDate = null;
-		sex = ' ';
-		phoneNumber = "";
+		sex = '\u0000';
+		phoneNumber = null;
 		valid = false;
 	}
 

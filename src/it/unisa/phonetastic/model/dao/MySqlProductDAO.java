@@ -85,7 +85,7 @@ public class MySqlProductDAO implements ProductDAO{
 				
 				ResultSet rs = ps.executeQuery();
 				
-				while(rs.next()) {
+				if(rs.next()) {
 					bean.setId(rs.getInt("product_id"));
 					bean.setName(rs.getString("product_name"));
 					bean.setDescription(rs.getString("product_description"));
@@ -98,7 +98,6 @@ public class MySqlProductDAO implements ProductDAO{
 				}
 			}
 		}
-		
 		return bean;
 	}
 

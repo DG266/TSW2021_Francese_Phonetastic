@@ -17,8 +17,8 @@ public class ProductBean implements Serializable{
 	
 	public ProductBean() {
 		id = -1;
-		name = "";
-		description = "";
+		name = null;
+		description = null;
 		quantity = 0;
 		price = new BigDecimal(0);
 		iva = new BigDecimal(0);

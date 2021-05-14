@@ -38,8 +38,12 @@ public class ProductInfoControl extends HttpServlet{
 			
 			if(action != null) {
 				if(action.equalsIgnoreCase("addCart"));
-				Cart c = (Cart) request.getSession().getAttribute("cart");
-				c.addProduct(model.retrieveProductByID(productId));
+				Cart cart = (Cart) request.getSession().getAttribute("cart");
+				if(cart == null) {
+					cart = new Cart();
+				}
+				cart.addProduct(model.retrieveProductByID(productId));
+				request.getSession().setAttribute("cart", cart);
 			}
 		}
 		catch(SQLException e) {

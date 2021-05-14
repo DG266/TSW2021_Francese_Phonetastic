@@ -1,6 +1,7 @@
 package it.unisa.phonetastic.model.beans;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,17 +11,19 @@ public class OrderBean implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private int id;
+	private BigDecimal total;
 	private String coupon_id;
-	private char state;
+	//private char state;
 	private Timestamp creationDate;
 	private Timestamp lastUpdateDate;
 	private int customer_id;
 	private List<OrderCompositionBean> elements;
-	
+
 	public OrderBean() {
 		id = -1;
+		total = null;
 		coupon_id = null;
-		state = ' ';
+		//state = '\u0000';
 		creationDate = null;
 		lastUpdateDate = null;
 		customer_id = -1;
@@ -34,6 +37,14 @@ public class OrderBean implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	public BigDecimal getTotal() {
+		return total;
+	}
+
+	public void setTotal(BigDecimal total) {
+		this.total = total;
+	}
 
 	public String getCoupon_id() {
 		return coupon_id;
@@ -43,6 +54,7 @@ public class OrderBean implements Serializable{
 		this.coupon_id = coupon_id;
 	}
 
+/*
 	public char getState() {
 		return state;
 	}
@@ -50,7 +62,7 @@ public class OrderBean implements Serializable{
 	public void setState(char state) {
 		this.state = state;
 	}
-
+*/
 	public Timestamp getCreationDate() {
 		return creationDate;
 	}

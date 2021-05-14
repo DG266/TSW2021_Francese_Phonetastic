@@ -1,11 +1,13 @@
 package it.unisa.phonetastic.model.dao;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -39,10 +41,19 @@ public class MySqlOrderDAO implements OrderDAO{
 	public synchronized void insertOrder(OrderBean order) throws SQLException{
 		
 		String orderInsertSQL = "INSERT INTO " + MySqlOrderDAO.TABLE_NAME
-						 + "(coupon_id, state, creation_date, last_update_date, customer_id) VALUES (?, ?, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), ?)";
+						 + "(total, coupon_id, creation_date, last_update_date, customer_id) VALUES (?, ?, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), ?)";
 		
 		String orderDetailsInsertSQL = "INSERT INTO " + MySqlOrderDAO.AUX_TABLE_NAME 
 				 					 + "(order_id, product_id, quantity, price, iva, discount) VALUES (?, ?, ?, ?, ?, ?)";
+		
+		ArrayList<OrderCompositionBean> elements = (ArrayList<OrderCompositionBean>) order.getElements();
+		BigDecimal total = new BigDecimal(0);
+		for(OrderCompositionBean c : elements) {
+			BigDecimal quantity = new BigDecimal(c.getQuantity());
+			BigDecimal price = c.getPrice();
+			// total = total + (price of the item * quantity);
+			total = total.add(price.multiply(quantity));
+		}
 		
 		try(Connection conn = ds.getConnection()){
 			// TODO Should do that for each method
@@ -51,8 +62,8 @@ public class MySqlOrderDAO implements OrderDAO{
 			Long orderId = (long) -1;
 			
 			try(PreparedStatement ps = conn.prepareStatement(orderInsertSQL, Statement.RETURN_GENERATED_KEYS)){
-				ps.setString(1, order.getCoupon_id());
-				ps.setString(2, String.valueOf(order.getState()));
+				ps.setBigDecimal(1, total);
+				ps.setString(2, order.getCoupon_id());
 				ps.setInt(3, order.getCustomer_id());
 				
 				ps.executeUpdate();
@@ -68,12 +79,10 @@ public class MySqlOrderDAO implements OrderDAO{
 				conn.commit();
 			}
 			
-			ArrayList<OrderCompositionBean> elements = (ArrayList<OrderCompositionBean>) order.getElements();
-
 			try(PreparedStatement ps = conn.prepareStatement(orderDetailsInsertSQL)){
 				for(OrderCompositionBean c : elements) {
 					ps.setLong(1, orderId);
-					ps.setInt(2, c.getProduct_id());
+					ps.setInt(2, c.getProductId());
 					ps.setInt(3, c.getQuantity());
 					ps.setBigDecimal(4, c.getPrice());
 					ps.setBigDecimal(5, c.getIva());
@@ -113,7 +122,7 @@ public class MySqlOrderDAO implements OrderDAO{
 		// contains order_info stuff + order_composition stuff
 		// I need to save just one time the order_info stuff (it's repeated in all the rows)
 		
-		String selectSQL = "SELECT O1.order_id, coupon_id, state, creation_date, last_update_date, customer_id, product_id, quantity, price, iva, discount "
+		String selectSQL = "SELECT O1.order_id, total, coupon_id, creation_date, last_update_date, customer_id, product_id, quantity, price, iva, discount "
 						 + "FROM " + MySqlOrderDAO.TABLE_NAME + " O1 JOIN " + MySqlOrderDAO.AUX_TABLE_NAME + " O2 ON O1.order_id = O2.order_id "
 						 + "WHERE O1.order_id = ?";
 		
@@ -131,8 +140,8 @@ public class MySqlOrderDAO implements OrderDAO{
 					// after that, I can simply consider all the other columns (the composition of the specific order).
 					if(!orderInfoSet) {
 						bean.setId(rs.getInt("order_id"));
+						bean.setTotal(rs.getBigDecimal("total"));
 						bean.setCoupon_id(rs.getString("coupon_id"));
-						bean.setState(rs.getString("state").charAt(0));
 						bean.setCreationDate(rs.getTimestamp("creation_date"));
 						bean.setLastUpdateDate(rs.getTimestamp("creation_date"));
 						bean.setCustomer_id(rs.getInt("customer_id"));
@@ -141,7 +150,7 @@ public class MySqlOrderDAO implements OrderDAO{
 						orderInfoSet = true;
 					}
 					OrderCompositionBean c = new OrderCompositionBean();
-					c.setProduct_id(rs.getInt("product_id"));
+					c.setProductId(rs.getInt("product_id"));
 					c.setQuantity(rs.getInt("quantity"));
 					c.setPrice(rs.getBigDecimal("price"));
 					c.setIva(rs.getBigDecimal("iva"));
@@ -151,5 +160,54 @@ public class MySqlOrderDAO implements OrderDAO{
 			}
 		}
 		return bean;
+	}
+	
+	public Collection<OrderBean> retrieveOrdersByUserID(int userId) throws SQLException{
+		
+		ArrayList<OrderBean> list = new ArrayList<>();
+		int lastOrderId = -1;
+		
+		String selectSQL = "SELECT O1.order_id, total, coupon_id, creation_date, last_update_date, customer_id, product_id, quantity, price, iva, discount "
+						 + "FROM " + MySqlOrderDAO.TABLE_NAME + " O1 JOIN " + MySqlOrderDAO.AUX_TABLE_NAME + " O2 ON O1.order_id = O2.order_id "
+						 + "WHERE O1.customer_id = ?";
+		
+		try(Connection conn = ds.getConnection()){
+			try(PreparedStatement ps = conn.prepareStatement(selectSQL)){
+				ps.setInt(1, userId);
+				
+				ResultSet rs = ps.executeQuery();
+				OrderBean bean = null;
+				ArrayList<OrderCompositionBean> elements = null;
+				
+				while(rs.next()) {
+					if(rs.getInt("order_id") != lastOrderId) {
+						bean = new OrderBean();
+						elements = new ArrayList<OrderCompositionBean>();
+						bean.setId(rs.getInt("order_id"));
+						bean.setTotal(rs.getBigDecimal("total"));
+						bean.setCoupon_id(rs.getString("coupon_id"));
+						bean.setCreationDate(rs.getTimestamp("creation_date"));
+						bean.setLastUpdateDate(rs.getTimestamp("creation_date"));
+						bean.setCustomer_id(rs.getInt("customer_id"));
+						bean.setElements(elements);
+						
+						list.add(bean);
+						
+						lastOrderId = rs.getInt("order_id");   
+					}
+				
+					OrderCompositionBean c = new OrderCompositionBean();
+					c.setProductId(rs.getInt("product_id"));
+					c.setQuantity(rs.getInt("quantity"));
+					c.setPrice(rs.getBigDecimal("price"));
+					c.setIva(rs.getBigDecimal("iva"));
+					c.setDiscount(rs.getBigDecimal("discount"));
+					elements.add(c);
+					
+					
+				}	
+			}
+		}
+		return list;
 	}
 }
