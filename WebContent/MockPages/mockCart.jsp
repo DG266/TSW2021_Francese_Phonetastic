@@ -1,52 +1,53 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%	
-	Cart cart = (Cart) request.getAttribute("cart");
-%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
-<%@ page contentType="text/html; charset=UTF-8" import="java.util.*,java.math.BigDecimal,it.unisa.phonetastic.model.beans.ProductBean,it.unisa.phonetastic.model.Cart,it.unisa.phonetastic.model.CartItem"%>
-<%@ include file="mockHeader.jsp" %>
-	<head>
-		<link href="MockPages/mockStyles.css" rel="stylesheet" type="text/css">
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Il tuo carrello</title>
-	</head>
-	<body>
-		<a href="catalog">Catalogo</a>
-		<% if(cart != null && cart.getProducts().size() != 0) { %>
-		<h2>Carrello</h2>
-		<table border="1">
-			<tr>
-				<th>Nome</th>
-				<th>Quantit√†</th>
-				<th>Prezzo</th>
-				<th>Azione</th>
-			</tr>
-			<% List<CartItem> products = cart.getProducts(); 	
-			   for(CartItem item : products) {
-			%>
-			<tr>
-				<td><%=item.getProduct().getName()%></td>
-				<td>
-					<form action="cart" method="GET">
-						<input type="text" name="quantity" size="2" value="<%=item.getQuantity()%>">
-						<input type="hidden" name="id" value="<%=item.getProduct().getId()%>">
-						<input type="submit" value="Aggiorna ordine">
-					</form>
-				</td>
-				<td><%=item.getProduct().getPrice().multiply(new BigDecimal(item.getQuantity()))%></td>
-				<td><a href="cart?action=deleteCart&id=<%=item.getProduct().getId()%>">Rimuovi dal carrello</a></td>
-			</tr>
-			<%} %>
-		</table>
-		<br>	
-		<form action="checkout" method="GET">
-			<input type="submit" value="Procedi con il pagamento">
-		</form>	
-		<% } else {%>	
-		<h2>Carrello vuoto</h2>
-		<%} %>
-	</body>
-<%@ include file="mockFooter.jsp" %>
+<head>
+<link href="MockPages/mockStyles.css" rel="stylesheet" type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Il tuo carrello</title>
+</head>
+<body>
+	<%@ include file="mockHeader.jsp"%>
+	<a href="catalog">Catalogo</a>
+	<h2>Carrello</h2>
+	<c:choose>
+		<c:when test="${cart != null && cart.products.size() > 0}">
+			<table border="1">
+				<tr>
+					<th>Nome</th>
+					<th>Quantit‡</th>
+					<th>Prezzo</th>
+					<th>Azione</th>
+				</tr>
+				<c:forEach var="cartItem" items="${cart.products}">
+					<tr>
+						<td>${cartItem.product.name}</td>
+						<td>
+							<form action="cart" method="GET">
+								<input type="text" name="quantity" size="2" value="${cartItem.quantity}"> 
+								<input type="hidden" name="id" value="${cartItem.product.id}"> 
+								<input type="submit" value="Aggiorna ordine">
+							</form>
+						</td>
+						<td>${cartItem.product.price * cartItem.quantity}</td>
+						<td>
+							<a href="cart?action=deleteCart&id=${cartItem.product.id}">Rimuovi dal carrello</a>
+						</td>
+					</tr>
+				</c:forEach>
+			</table>
+			<br>
+			<form action="checkout" method="GET">
+				<input type="submit" value="Procedi con il pagamento">
+			</form>
+		</c:when>
+		<c:otherwise>
+			<h2>Il tuo carrello Ë vuoto</h2>
+		</c:otherwise>
+	</c:choose>
+	<%@ include file="mockFooter.jsp"%>
+</body>
 </html>

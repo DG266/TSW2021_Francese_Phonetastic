@@ -2,7 +2,6 @@ package it.unisa.phonetastic.control;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import it.unisa.phonetastic.model.beans.OrderBean;
-import it.unisa.phonetastic.model.beans.OrderCompositionBean;
 import it.unisa.phonetastic.model.beans.UserBean;
 import it.unisa.phonetastic.model.dao.DAOFactory;
 import it.unisa.phonetastic.model.dao.OrderDAO;

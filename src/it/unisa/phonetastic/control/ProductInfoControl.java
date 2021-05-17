@@ -32,7 +32,7 @@ public class ProductInfoControl extends HttpServlet{
 		}
 		
 		try {
-			request.setAttribute("pInfo", model.retrieveProductByID(productId));
+			request.setAttribute("product", model.retrieveProductByID(productId));
 			
 			String action = request.getParameter("action");
 			
