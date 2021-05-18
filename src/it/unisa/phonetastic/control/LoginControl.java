@@ -30,57 +30,58 @@ public class LoginControl extends HttpServlet {
 		// TODO clean up the code
 		
 		UserBean currentUser = (UserBean) request.getSession().getAttribute("currentSessionUser");
-		if(currentUser != null) {
-			if(currentUser.isValid()) {
-				response.sendRedirect("catalog");
-			}
-		}
-		else {
-			UserBean user = new UserBean();
-			
+		
+		String action = request.getParameter("action");
+		
+		if (action != null) {
 			// if the user wants to logout, invalidate the session and go back to the
 			// catalog page
-			String action = request.getParameter("action");
-			if (action != null) {
-				if (action.equalsIgnoreCase("logout")) {
-					request.getSession().invalidate();
+			if (action.equalsIgnoreCase("logout")) {
+				request.getSession().invalidate();
+				response.sendRedirect("catalog");
+			} 
+			// if the user wants to log in, check if email and pwd are correct
+			else if (action.equalsIgnoreCase("login")) {
+				UserBean user = new UserBean();
+				try {
+					user = model.retrieveUserByEmailPwd(request.getParameter("email"), request.getParameter("pwd"));
+					if (user.isValid()) {
+						HttpSession session = request.getSession(true);
+						session.setAttribute("currentSessionUser", user);
+					} 
 					response.sendRedirect("catalog");
-				} else if (action.equalsIgnoreCase("login")) {
-					try {
-						user = model.retrieveUserByEmailPwd(request.getParameter("email"), request.getParameter("pwd"));
-						if (user.isValid()) {
-							HttpSession session = request.getSession(true);
-							session.setAttribute("currentSessionUser", user);
-							response.sendRedirect("catalog");
-						} else {
-							response.sendRedirect("catalog");
-						}
-					} catch (SQLException e) {
-						System.out.println("Error: " + e.getMessage());
-					}
-				} else if (action.equalsIgnoreCase("register")) {
-					UserBean b = new UserBean();
-
-					String name = request.getParameter("firstName");
-					String surname = request.getParameter("lastName");
-					String email = request.getParameter("email");
-					String pass = request.getParameter("pwd");
-
-					b.setFirstName(name);
-					b.setLastName(surname);
-					b.setEmail(email);
-					b.setPassword(pass);
-					try {
-						model.insertUser(b);
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-					response.sendRedirect("login");
+				} catch (SQLException e) {
+					System.out.println("Error: " + e.getMessage());
 				}
-			} else {
+			} 
+			// if the user wants to register, create a new user and save the data (inside the db)
+			else if (action.equalsIgnoreCase("register")) {
+				UserBean newUser = new UserBean();
+
+				String name = request.getParameter("firstName");
+				String surname = request.getParameter("lastName");
+				String email = request.getParameter("email");
+				String pass = request.getParameter("pwd");
+
+				newUser.setFirstName(name);
+				newUser.setLastName(surname);
+				newUser.setEmail(email);
+				newUser.setPassword(pass);
+				try {
+					model.insertUser(newUser);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				response.sendRedirect("login");
+			}
+		} 
+		else if(currentUser != null && currentUser.isValid()) {
+				response.sendRedirect("catalog");    // should be an error
+		}
+		else {
 				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/MockPages/mockLoginPage.jsp");
 				dispatcher.forward(request, response);
-			}
 		}
 	}
 }
+
