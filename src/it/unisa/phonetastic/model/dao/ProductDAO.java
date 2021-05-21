@@ -3,7 +3,7 @@ package it.unisa.phonetastic.model.dao;
 import java.sql.SQLException;
 import java.util.Collection;
 
-import it.unisa.phonetastic.model.beans.ProductBean;
+import it.unisa.phonetastic.model.bean.ProductBean;
 
 public interface ProductDAO {
 

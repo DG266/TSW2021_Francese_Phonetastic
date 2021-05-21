@@ -19,7 +19,7 @@ public class ProductInfoControl extends HttpServlet{
 
 	private static ProductDAO model = DAOFactory.getDAOFactory(DAOFactory.MYSQL).getProductDAO();
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		
 		String id = request.getParameter("id");
 		int productId = -1;
@@ -55,7 +55,7 @@ public class ProductInfoControl extends HttpServlet{
 		dispatcher.forward(request, response);
 	}
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		doGet(request, response);
 	}
 }

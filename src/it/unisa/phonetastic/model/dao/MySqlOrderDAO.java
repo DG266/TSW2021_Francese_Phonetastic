@@ -14,8 +14,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import it.unisa.phonetastic.model.beans.OrderBean;
-import it.unisa.phonetastic.model.beans.OrderCompositionBean;
+import it.unisa.phonetastic.model.bean.OrderBean;
+import it.unisa.phonetastic.model.bean.OrderCompositionBean;
 
 public class MySqlOrderDAO implements OrderDAO{
 
@@ -143,7 +143,7 @@ public class MySqlOrderDAO implements OrderDAO{
 						bean.setTotal(rs.getBigDecimal("total"));
 						bean.setCoupon_id(rs.getString("coupon_id"));
 						bean.setCreationDate(rs.getTimestamp("creation_date"));
-						bean.setLastUpdateDate(rs.getTimestamp("creation_date"));
+						bean.setLastUpdateDate(rs.getTimestamp("last_update_date"));
 						bean.setCustomer_id(rs.getInt("customer_id"));
 						bean.setElements(elements);
 						
@@ -187,7 +187,7 @@ public class MySqlOrderDAO implements OrderDAO{
 						bean.setTotal(rs.getBigDecimal("total"));
 						bean.setCoupon_id(rs.getString("coupon_id"));
 						bean.setCreationDate(rs.getTimestamp("creation_date"));
-						bean.setLastUpdateDate(rs.getTimestamp("creation_date"));
+						bean.setLastUpdateDate(rs.getTimestamp("last_update_date"));
 						bean.setCustomer_id(rs.getInt("customer_id"));
 						bean.setElements(elements);
 						

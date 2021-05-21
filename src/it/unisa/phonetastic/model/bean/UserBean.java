@@ -1,4 +1,4 @@
-package it.unisa.phonetastic.model.beans;
+package it.unisa.phonetastic.model.bean;
 
 import java.io.Serializable;
 import java.sql.Date;

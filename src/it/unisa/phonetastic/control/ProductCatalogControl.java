@@ -21,7 +21,7 @@ public class ProductCatalogControl extends HttpServlet{
 
 	private static ProductDAO model = DAOFactory.getDAOFactory(DAOFactory.MYSQL).getProductDAO();
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		
 		Logger logger = Logger.getLogger("ProductCatalogControl.class");
 		logger.setLevel(Level.OFF);
@@ -74,7 +74,7 @@ public class ProductCatalogControl extends HttpServlet{
 		dispatcher.forward(request, response);
 	}
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		doGet(request, response);
 	}
 }

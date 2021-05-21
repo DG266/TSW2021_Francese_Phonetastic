@@ -7,6 +7,6 @@
 		</a>
 		<a href="https://www.youtube.com/channel/UC8ReaGBdDXAbPRgIo1QjNzQ">
 			<img class ="b" border="0" alt="youtube" src="./Images/LogoImage/youtube.png" width="100" height="100">
-			<iframe src="MockPages/mockRules.jsp" title="yes"></iframe>
 		</a>
+		<!-- <iframe src="MockPages/mockRules.jsp" title="yes"></iframe> -->
 </footer>

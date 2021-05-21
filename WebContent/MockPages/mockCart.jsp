@@ -27,8 +27,9 @@
 						<td>${cartItem.product.name}</td>
 						<td>
 							<form action="cart" method="GET">
-								<input type="text" name="quantity" size="2" value="${cartItem.quantity}"> 
+								<input type="hidden" name="action" value="changeQuantity">
 								<input type="hidden" name="id" value="${cartItem.product.id}"> 
+								<input type="text" name="quantity" size="2" value="${cartItem.quantity}"> 	
 								<input type="submit" value="Aggiorna ordine">
 							</form>
 						</td>

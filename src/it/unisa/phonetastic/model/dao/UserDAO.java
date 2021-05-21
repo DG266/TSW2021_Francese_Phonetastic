@@ -2,7 +2,7 @@ package it.unisa.phonetastic.model.dao;
 
 import java.sql.SQLException;
 
-import it.unisa.phonetastic.model.beans.UserBean;
+import it.unisa.phonetastic.model.bean.UserBean;
 
 public interface UserDAO {
 

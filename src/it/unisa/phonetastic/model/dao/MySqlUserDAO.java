@@ -10,7 +10,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import it.unisa.phonetastic.model.beans.UserBean;
+import it.unisa.phonetastic.model.bean.UserBean;
 
 public class MySqlUserDAO implements UserDAO {
 

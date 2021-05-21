@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import it.unisa.phonetastic.model.beans.OrderBean;
-import it.unisa.phonetastic.model.beans.OrderCompositionBean;
-import it.unisa.phonetastic.model.beans.ProductBean;
+import it.unisa.phonetastic.model.bean.OrderBean;
+import it.unisa.phonetastic.model.bean.OrderCompositionBean;
+import it.unisa.phonetastic.model.bean.ProductBean;
 import it.unisa.phonetastic.model.dao.DAOFactory;
 import it.unisa.phonetastic.model.dao.ProductDAO;
 
@@ -22,11 +22,11 @@ public class OrderDetailsControl extends HttpServlet{
 
 	private static ProductDAO model = DAOFactory.getDAOFactory(DAOFactory.MYSQL).getProductDAO();
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		doPost(request, response);
 	}
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		
 		OrderBean orderInfo = (OrderBean) request.getAttribute("orderInfo");
 		ArrayList<ProductBean> products = new ArrayList<>();

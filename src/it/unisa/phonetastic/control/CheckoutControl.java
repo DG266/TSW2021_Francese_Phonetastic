@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import it.unisa.phonetastic.model.Cart;
 import it.unisa.phonetastic.model.CartItem;
-import it.unisa.phonetastic.model.beans.OrderBean;
-import it.unisa.phonetastic.model.beans.OrderCompositionBean;
-import it.unisa.phonetastic.model.beans.UserBean;
+import it.unisa.phonetastic.model.bean.OrderBean;
+import it.unisa.phonetastic.model.bean.OrderCompositionBean;
+import it.unisa.phonetastic.model.bean.UserBean;
 import it.unisa.phonetastic.model.dao.DAOFactory;
 import it.unisa.phonetastic.model.dao.OrderDAO;
 
@@ -27,26 +25,14 @@ public class CheckoutControl extends HttpServlet{
 
 	private static OrderDAO model = DAOFactory.getDAOFactory(DAOFactory.MYSQL).getOrderDAO();
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		
-		Logger logger = Logger.getLogger("CheckoutControl.class");
-		logger.setLevel(Level.OFF);
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		
 		Cart cart = (Cart) request.getSession().getAttribute("cart");
 		UserBean user = (UserBean) request.getSession().getAttribute("currentSessionUser");
-	
-		logger.info("Cart: " + cart + "\tUser: " + user);
 		
-		if(user != null && cart != null) {
-			
-			logger.info("User and cart are existent.");
-			
-			// If the user (attribute of session) is valid and the cart has something in it, the cart (also an attribute of session)
-			// gets "analyzed" and an order is created (and saved)
-			if(user.isValid() && cart.getProducts().size() > 0) {
-				
-				logger.info("User is valid and cart has " + cart.getProducts().size() + " products in it.");
-				
+		if(cart != null) {
+			// If the cart has something in it, analyze it and create a new order (and save it)
+			if(cart.getProducts().size() > 0) {		
 				OrderBean bean = new OrderBean();
 				bean.setCustomer_id(user.getId()); 
 				
@@ -69,11 +55,12 @@ public class CheckoutControl extends HttpServlet{
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
+			
+				// TODO Update database quantities
 				
 				// empties the cart
 				cart.emptyCart();
-				
-				// TODO Remember to use the real jsp
+			
 				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/MockPages/mockCheckout.jsp");
 				dispatcher.forward(request, response);
 			}
@@ -87,7 +74,7 @@ public class CheckoutControl extends HttpServlet{
 		
 	}
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		doGet(request, response);
 	}
 }

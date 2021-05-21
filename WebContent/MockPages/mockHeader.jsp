@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <header>
@@ -21,7 +20,7 @@
 				<a href="my-orders"> 
 					<img class="" border="0" alt="my-orders" src="./Images/myOrders.png" width="70" height="70">
 				</a>
-				<a href="login?action=logout"> 
+				<a href="logout"> 
 					<img class="" border="0" alt="logout" src="./Images/logoutButton.png" width="80" height="80">
 				</a>
 			</c:otherwise>

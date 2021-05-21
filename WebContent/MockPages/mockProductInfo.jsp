@@ -13,6 +13,7 @@
 	<%@ include file="mockHeader.jsp"%>
 	<c:choose>
 		<c:when test="${product.id != -1}">
+			<img src="${product.imagePath}" width="300" height="300">
 			<h2>Nome: ${product.name}</h2>
 			<h2>Descrizione: ${product.description}</h2>
 			<h2>Prezzo: ${product.price}</h2>

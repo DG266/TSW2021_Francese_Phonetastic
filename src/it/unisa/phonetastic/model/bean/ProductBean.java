@@ -1,4 +1,4 @@
-package it.unisa.phonetastic.model.beans;
+package it.unisa.phonetastic.model.bean;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -14,6 +14,7 @@ public class ProductBean implements Serializable{
 	private BigDecimal price;
 	private BigDecimal iva;
 	private BigDecimal discount;
+	private String imagePath;
 	
 	public ProductBean() {
 		id = -1;
@@ -79,6 +80,14 @@ public class ProductBean implements Serializable{
 
 	public void setDiscount(BigDecimal discount) {
 		this.discount = discount;
+	}
+
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
 	
 }

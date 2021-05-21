@@ -12,7 +12,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import it.unisa.phonetastic.model.beans.ProductBean;
+import it.unisa.phonetastic.model.bean.ProductBean;
 
 public class MySqlProductDAO implements ProductDAO{
 
@@ -37,7 +37,7 @@ public class MySqlProductDAO implements ProductDAO{
 	public synchronized void insertProduct(ProductBean product) throws SQLException {
 		
 		String insertSQL = "INSERT INTO " + MySqlProductDAO.TABLE_NAME
-						 + " (product_name, product_description, quantity, price, iva, discount) VALUES (?, ?, ?, ?, ?, ?)";
+						 + " (product_name, product_description, quantity, price, iva, discount, image_path) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		
 		try(Connection conn = ds.getConnection()){
 			// TODO Should do that for each method
@@ -49,6 +49,7 @@ public class MySqlProductDAO implements ProductDAO{
 				ps.setBigDecimal(4, product.getPrice());
 				ps.setBigDecimal(5, product.getIva());
 				ps.setBigDecimal(6, product.getDiscount());
+				ps.setString(7, product.getImagePath());
 				
 				ps.executeUpdate();
 				
@@ -93,8 +94,7 @@ public class MySqlProductDAO implements ProductDAO{
 					bean.setPrice(rs.getBigDecimal("price"));
 					bean.setIva(rs.getBigDecimal("iva"));
 					bean.setDiscount(rs.getBigDecimal("discount"));
-					
-					// TODO Remember "image" field, deal with it
+					bean.setImagePath(rs.getString("image_path"));
 				}
 			}
 		}
@@ -136,6 +136,7 @@ public class MySqlProductDAO implements ProductDAO{
 					bean.setPrice(rs.getBigDecimal("price"));
 					bean.setIva(rs.getBigDecimal("iva"));
 					bean.setDiscount(rs.getBigDecimal("discount"));
+					bean.setImagePath(rs.getString("image_path"));
 					
 					products.add(bean);
 				}
@@ -146,8 +147,8 @@ public class MySqlProductDAO implements ProductDAO{
 
 	public void updateProduct(ProductBean product) throws SQLException {
 		
-		String updateSQL = "UPDATE " + MySqlProductDAO.TABLE_NAME
-  	 	  		 		 + "SET product_name = ?, product_description = ?, quantity = ?, price = ?, iva = ?, discount = ?"
+		String updateSQL = "UPDATE " + MySqlProductDAO.TABLE_NAME + " "
+  	 	  		 		 + "SET product_name = ?, product_description = ?, quantity = ?, price = ?, iva = ?, discount = ?, image_path = ? "
   	 	  		 		 + "WHERE product_id = ?"; 
 		
 		try(Connection conn = ds.getConnection()){
@@ -160,8 +161,9 @@ public class MySqlProductDAO implements ProductDAO{
 				ps.setBigDecimal(4, product.getPrice());
 				ps.setBigDecimal(5, product.getIva());
 				ps.setBigDecimal(6, product.getDiscount());
+				ps.setString(7, product.getImagePath());
 				
-				ps.setInt(7, product.getId());
+				ps.setInt(8, product.getId());
 				
 				ps.executeUpdate();
 				
