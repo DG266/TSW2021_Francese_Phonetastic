@@ -1,18 +1,12 @@
 @charset "ISO-8859-1";
 
 header {	
-background-color: #F57F17;	
+background-color:#A8DBFC;	
 }
-
-
-form {
-background-color: #F9A825;
-}
-
 
 
 body {
-	background-color: #F9A825;
+	background-color:#A8DBFC;
 }
 		
 img {}
@@ -38,7 +32,7 @@ h2 a  {
 
 div {
   border-style: solid;
-  border-color: yellow;
+  border-color: #000066;
 }
 	
 div c {
@@ -51,8 +45,7 @@ div c {
 
 p.c {
   font-style: italic;
-  font-size : 30;
-  font-color : white;
+  font-size: 50px;
   text-align: center;
 }
 
@@ -65,14 +58,14 @@ p.b {
 
 div.b {
   font-size: 300%;
-  background-color: #F57F17;
+  background-color:#A8DBFC;
   text-align: center;
 }
 
 table, td, th {  
-  border: 1px solid yellow;
+  border: 5px solid #000066;
   text-align: left;
-  background-color: #F57F17;
+  background-color:#A8DBFC;
 }
 
 table {
@@ -80,8 +73,15 @@ table {
   width: 100%;
 }
 
+#roundborder1 {
+  border-style: solid;
+  border-width: thick;
+  padding: 10px;
+  border-radius: 25px;
+}
+
 tr {
-	border: 1px solid yellow;
+	border: 5px solid #000066;
 	height: 80px;
   	width: 160px;
   	text-align: center;
@@ -89,6 +89,88 @@ tr {
 	color : #212121;	
 }
 
+.hover {
+  animation: shake 0.5s;
+  animation-iteration-count: infinite;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+.navbar {
+  border : 5px black;
+  width: 100%;
+  background-color:#000066;
+  overflow: auto;
+}
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.subnav {
+  float: left;
+  overflow: hidden;
+}
+
+.subnav .subnavbtn {
+  font-size: 16px;  
+  color: black;
+  padding: 14px 16px;
+  background-color:#000066;
+  width : 100%;
+  border : transparent;
+  color :  #9999ff;
+}
+
+.navbar a:hover, .subnav:hover .subnavbtn {
+  background-color:transparent;
+  color : #9999ff;
+}
+
+.subnav-content {
+  display: none;
+  left: 0;
+  background-color:#9999ff; 
+  width: 100%;
+  z-index: 1;
+}
+
+.subnav-content a {
+  float: left;
+  color: white;
+  text-decoration: none;
+}
+
+.subnav-content a:hover {
+  background-color:#A8DBFC;
+  color: black;
+}
+
+.subnav:hover .subnav-content {
+  display: block;
+}
+
+
 footer {
-background-color: #F57F17;
+background-color:#A8DBFC;
 }

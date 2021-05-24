@@ -2,14 +2,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <header>
-	<a href="catalog"> 
-		<img class="a" border="0" alt="doggo"src="./Images/LogoImage/logo.gif" width="300" height="300">
-	</a>
-	<div class="c">
-		<p class="c">BENVENUTI SU PHONETASTIC!</p>
-		<a href="cart"> 
-			<img class="" border="0" alt="cart" src="./Images/cart.png" width="80" height="80">
-		</a>
+<a href="catalog"> 
+		<img class="hover" border="0" alt="logo"src="./Images/LogoImage/logo.png" width="200" height="100">
+</a>
+		<div class="navbar">
+  		 <div class="subnav">
+    	<button class="subnavbtn">Il Tuo Profilo<i class="fa fa-caret-down"></i>
+  		</button>
+ 		 <div class="subnav-content">
 		<c:choose>
 			<c:when test="${currentSessionUser == null || !currentSessionUser.valid}">
 				<a href="login"> 
@@ -25,5 +25,19 @@
 				</a>
 			</c:otherwise>
 		</c:choose>
-	</div>
+		</div>
+		</div>
+		<div class="subnav">
+    	<button class="subnavbtn">Carrello<i class="fa fa-caret-down"></i></button>
+    	<div class="subnav-content">
+    	<a href="cart"> 
+			<img class="" border="0" alt="cart" src="./Images/cart.png" width="80" height="80">
+		</a>
+		</div>
+		</div>
+		</div>
+		
+
+<br>
+
 </header>
