@@ -29,6 +29,7 @@
 		<br><br> 
 		<input type="submit" value="Register">
 	</form>
+	
 	<%@ include file="mockFooter.jsp"%>
 </body>
 </html>
