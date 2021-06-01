@@ -90,4 +90,9 @@ public class ProductBean implements Serializable{
 		this.imagePath = imagePath;
 	}
 	
+	@Override
+	public String toString() {
+		return "ProductBean [id=" + id + ", name=" + name + ", description=" + description + ", quantity=" + quantity
+				+ ", price=" + price + ", iva=" + iva + ", discount=" + discount + ", imagePath=" + imagePath + "]";
+	}
 }

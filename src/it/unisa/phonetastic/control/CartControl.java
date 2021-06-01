@@ -68,8 +68,7 @@ public class CartControl extends HttpServlet{
 		
 		request.setAttribute("cart", cart);
 		
-		// TODO Remember to use the real jsp
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/MockPages/mockCart.jsp");
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/cart.jsp");
 		dispatcher.forward(request, response);
 	}
 	

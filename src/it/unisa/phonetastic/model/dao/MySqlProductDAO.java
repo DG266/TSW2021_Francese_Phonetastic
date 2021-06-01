@@ -36,7 +36,7 @@ public class MySqlProductDAO implements ProductDAO{
 	
 	public synchronized void insertProduct(ProductBean product) throws SQLException {
 		
-		String insertSQL = "INSERT INTO " + MySqlProductDAO.TABLE_NAME
+		String insertSQL = "INSERT INTO " + TABLE_NAME
 						 + " (product_name, product_description, quantity, price, iva, discount, image_path) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		
 		try(Connection conn = ds.getConnection()){
@@ -62,7 +62,7 @@ public class MySqlProductDAO implements ProductDAO{
 		
 		int result = 0;
 		
-		String deleteSQL = "DELETE FROM " + MySqlProductDAO.TABLE_NAME + " WHERE product_id = ?";
+		String deleteSQL = "DELETE FROM " + TABLE_NAME + " WHERE product_id = ?";
 		
 		try(Connection conn = ds.getConnection()){
 			try(PreparedStatement ps = conn.prepareStatement(deleteSQL)){
@@ -77,7 +77,7 @@ public class MySqlProductDAO implements ProductDAO{
 
 		ProductBean bean = new ProductBean();
 
-		String selectSQL = "SELECT * FROM " + MySqlProductDAO.TABLE_NAME + " WHERE product_id = ?";
+		String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE product_id = ?";
 		
 		try(Connection conn = ds.getConnection()){
 			try(PreparedStatement ps = conn.prepareStatement(selectSQL)){
@@ -105,7 +105,7 @@ public class MySqlProductDAO implements ProductDAO{
 		
 		Collection<ProductBean> products = new LinkedList<ProductBean>();
 
-		String selectSQL = "SELECT * FROM " + MySqlProductDAO.TABLE_NAME;
+		String selectSQL = "SELECT * FROM " + TABLE_NAME;
 		
 		
 		if (order != null && !order.equals("")) {
@@ -147,7 +147,7 @@ public class MySqlProductDAO implements ProductDAO{
 
 	public void updateProduct(ProductBean product) throws SQLException {
 		
-		String updateSQL = "UPDATE " + MySqlProductDAO.TABLE_NAME + " "
+		String updateSQL = "UPDATE " + TABLE_NAME + " "
   	 	  		 		 + "SET product_name = ?, product_description = ?, quantity = ?, price = ?, iva = ?, discount = ?, image_path = ? "
   	 	  		 		 + "WHERE product_id = ?"; 
 		

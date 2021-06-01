@@ -3,12 +3,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="MockPages/mockStyles.css" rel="stylesheet" type="text/css">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="resources/css/style.css" rel="stylesheet" type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Login</title>
 </head>
 <body>
-	<%@ include file="mockHeader.jsp" %>
+	<%@ include file="header.jsp" %>
 	<h2>Effettua il login</h2>
 	<form action="login?action=login" method="POST">
 		<input type="email" name="email" placeholder="Email" /> 
@@ -30,6 +30,6 @@
 		<input type="submit" value="Register">
 	</form>
 	
-	<%@ include file="mockFooter.jsp"%>
+	<%@ include file="footer.jsp"%>
 </body>
 </html>

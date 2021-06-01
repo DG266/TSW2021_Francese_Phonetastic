@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -28,32 +30,52 @@ public class MySqlUserDAO implements UserDAO {
 		}
 	}
 
-	private static final String TABLE_NAME = "user_info";
+	private static final String USER_TABLE_NAME = "user_info";
+	private static final String USER_ROLES_TABLE_NAME = "user_roles";
+	private static final String ROLES_TABLE_NAME = "roles";
 
 	public synchronized void insertUser(UserBean user) throws SQLException {
-		String insertSQL = "INSERT INTO " + MySqlUserDAO.TABLE_NAME
-						 + "(email, pwd, first_name, last_name, birth_date, sex, tel_number) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		String userInsertSQL = "INSERT INTO " + USER_TABLE_NAME
+						 	 + "(email, pwd, first_name, last_name, birth_date, sex, tel_number) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		
+		String roleInsertSQL = "INSERT INTO " + USER_ROLES_TABLE_NAME
+							 + "(role_id, user_id) VALUES ((SELECT role_id FROM " + ROLES_TABLE_NAME + " WHERE role_name = ?), ?)";
 
 		try (Connection conn = ds.getConnection()) {
 			// TODO Should do that for each method
 			conn.setAutoCommit(false);
-			try (PreparedStatement ps = conn.prepareStatement(insertSQL)) {
+			
+			int userId = -1;
+			
+			try (PreparedStatement ps = conn.prepareStatement(userInsertSQL, Statement.RETURN_GENERATED_KEYS)) {
 				ps.setString(1, user.getEmail());
 				ps.setString(2, user.getPassword());    // TODO Fix this: not good at all
 				ps.setString(3, user.getFirstName());
 				ps.setString(4, user.getLastName());
 				ps.setDate(5, user.getBirthDate());
-				if(user.getSex() == '\u0000') {
-					ps.setString(6, null);
-				}
-				else {
-					ps.setString(6, String.valueOf(user.getSex()));
-				}
+				ps.setString(6, user.getSex());
 				ps.setString(7, user.getPhoneNumber());
 				
 				ps.executeUpdate();
+				
+				// Retrieve the auto-generated order PK (useful in the next insert)
+				ResultSet rs = ps.getGeneratedKeys();
+				if(rs.next()) {
+					userId = rs.getInt(1);
+				}
 
 				conn.commit();
+			}
+			
+			try(PreparedStatement ps = conn.prepareStatement(roleInsertSQL)){
+				for(String role : user.getRoles()) {
+					ps.setString(1, role);
+					ps.setInt(2, userId);
+					
+					ps.executeUpdate();
+					
+					conn.commit();
+				}
 			}
 		}
 	}
@@ -61,7 +83,7 @@ public class MySqlUserDAO implements UserDAO {
 	public synchronized boolean deleteUser(int id) throws SQLException {
 		int result = 0;
 		
-		String deleteSQL = "DELETE FROM " + MySqlUserDAO.TABLE_NAME + " WHERE user_id = ?";
+		String deleteSQL = "DELETE FROM " + USER_TABLE_NAME + " WHERE user_id = ?";
 		
 		try(Connection conn = ds.getConnection()){
 			try(PreparedStatement ps = conn.prepareStatement(deleteSQL)){
@@ -75,8 +97,13 @@ public class MySqlUserDAO implements UserDAO {
 	public synchronized UserBean retrieveUserByID(int id) throws SQLException {
 		
 		UserBean bean = new UserBean();
+		boolean userInfoSet = false;
 		
-		String selectSQL = "SELECT * FROM " + MySqlUserDAO.TABLE_NAME + " WHERE user_id = ?"; 
+		//String selectSQL = "SELECT * FROM " + MySqlUserDAO.TABLE_NAME + " WHERE user_id = ?"; 
+		
+		String selectSQL = "SELECT U.user_id, U.email, U.pwd, U.first_name, U.last_name, U.birth_date, U.sex, U.tel_number, R.role_name "
+				 		 + "FROM " + USER_TABLE_NAME + " U, " + USER_ROLES_TABLE_NAME + " UR, " + ROLES_TABLE_NAME + " R "
+				 		 + "WHERE U.user_id = UR.user_id AND UR.role_id = R.role_id AND U.user_id = ?";
 		
 		try(Connection conn = ds.getConnection()){
 			try(PreparedStatement ps = conn.prepareStatement(selectSQL)){
@@ -85,23 +112,23 @@ public class MySqlUserDAO implements UserDAO {
 				
 				ResultSet rs = ps.executeQuery();
 				
-				if(rs.next()) {
-					bean.setId(rs.getInt("user_id"));
-					bean.setEmail(rs.getString("email"));
-					bean.setPassword(rs.getString("pwd"));
-					bean.setFirstName(rs.getString("first_name"));
-					bean.setLastName(rs.getString("last_name"));
-					bean.setBirthDate(rs.getDate("birth_date"));
-					String sex = rs.getString("sex");
-					if(sex != null) {
-						bean.setSex(sex.charAt(0));
+				ArrayList<String> roles = new ArrayList<>();
+				
+				while(rs.next()) {	
+					if(!userInfoSet) {
+						bean.setId(rs.getInt("user_id"));
+						bean.setEmail(rs.getString("email"));
+						bean.setPassword(rs.getString("pwd"));
+						bean.setFirstName(rs.getString("first_name"));
+						bean.setLastName(rs.getString("last_name"));
+						bean.setBirthDate(rs.getDate("birth_date"));
+						bean.setSex(rs.getString("sex"));
+						bean.setPhoneNumber(rs.getString("tel_number"));
+						bean.setRoles(roles);
+						
+						bean.setValid(true);
 					}
-					bean.setPhoneNumber(rs.getString("tel_number"));
-					
-					bean.setValid(true);
-				}
-				else {
-					bean.setValid(false);
+					roles.add(rs.getString("role_name"));
 				}
 			}
 		}
@@ -111,8 +138,19 @@ public class MySqlUserDAO implements UserDAO {
 	public UserBean retrieveUserByEmailPwd(String email, String pwd) throws SQLException {
 		
 		UserBean bean = new UserBean();
+		boolean userInfoSet = false;
 		
-		String selectSQL = "SELECT * FROM " + MySqlUserDAO.TABLE_NAME + " WHERE email = ? AND pwd = ?"; 
+		//String selectSQL = "SELECT * FROM " + MySqlUserDAO.TABLE_NAME + " WHERE email = ? AND pwd = ?";
+		
+		/*
+		String selectSQL = "SELECT U.user_id, U.email, U.pwd, U.first_name, U.last_name, U.birth_date, U.sex, U.tel_number, R.role_name "
+						 + "FROM (user_info U JOIN user_roles UR ON U.user_id = UR.user_id) JOIN roles R ON UR.role_id = R.role_id "
+						 + "WHERE U.email = ? AND U.pwd = ?";
+		*/
+		
+		String selectSQL = "SELECT U.user_id, U.email, U.pwd, U.first_name, U.last_name, U.birth_date, U.sex, U.tel_number, R.role_name "
+						 + "FROM " + USER_TABLE_NAME + " U, " + USER_ROLES_TABLE_NAME + " UR, " + ROLES_TABLE_NAME + " R "
+						 + "WHERE U.user_id = UR.user_id AND UR.role_id = R.role_id AND U.email = ? AND U.pwd = ?";
 		
 		try(Connection conn = ds.getConnection()){
 			try(PreparedStatement ps = conn.prepareStatement(selectSQL)){
@@ -122,23 +160,23 @@ public class MySqlUserDAO implements UserDAO {
 				
 				ResultSet rs = ps.executeQuery();
 				
-				if(rs.next()) {
-					bean.setId(rs.getInt("user_id"));
-					bean.setEmail(rs.getString("email"));
-					bean.setPassword(rs.getString("pwd"));
-					bean.setFirstName(rs.getString("first_name"));
-					bean.setLastName(rs.getString("last_name"));
-					bean.setBirthDate(rs.getDate("birth_date"));
-					String sex = rs.getString("sex");
-					if(sex != null) {
-						bean.setSex(sex.charAt(0));
-					}   
-					bean.setPhoneNumber(rs.getString("tel_number"));
-					
-					bean.setValid(true);
-				}
-				else {
-					bean.setValid(false);
+				ArrayList<String> roles = new ArrayList<>();
+				
+				while(rs.next()) {	
+					if(!userInfoSet) {
+						bean.setId(rs.getInt("user_id"));
+						bean.setEmail(rs.getString("email"));
+						bean.setPassword(rs.getString("pwd"));
+						bean.setFirstName(rs.getString("first_name"));
+						bean.setLastName(rs.getString("last_name"));
+						bean.setBirthDate(rs.getDate("birth_date"));
+						bean.setSex(rs.getString("sex"));
+						bean.setPhoneNumber(rs.getString("tel_number"));
+						bean.setRoles(roles);
+						
+						bean.setValid(true);
+					}
+					roles.add(rs.getString("role_name"));
 				}
 			}
 		}
@@ -147,7 +185,7 @@ public class MySqlUserDAO implements UserDAO {
 
 	public void updateUser(UserBean user) throws SQLException {
 		
-		String updateSQL = "UPDATE " + MySqlUserDAO.TABLE_NAME
+		String updateSQL = "UPDATE " + USER_TABLE_NAME
 		   	 	  		 + "SET email = ?, pwd = ?, first_name = ?, last_name = ?, birth_date = ?, sex = ?, tel_number = ?"
 		   	 	  		 + "WHERE user_id = ?";
 		
@@ -160,7 +198,7 @@ public class MySqlUserDAO implements UserDAO {
 				ps.setString(3, user.getFirstName());
 				ps.setString(4, user.getLastName());
 				ps.setDate(5, user.getBirthDate());
-				ps.setString(6, String.valueOf(user.getSex()));
+				ps.setString(6, user.getSex());
 				ps.setString(7, user.getPhoneNumber());
 				
 				ps.setInt(8, user.getId());

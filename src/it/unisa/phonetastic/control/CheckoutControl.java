@@ -61,7 +61,7 @@ public class CheckoutControl extends HttpServlet{
 				// empties the cart
 				cart.emptyCart();
 			
-				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/MockPages/mockCheckout.jsp");
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/checkout.jsp");
 				dispatcher.forward(request, response);
 			}
 			else {

@@ -1,29 +1,22 @@
 @charset "ISO-8859-1";
 
 header {	
-background-color:#A8DBFC;	
+	background-color:#A8DBFC;	
 }
-
 
 body {
 	background-color:#A8DBFC;
 }
-		
-img {}
 
 	
 .a {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.b {
-  
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 		
 h2  { 
-  color : #212121;
+	color : #212121;
 }
 	
 h2 a  { 
@@ -31,15 +24,15 @@ h2 a  {
 }
 
 div {
-  border-style: solid;
-  border-color: #000066;
+	border-style: solid;
+	border-color: #000066;
 }
 	
 div c {
-  width: 300px;
-  padding: 50px;
-  margin: 20px;
-  text-align: center;
+	width: 300px;
+	padding: 50px;
+	margin: 20px;
+	text-align: center;
 }
   
 
@@ -169,7 +162,6 @@ tr {
 .subnav:hover .subnav-content {
   display: block;
 }
-
 
 footer {
 background-color:#A8DBFC;

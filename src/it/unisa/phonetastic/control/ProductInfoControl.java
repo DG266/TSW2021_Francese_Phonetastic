@@ -50,8 +50,7 @@ public class ProductInfoControl extends HttpServlet{
 			e.printStackTrace();
 		}
 		
-		// TODO Remember to use the real jsp
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/MockPages/mockProductInfo.jsp");
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/productInfo.jsp");
 		dispatcher.forward(request, response);
 	}
 	

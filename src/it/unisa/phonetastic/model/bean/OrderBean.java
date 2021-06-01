@@ -94,5 +94,11 @@ public class OrderBean implements Serializable{
 	public void setElements(List<OrderCompositionBean> elements) {
 		this.elements = elements;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "OrderBean [id=" + id + ", total=" + total + ", coupon_id=" + coupon_id + ", creationDate="
+				+ creationDate + ", lastUpdateDate=" + lastUpdateDate + ", customer_id=" + customer_id + ", elements="
+				+ elements + "]";
+	}
 }

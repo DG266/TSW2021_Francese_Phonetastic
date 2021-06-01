@@ -40,10 +40,10 @@ public class MySqlOrderDAO implements OrderDAO{
 	
 	public synchronized void insertOrder(OrderBean order) throws SQLException{
 		
-		String orderInsertSQL = "INSERT INTO " + MySqlOrderDAO.TABLE_NAME
+		String orderInsertSQL = "INSERT INTO " + TABLE_NAME
 						 + "(total, coupon_id, creation_date, last_update_date, customer_id) VALUES (?, ?, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), ?)";
 		
-		String orderDetailsInsertSQL = "INSERT INTO " + MySqlOrderDAO.AUX_TABLE_NAME 
+		String orderDetailsInsertSQL = "INSERT INTO " + AUX_TABLE_NAME 
 				 					 + "(order_id, product_id, quantity, price, iva, discount) VALUES (?, ?, ?, ?, ?, ?)";
 		
 		ArrayList<OrderCompositionBean> elements = (ArrayList<OrderCompositionBean>) order.getElements();
@@ -100,7 +100,7 @@ public class MySqlOrderDAO implements OrderDAO{
 		
 		int result = 0;
 		
-		String deleteSQL = "DELETE FROM " + MySqlOrderDAO.TABLE_NAME + " WHERE order_id = ?";
+		String deleteSQL = "DELETE FROM " + TABLE_NAME + " WHERE order_id = ?";
 		
 		// IMPORTANT: associated products will be automatically deleted (look at the db script)
 		
@@ -123,7 +123,7 @@ public class MySqlOrderDAO implements OrderDAO{
 		// I need to save just one time the order_info stuff (it's repeated in all the rows)
 		
 		String selectSQL = "SELECT O1.order_id, total, coupon_id, creation_date, last_update_date, customer_id, product_id, quantity, price, iva, discount "
-						 + "FROM " + MySqlOrderDAO.TABLE_NAME + " O1 JOIN " + MySqlOrderDAO.AUX_TABLE_NAME + " O2 ON O1.order_id = O2.order_id "
+						 + "FROM " + TABLE_NAME + " O1 JOIN " + AUX_TABLE_NAME + " O2 ON O1.order_id = O2.order_id "
 						 + "WHERE O1.order_id = ?";
 		
 		try(Connection conn = ds.getConnection()){
@@ -132,7 +132,7 @@ public class MySqlOrderDAO implements OrderDAO{
 				
 				ResultSet rs = ps.executeQuery();
 				
-				ArrayList<OrderCompositionBean> elements = new ArrayList<OrderCompositionBean>();
+				ArrayList<OrderCompositionBean> elements = new ArrayList<>();
 				
 				while(rs.next()) {
 					// This single query retrieves all info regarding a specific order in one shot.
@@ -168,7 +168,7 @@ public class MySqlOrderDAO implements OrderDAO{
 		int lastOrderId = -1;
 		
 		String selectSQL = "SELECT O1.order_id, total, coupon_id, creation_date, last_update_date, customer_id, product_id, quantity, price, iva, discount "
-						 + "FROM " + MySqlOrderDAO.TABLE_NAME + " O1 JOIN " + MySqlOrderDAO.AUX_TABLE_NAME + " O2 ON O1.order_id = O2.order_id "
+						 + "FROM " + TABLE_NAME + " O1 JOIN " + AUX_TABLE_NAME + " O2 ON O1.order_id = O2.order_id "
 						 + "WHERE O1.customer_id = ?";
 		
 		try(Connection conn = ds.getConnection()){

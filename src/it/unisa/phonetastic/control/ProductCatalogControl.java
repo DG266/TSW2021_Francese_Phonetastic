@@ -70,7 +70,7 @@ public class ProductCatalogControl extends HttpServlet{
 		}
 		
 		// TODO Remember to use the real jsp
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/MockPages/mockProductsCatalog.jsp");
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/productsCatalog.jsp");
 		dispatcher.forward(request, response);
 	}
 	

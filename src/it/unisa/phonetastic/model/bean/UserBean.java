@@ -2,6 +2,7 @@ package it.unisa.phonetastic.model.bean;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class UserBean implements Serializable{
 
@@ -13,8 +14,9 @@ public class UserBean implements Serializable{
 	private String firstName;
 	private String lastName;
 	private Date birthDate;
-	private char sex;
+	private String sex;
 	private String phoneNumber;
+	private ArrayList<String> roles;
 	
 	private boolean valid;
 	
@@ -25,9 +27,10 @@ public class UserBean implements Serializable{
 		firstName = null;
 		lastName = null;
 		birthDate = null;
-		sex = '\u0000';
+		sex = null;
 		phoneNumber = null;
 		valid = false;
+		roles = new ArrayList<>();
 	}
 
 	public int getId() {
@@ -78,11 +81,11 @@ public class UserBean implements Serializable{
 		this.birthDate = birthDate;
 	}
 
-	public char getSex() {
+	public String getSex() {
 		return sex;
 	}
 
-	public void setSex(char sex) {
+	public void setSex(String sex) {
 		this.sex = sex;
 	}
 
@@ -102,4 +105,22 @@ public class UserBean implements Serializable{
 		this.valid = valid;
 	}
 
+	public ArrayList<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(ArrayList<String> roles) {
+		this.roles = roles;
+	}
+	
+	public boolean isAdmin() {
+		return this.roles.contains("Admin");
+	}
+	
+	@Override
+	public String toString() {
+		return "UserBean [id=" + id + ", email=" + email + ", password=" + password + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", birthDate=" + birthDate + ", sex=" + sex + ", phoneNumber="
+				+ phoneNumber + ", roles=" + roles + ", valid=" + valid + "]";
+	}
 }

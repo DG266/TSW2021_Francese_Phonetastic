@@ -17,7 +17,8 @@ CREATE TABLE user_info (
 ALTER TABLE user_info AUTO_INCREMENT = 100100;
 
 INSERT INTO user_info(email, pwd, first_name, last_name, birth_date, sex, tel_number)
-VALUES ("daniele.galloppo@gmail.com", "pippo123", "Daniele", "Galloppo", "2000-01-01", "M", "+39 333 444 5555"),
+VALUES ("admin@phonetastic.it", "admin", "Franco", "Armani", null, null, null),
+	   ("daniele.galloppo@gmail.com", "pippo123", "Daniele", "Galloppo", "2000-01-01", "M", "+39 333 444 5555"),
 	   ("ferdinando.esposito@gmail.com", "topolino456", null, null, null, null, null),
        ("antonio.monetti@gmail.com", "pluto789", null, null, null, null, null);
 
@@ -45,9 +46,10 @@ CREATE TABLE user_roles (
 );
 
 INSERT INTO user_roles(role_id, user_id)
-VALUES (2, 100100),
+VALUES (1, 100100),
 	   (2, 100101),
-       (2, 100102);
+       (2, 100102),
+       (2, 100103);
 
 CREATE TABLE user_address(
 	user_id		INT,
@@ -65,7 +67,7 @@ CREATE TABLE user_address(
 );
 
 INSERT INTO user_address(user_id, address_id, state, city, province, cap, address)
-VALUES (100100, 1, "Italia", "Napoli", "NA", "80135", "Via Giovanni Brombeis 56");
+VALUES (100101, 1, "Italia", "Napoli", "NA", "80135", "Via Giovanni Brombeis 56");
 
 # I wouldn't store credit card information in this database... 
 CREATE TABLE payment_method(
@@ -82,7 +84,7 @@ CREATE TABLE payment_method(
 );
 
 INSERT INTO payment_method(user_id, p_method_id, card_number, expiry_date, cvv)
-VALUES (100100, 1, "1234 5678 9123 4567", "2027-01-01", 123);
+VALUES (100101, 1, "1234 5678 9123 4567", "2027-01-01", 123);
 
 CREATE TABLE coupon(
 	coupon_id			VARCHAR(255) PRIMARY KEY,
@@ -127,7 +129,7 @@ CREATE TABLE product(
 );
 
 INSERT INTO product(product_name, product_description, quantity, price, iva, discount, image_path)
-VALUES ("Xiaomi Redmi Note 5 Pro", "Smartphone", 50, 199.99, 22.0, 0, "./Images/ProductImages/Xiaomi-Redmi-Note-5-Pro.jpg"),
+VALUES ("Xiaomi Redmi Note 5 Pro", "Smartphone", 50, 199.99, 22.0, 0, ".\\resources\\images\\ProductImages\\Xiaomi-Redmi-Note-5-Pro.jpg"),
 	   ("IPhone X", "Smartphone", 100, 799.99, 22.0, 0, NULL),	
 	   ("Xiaomi Redmi Note 8", "Smartphone", 200, 299.99, 22.0, 0, NULL),
 	   ("Huawei P10", "Smartphone", 1000, 159.99, 22.0, 0, NULL);
@@ -172,7 +174,7 @@ CREATE TABLE order_info(
 ALTER TABLE order_info AUTO_INCREMENT= 200200;
 
 INSERT INTO order_info(total, coupon_id, creation_date, last_update_date, customer_id)
-VALUES(199.99, NULL, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 100100);
+VALUES(199.99, NULL, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 100101);
 
 
 CREATE TABLE payment_details(
@@ -192,7 +194,7 @@ CREATE TABLE payment_details(
 );	
 
 INSERT INTO payment_details(order_id, state, payment_date, user_id, p_method_id)
-VALUES (200200, "G", CURRENT_TIMESTAMP(), 100100, 1);
+VALUES (200200, "G", CURRENT_TIMESTAMP(), 100101, 1);
 
 CREATE TABLE order_composition(
 	order_id		BIGINT,
@@ -234,5 +236,5 @@ CREATE TABLE review(
 );
 
 INSERT INTO review(user_id, product_id, rev_text, rev_date, score)
-VALUES (100100, (SELECT product_id FROM product WHERE product_name = "Xiaomi Redmi Note 5 Pro"), 
+VALUES (100101, (SELECT product_id FROM product WHERE product_name = "Xiaomi Redmi Note 5 Pro"), 
 		"Molto soddisfatto.", CURRENT_TIMESTAMP(), 5.0);

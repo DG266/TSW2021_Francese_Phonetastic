@@ -3,12 +3,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="MockPages/mockStyles.css" rel="stylesheet" type="text/css">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="../resources/css/style.css" rel="stylesheet" type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Login amministratore</title>
 </head>
 <body>
-	<%@ include file="/MockPages/mockHeader.jsp" %>
+	<%@ include file="header.jsp" %>
 	
 	<h2>Effettua il login amministratore</h2>
 	<form action="admin/login?action=login" method="POST">
@@ -17,6 +17,6 @@
 		<input type="submit" value="Login">
 	</form>
 
-	<%@ include file="/MockPages/mockFooter.jsp"%>
+	<%@ include file="footer.jsp"%>
 </body>
 </html>

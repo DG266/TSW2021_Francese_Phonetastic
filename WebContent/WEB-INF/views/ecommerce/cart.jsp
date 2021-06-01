@@ -1,16 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
 <head>
-<link href="MockPages/mockStyles.css" rel="stylesheet" type="text/css">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="resources/css/style.css" rel="stylesheet" type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Il tuo carrello</title>
 </head>
 <body>
-	<%@ include file="mockHeader.jsp"%>
+	<%@ include file="header.jsp"%>
 	<a href="catalog">Catalogo</a>
 	<h2>Carrello</h2>
 	<c:choose>
@@ -49,6 +48,6 @@
 			<h2>Il tuo carrello è vuoto</h2>
 		</c:otherwise>
 	</c:choose>
-	<%@ include file="mockFooter.jsp"%>
+	<%@ include file="footer.jsp"%>
 </body>
 </html>

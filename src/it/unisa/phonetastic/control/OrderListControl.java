@@ -46,7 +46,7 @@ public class OrderListControl extends HttpServlet{
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/MockPages/mockMyOrders.jsp");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/myOrders.jsp");
 			dispatcher.forward(request, response);
 		}
 	}

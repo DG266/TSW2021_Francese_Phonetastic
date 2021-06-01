@@ -5,12 +5,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="MockPages/mockStyles.css" rel="stylesheet" type="text/css">
+<link href="resources/css/style.css" rel="stylesheet" type="text/css">
 <meta charset="ISO-8859-1">
 <title>Dettagli Prodotto</title>
 </head>
 <body>
-	<%@ include file="mockHeader.jsp"%>
+	<%@ include file="header.jsp"%>
 	<c:choose>
 		<c:when test="${product.id != -1}">
 			<img src="${product.imagePath}" width="300" height="300">
@@ -27,6 +27,6 @@
 	<h2>
 		<a href="catalog">Torna al Catalogo</a>
 	</h2>
-	<%@ include file="mockFooter.jsp" %>
+	<%@ include file="footer.jsp" %>
 </body>
 </html>

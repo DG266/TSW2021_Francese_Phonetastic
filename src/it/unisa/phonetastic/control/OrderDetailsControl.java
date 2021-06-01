@@ -42,7 +42,7 @@ public class OrderDetailsControl extends HttpServlet{
 		}
 		request.setAttribute("orderProducts", products);
 		
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/MockPages/mockOrderDetails.jsp");
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/orderDetails.jsp");
 		dispatcher.forward(request, response);
 	}
 }

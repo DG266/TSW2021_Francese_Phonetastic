@@ -6,11 +6,11 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<link href="MockPages/mockStyles.css" rel="stylesheet" type="text/css">
+<link href="resources/css/style.css" rel="stylesheet" type="text/css">
 <title>Dettagli ordine</title>
 </head>
 <body>
-	<%@ include file="mockHeader.jsp"%>
+	<%@ include file="header.jsp"%>
 	<table border="1">
 		<tr>
 			<th>Nome prodotto</th>
@@ -31,6 +31,6 @@
 			</tr>
 		</c:forEach>
 	</table>
-	<%@ include file="mockFooter.jsp"%>
+	<%@ include file="footer.jsp"%>
 </body>
 </html>

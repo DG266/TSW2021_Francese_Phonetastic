@@ -61,5 +61,10 @@ public class OrderCompositionBean implements Serializable{
 	public void setDiscount(BigDecimal discount) {
 		this.discount = discount;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "OrderCompositionBean [productId=" + productId + ", quantity=" + quantity + ", price=" + price + ", iva="
+				+ iva + ", discount=" + discount + "]";
+	}
 }

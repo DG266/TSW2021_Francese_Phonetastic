@@ -38,9 +38,15 @@ public class LoginControl extends HttpServlet {
 					UserBean user = new UserBean();
 					user = model.retrieveUserByEmailPwd(request.getParameter("email"), request.getParameter("pwd"));
 					if (user.isValid()) {
+						//System.out.println("User found (isAdmin = " + user.isAdmin() + "): " + user.toString());
 						HttpSession session = request.getSession(true);
 						session.setAttribute("currentSessionUser", user);
-						response.sendRedirect("catalog");
+						if(user.isAdmin()) {
+							response.sendRedirect("admin");
+						}
+						else {
+							response.sendRedirect("catalog");
+						}	
 					} 
 					else {
 						response.sendRedirect("login");  // + error (bad pwd or email), try again
@@ -60,6 +66,8 @@ public class LoginControl extends HttpServlet {
 					newUser.setEmail(email);
 					newUser.setPassword(pass);
 					
+					newUser.getRoles().add("Registered");
+					
 					model.insertUser(newUser);
 					
 					response.sendRedirect("login");
@@ -69,7 +77,7 @@ public class LoginControl extends HttpServlet {
 			}
 		} 
 		else {
-				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/MockPages/mockLoginPage.jsp");
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/loginPage.jsp");
 				dispatcher.forward(request, response);
 		}
 	}

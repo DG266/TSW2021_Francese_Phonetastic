@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import it.unisa.phonetastic.model.bean.UserBean;
@@ -38,21 +39,22 @@ public class AuthenticationFilter implements Filter{
 		
 		String loginURI = httpRequest.getContextPath() + "/login";
 		boolean isLoginRequest = httpRequest.getRequestURI().equals(loginURI);
-		boolean isLoginPage = httpRequest.getRequestURI().endsWith("mockLoginPage.jsp");   // TODO Remember to modify this one
+		boolean isLoginPage = httpRequest.getRequestURI().endsWith("loginPage.jsp");   // TODO Remember to modify this one
 		
 		/*
-		System.out.println("***********************\nFILTERING\ncontextPath = " + httpRequest.getRequestURI() + "\nisLoggedIn = " 
+		System.out.println("***********************\nUSER LOGIN FILTER\ncontextPath = " + httpRequest.getRequestURI() + "\nisLoggedIn = " 
 						   + isLoggedIn + "\nisLoginRequest = " + isLoginRequest
 						   + "\nisLoginPage = " + isLoginPage);
 		*/
 		
 		if(isLoggedIn && (isLoginRequest || isLoginPage)) {
 			//System.out.println("AUTHENTICATION FILTER: User wants to login, but he's already logged in. Back to homepage.");
-			httpRequest.getRequestDispatcher("/").forward(request, response);
+			//httpRequest.getRequestDispatcher("/").forward(request, response);
+			((HttpServletResponse) response).sendRedirect("./");
 		}
 		else if(!isLoggedIn && isLoginRequired()) {
 			//System.out.println("AUTHENTICATION FILTER: User must login to see this page. Going to login page.");
-            RequestDispatcher dispatcher = httpRequest.getRequestDispatcher("/MockPages/mockLoginPage.jsp");
+            RequestDispatcher dispatcher = httpRequest.getRequestDispatcher("/WEB-INF/views/ecommerce/loginPage.jsp");
             dispatcher.forward(request, response);
 		}
 		else {
