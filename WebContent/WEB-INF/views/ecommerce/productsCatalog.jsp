@@ -13,6 +13,7 @@
 	<%@ include file="header.jsp" %>
 	<div class="b">
 		<p class="b">Prodotti</p>
+		<%@ include file="slideshow2.jsp" %>
 	</div>
 	<table border="1">
 		<tr>
