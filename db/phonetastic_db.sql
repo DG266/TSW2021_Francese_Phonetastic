@@ -129,10 +129,10 @@ CREATE TABLE product(
 );
 
 INSERT INTO product(product_name, product_description, quantity, price, iva, discount, image_path)
-VALUES ("Xiaomi Redmi Note 5 Pro", "Smartphone", 50, 199.99, 22.0, 0, ".\\resources\\images\\ProductImages\\Xiaomi-Redmi-Note-5-Pro.jpg"),
-	   ("IPhone X", "Smartphone", 100, 799.99, 22.0, 0, NULL),	
+VALUES ("Xiaomi Redmi Note 5 Pro", "Smartphone", 50, 199.99, 22.0, 0, ".\\resources\\images\\ProductImages\\Xiaomi-Redmi-Note-5-Pro.png"),
+	   ("IPhone X", "Smartphone", 100, 799.99, 22.0, 0, ".\\resources\\images\\ProductImages\\Iphone-X.png"),	
 	   ("Xiaomi Redmi Note 8", "Smartphone", 200, 299.99, 22.0, 0, NULL),
-	   ("Huawei P10", "Smartphone", 1000, 159.99, 22.0, 0, NULL);
+	   ("Huawei P10 Lite", "Smartphone", 1000, 159.99, 22.0, 0, ".\\resources\\images\\ProductImages\\Huawei-P10-Lite.png");
 
 CREATE TABLE product_categories(
 	product_id	INT,

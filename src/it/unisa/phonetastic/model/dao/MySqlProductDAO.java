@@ -101,25 +101,25 @@ public class MySqlProductDAO implements ProductDAO{
 		return bean;
 	}
 
-	public synchronized Collection<ProductBean> retrieveAllProducts(String order) throws SQLException {
+	public synchronized Collection<ProductBean> retrieveAllProducts(String sort) throws SQLException {
 		
 		Collection<ProductBean> products = new LinkedList<ProductBean>();
 
 		String selectSQL = "SELECT * FROM " + TABLE_NAME;
 		
 		
-		if (order != null && !order.equals("")) {
+		if (sort != null && !sort.equals("")) {
 			
-			if(order.equalsIgnoreCase("id")) {
-				order = "product_id";
+			if(sort.equalsIgnoreCase("id")) {
+				sort = "product_id";
 			}
-			else if(order.equalsIgnoreCase("name")) {
-				order = "product_name";
+			else if(sort.equalsIgnoreCase("name")) {
+				sort = "product_name";
 			}
-			else if(order.equalsIgnoreCase("description")) {
-				order = "product_description";
+			else if(sort.equalsIgnoreCase("description")) {
+				sort = "product_description";
 			}
-			selectSQL += " ORDER BY " + order;
+			selectSQL += " ORDER BY " + sort;
 		}
 		
 		try(Connection conn = ds.getConnection()){

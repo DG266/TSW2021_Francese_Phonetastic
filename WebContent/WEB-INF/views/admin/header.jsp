@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
@@ -11,9 +11,9 @@
 		<!-- Icona scheda (da mettere) -->
 		<link rel="shortcut icon" href="" type="image/png">
 		<!-- BOXICONS -->
-		<link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/boxicons.min.css">
 		<!-- APP CSS -->
-		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/dashboard.css">
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/admin.css">
     </head>
     <body>
         
@@ -51,12 +51,6 @@
 				</li>
 				<li>
 					<a href="#">
-						<i class='bx bx-shopping-bag'></i>
-                   		<span>Vendite</span>
-					</a>
-				</li>
-				<li>
-					<a href="#">
 						<i class='bx bx-chart'></i>
                    		<span>Statistiche</span>
 					</a>
@@ -86,14 +80,14 @@
 					</ul>
 				</li>
 				<li class="sidebar-submenu">
-					<a href="#" <c:if test="${fn:endsWith(currentURL, '/admin/add-product')}">id="open"</c:if> class="sidebar-menu-dropdown">
+					<a href="#" <c:if test="${fn:endsWith(currentURL, '/admin/add-product') || fn:endsWith(currentURL, '/admin/products')}">id="open"</c:if> class="sidebar-menu-dropdown">
 						<i class='bx bx-category'></i>
-						<span>E-commerce</span>
+						<span>Catalogo</span>
 						<span class="dropdown-icon"></span>
 					</a>
 					<ul class="sidebar-menu sidebar-menu-dropdown-content">
 						<li>
-							<a href="#">
+							<a href="${pageContext.request.contextPath}/admin/products" <c:if test="${fn:endsWith(currentURL, '/admin/products')}">class="active"</c:if>>
 								Lista prodotti
 							</a>
 						</li>
@@ -107,27 +101,27 @@
 								Aggiorna prodotto
 							</a>
 						</li>
-						<li>
-							<a href="#">
-								Ordini
-							</a>
-						</li>
 					</ul>
 				</li>
 				<li class="sidebar-submenu">
-					<a href="#" class="sidebar-menu-dropdown">
-						<i class='bx bx-cog'></i>
-						<span>Impostazioni</span>
+					<a href="#" <c:if test="${fn:endsWith(currentURL, '/admin/orders')}">id="open"</c:if> class="sidebar-menu-dropdown">
+						<i class='bx bx-notepad'></i>
+						<span>Ordini</span>
 						<span class="dropdown-icon"></span>
 					</a>
 					<ul class="sidebar-menu sidebar-menu-dropdown-content">
 						<li>
-							<a href="#" class="darkmode-toggle" id="darkmode-toggle">
-								Darkmode
-								<span class="darkmode-switch"></span>
+							<a href="${pageContext.request.contextPath}/admin/orders" <c:if test="${fn:endsWith(currentURL, '/admin/orders')}">class="active"</c:if>>
+								Visualizza ordini
 							</a>
 						</li>
 					</ul>
+				</li>
+				<li>
+					<a href="#">
+						<i class='bx bx-help-circle'></i>
+                   		<span>Aiuto</span>
+					</a>
 				</li>
 			</ul>
 			<!-- END SIDEBAR MENU-->

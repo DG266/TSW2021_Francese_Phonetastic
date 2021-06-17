@@ -15,5 +15,5 @@ public interface ProductDAO {
 	
 	public Collection<ProductBean> retrieveAllProducts(String order) throws SQLException;
 	
-	public void updateProduct(ProductBean product) throws SQLException;
+	public void updateProduct(ProductBean sort) throws SQLException;
 }

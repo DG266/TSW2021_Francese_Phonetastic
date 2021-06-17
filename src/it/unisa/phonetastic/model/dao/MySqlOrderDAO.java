@@ -2,12 +2,14 @@ package it.unisa.phonetastic.model.dao;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -41,7 +43,7 @@ public class MySqlOrderDAO implements OrderDAO{
 	public synchronized void insertOrder(OrderBean order) throws SQLException{
 		
 		String orderInsertSQL = "INSERT INTO " + TABLE_NAME
-						 + "(total, coupon_id, creation_date, last_update_date, customer_id) VALUES (?, ?, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), ?)";
+						 	  + "(total, coupon_id, creation_date, last_update_date, customer_id) VALUES (?, ?, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), ?)";
 		
 		String orderDetailsInsertSQL = "INSERT INTO " + AUX_TABLE_NAME 
 				 					 + "(order_id, product_id, quantity, price, iva, discount) VALUES (?, ?, ?, ?, ?, ?)";
@@ -63,8 +65,8 @@ public class MySqlOrderDAO implements OrderDAO{
 			
 			try(PreparedStatement ps = conn.prepareStatement(orderInsertSQL, Statement.RETURN_GENERATED_KEYS)){
 				ps.setBigDecimal(1, total);
-				ps.setString(2, order.getCoupon_id());
-				ps.setInt(3, order.getCustomer_id());
+				ps.setString(2, order.getCouponId());
+				ps.setInt(3, order.getCustomerId());
 				
 				ps.executeUpdate();
 				
@@ -141,10 +143,10 @@ public class MySqlOrderDAO implements OrderDAO{
 					if(!orderInfoSet) {
 						bean.setId(rs.getInt("order_id"));
 						bean.setTotal(rs.getBigDecimal("total"));
-						bean.setCoupon_id(rs.getString("coupon_id"));
+						bean.setCouponId(rs.getString("coupon_id"));
 						bean.setCreationDate(rs.getTimestamp("creation_date"));
 						bean.setLastUpdateDate(rs.getTimestamp("last_update_date"));
-						bean.setCustomer_id(rs.getInt("customer_id"));
+						bean.setCustomerId(rs.getInt("customer_id"));
 						bean.setElements(elements);
 						
 						orderInfoSet = true;
@@ -164,7 +166,7 @@ public class MySqlOrderDAO implements OrderDAO{
 	
 	public Collection<OrderBean> retrieveOrdersByUserID(int userId) throws SQLException{
 		
-		ArrayList<OrderBean> list = new ArrayList<>();
+		ArrayList<OrderBean> orders = new ArrayList<>();
 		int lastOrderId = -1;
 		
 		String selectSQL = "SELECT O1.order_id, total, coupon_id, creation_date, last_update_date, customer_id, product_id, quantity, price, iva, discount "
@@ -185,13 +187,13 @@ public class MySqlOrderDAO implements OrderDAO{
 						elements = new ArrayList<OrderCompositionBean>();
 						bean.setId(rs.getInt("order_id"));
 						bean.setTotal(rs.getBigDecimal("total"));
-						bean.setCoupon_id(rs.getString("coupon_id"));
+						bean.setCouponId(rs.getString("coupon_id"));
 						bean.setCreationDate(rs.getTimestamp("creation_date"));
 						bean.setLastUpdateDate(rs.getTimestamp("last_update_date"));
-						bean.setCustomer_id(rs.getInt("customer_id"));
+						bean.setCustomerId(rs.getInt("customer_id"));
 						bean.setElements(elements);
 						
-						list.add(bean);
+						orders.add(bean);
 						
 						lastOrderId = rs.getInt("order_id");   
 					}
@@ -208,6 +210,112 @@ public class MySqlOrderDAO implements OrderDAO{
 				}	
 			}
 		}
-		return list;
+		return orders;
+	}
+	
+	public Collection<OrderBean> retrieveAllOrders(String sort) throws SQLException{
+		
+		Collection<OrderBean> orders = new LinkedList<OrderBean>();
+		int lastOrderId = -1;
+
+		String selectSQL = "SELECT O1.order_id, total, coupon_id, creation_date, last_update_date, customer_id, product_id, quantity, price, iva, discount "
+				 		 + "FROM " + TABLE_NAME + " O1 JOIN " + AUX_TABLE_NAME + " O2 ON O1.order_id = O2.order_id ";
+		
+		if(sort != null && !sort.equals("")) {
+			// TODO
+		}
+		
+		//ORDER BY last_update_date DESC
+		
+		try(Connection conn = ds.getConnection()){
+			try(Statement s = conn.createStatement()){
+				
+				ResultSet rs = s.executeQuery(selectSQL);
+				OrderBean bean = null;
+				ArrayList<OrderCompositionBean> elements = null;
+				
+				while(rs.next()) {
+					if(rs.getInt("order_id") != lastOrderId) {
+						bean = new OrderBean();
+						elements = new ArrayList<OrderCompositionBean>();
+						bean.setId(rs.getInt("order_id"));
+						bean.setTotal(rs.getBigDecimal("total"));
+						bean.setCouponId(rs.getString("coupon_id"));
+						bean.setCreationDate(rs.getTimestamp("creation_date"));
+						bean.setLastUpdateDate(rs.getTimestamp("last_update_date"));
+						bean.setCustomerId(rs.getInt("customer_id"));
+						bean.setElements(elements);
+						
+						orders.add(bean);
+						
+						lastOrderId = rs.getInt("order_id");   
+					}
+				
+					OrderCompositionBean c = new OrderCompositionBean();
+					c.setProductId(rs.getInt("product_id"));
+					c.setQuantity(rs.getInt("quantity"));
+					c.setPrice(rs.getBigDecimal("price"));
+					c.setIva(rs.getBigDecimal("iva"));
+					c.setDiscount(rs.getBigDecimal("discount"));
+					elements.add(c);
+				}	
+			}
+		}
+		return orders;
+	}
+	
+	public Collection<OrderBean> retrieveAllOrders(String sort, Date startDate, Date endDate) throws SQLException{
+		
+		Collection<OrderBean> orders = new LinkedList<OrderBean>();
+		int lastOrderId = -1;
+
+		String selectSQL = "SELECT O1.order_id, total, coupon_id, creation_date, last_update_date, customer_id, product_id, quantity, price, iva, discount "
+				 		 + "FROM " + TABLE_NAME + " O1 JOIN " + AUX_TABLE_NAME + " O2 ON O1.order_id = O2.order_id "
+				 		 + "WHERE last_update_date >= ? AND last_update_date < ?";
+		
+		if(sort != null && !sort.equals("")) {
+			// TODO
+		}
+		
+		//ORDER BY last_update_date DESC
+		
+		try(Connection conn = ds.getConnection()){
+			try(PreparedStatement ps = conn.prepareStatement(selectSQL)){
+				
+				ps.setDate(1, startDate);
+				ps.setDate(2, endDate);
+				
+				ResultSet rs = ps.executeQuery();
+				OrderBean bean = null;
+				ArrayList<OrderCompositionBean> elements = null;
+				
+				while(rs.next()) {
+					if(rs.getInt("order_id") != lastOrderId) {
+						bean = new OrderBean();
+						elements = new ArrayList<OrderCompositionBean>();
+						bean.setId(rs.getInt("order_id"));
+						bean.setTotal(rs.getBigDecimal("total"));
+						bean.setCouponId(rs.getString("coupon_id"));
+						bean.setCreationDate(rs.getTimestamp("creation_date"));
+						bean.setLastUpdateDate(rs.getTimestamp("last_update_date"));
+						bean.setCustomerId(rs.getInt("customer_id"));
+						bean.setElements(elements);
+						
+						orders.add(bean);
+						
+						lastOrderId = rs.getInt("order_id");   
+					}
+				
+					OrderCompositionBean c = new OrderCompositionBean();
+					c.setProductId(rs.getInt("product_id"));
+					c.setQuantity(rs.getInt("quantity"));
+					c.setPrice(rs.getBigDecimal("price"));
+					c.setIva(rs.getBigDecimal("iva"));
+					c.setDiscount(rs.getBigDecimal("discount"));
+					elements.add(c);
+				}	
+			}
+		}
+		return orders;
 	}
 }

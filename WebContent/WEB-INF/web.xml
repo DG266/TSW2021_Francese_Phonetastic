@@ -161,4 +161,22 @@
         <servlet-name>AddProductControl</servlet-name>
         <url-pattern>/admin/add-product</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ListProductsControl</servlet-name>
+        <servlet-class>it.unisa.phonetastic.control.admin.ListProductsControl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ListProductsControl</servlet-name>
+        <url-pattern>/admin/products</url-pattern>
+    </servlet-mapping>
+  
+    <servlet>
+        <servlet-name>ListOrdersControl</servlet-name>
+        <servlet-class>it.unisa.phonetastic.control.admin.ListOrdersControl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ListOrdersControl</servlet-name>
+        <url-pattern>/admin/orders</url-pattern>
+    </servlet-mapping>
 </web-app>

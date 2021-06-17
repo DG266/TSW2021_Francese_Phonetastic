@@ -34,7 +34,7 @@ public class CheckoutControl extends HttpServlet{
 			// If the cart has something in it, analyze it and create a new order (and save it)
 			if(cart.getProducts().size() > 0) {		
 				OrderBean bean = new OrderBean();
-				bean.setCustomer_id(user.getId()); 
+				bean.setCustomerId(user.getId()); 
 				
 				List<OrderCompositionBean> elements = new ArrayList<OrderCompositionBean>();
 				for(CartItem item : cart.getProducts()) {

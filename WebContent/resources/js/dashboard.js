@@ -21,15 +21,6 @@ document.querySelectorAll('.sidebar-submenu').forEach(e => {
     }
 })
 
-// SCRIPTS PER LA MOD. SCURA
-let darkmode_toggle = document.querySelector('#darkmode-toggle')
-
-darkmode_toggle.onclick = (e) => {
-    e.preventDefault()
-    document.querySelector('body').classList.toggle('dark')
-    darkmode_toggle.querySelector('.darkmode-switch').classList.toggle('active')
-}
-
 let overlay = document.querySelector('.overlay')
 let sidebar = document.querySelector('.sidebar')
 

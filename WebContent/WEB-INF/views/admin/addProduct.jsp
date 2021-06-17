@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     
 <c:import url="/WEB-INF/views/admin/header.jsp" />
@@ -28,7 +28,7 @@
 				<br><br>
 				<textarea name="description" rows="5" cols="48" placeholder="Aggiungi una descrizione del prodotto..." autofocus required></textarea>
 				<br><br>
-				<input type="number" name="quantity" placeholder="Quantità" min="1" autofocus required/>
+				<input type="number" name="quantity" placeholder="QuantitÃ " min="1" autofocus required/>
 				<br><br>
 				<label>Immagine:</label>
 				<input type="file" name="image" autofocus required/>

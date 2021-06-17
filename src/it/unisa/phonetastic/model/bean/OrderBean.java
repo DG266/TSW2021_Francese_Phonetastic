@@ -12,21 +12,21 @@ public class OrderBean implements Serializable{
 	
 	private int id;
 	private BigDecimal total;
-	private String coupon_id;
+	private String couponId;
 	//private char state;
 	private Timestamp creationDate;
 	private Timestamp lastUpdateDate;
-	private int customer_id;
+	private int customerId;
 	private List<OrderCompositionBean> elements;
 
 	public OrderBean() {
 		id = -1;
 		total = null;
-		coupon_id = null;
+		couponId = null;
 		//state = '\u0000';
 		creationDate = null;
 		lastUpdateDate = null;
-		customer_id = -1;
+		customerId = -1;
 		elements = new ArrayList<OrderCompositionBean>();
 	}
 
@@ -46,12 +46,12 @@ public class OrderBean implements Serializable{
 		this.total = total;
 	}
 
-	public String getCoupon_id() {
-		return coupon_id;
+	public String getCouponId() {
+		return couponId;
 	}
 
-	public void setCoupon_id(String coupon_id) {
-		this.coupon_id = coupon_id;
+	public void setCouponId(String couponId) {
+		this.couponId = couponId;
 	}
 
 /*
@@ -79,12 +79,12 @@ public class OrderBean implements Serializable{
 		this.lastUpdateDate = lastUpdateDate;
 	}
 
-	public int getCustomer_id() {
-		return customer_id;
+	public int getCustomerId() {
+		return customerId;
 	}
 
-	public void setCustomer_id(int customer_id) {
-		this.customer_id = customer_id;
+	public void setCustomerId(int customerId) {
+		this.customerId = customerId;
 	}
 
 	public List<OrderCompositionBean> getElements() {
@@ -97,8 +97,8 @@ public class OrderBean implements Serializable{
 
 	@Override
 	public String toString() {
-		return "OrderBean [id=" + id + ", total=" + total + ", coupon_id=" + coupon_id + ", creationDate="
-				+ creationDate + ", lastUpdateDate=" + lastUpdateDate + ", customer_id=" + customer_id + ", elements="
+		return "OrderBean [id=" + id + ", total=" + total + ", couponId=" + couponId + ", creationDate="
+				+ creationDate + ", lastUpdateDate=" + lastUpdateDate + ", customer_id=" + customerId + ", elements="
 				+ elements + "]";
 	}
 }

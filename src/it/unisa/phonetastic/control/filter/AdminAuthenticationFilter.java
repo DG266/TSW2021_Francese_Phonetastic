@@ -47,7 +47,7 @@ public class AdminAuthenticationFilter implements Filter{
             dispatcher.forward(request, response);
             */
         	
-        	((HttpServletResponse) response).sendRedirect("./login");
+        	((HttpServletResponse) response).sendRedirect(httpRequest.getContextPath() + "/login");  
         }
 	}
 }
