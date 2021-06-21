@@ -24,6 +24,7 @@
 					<th>IVA</th>
 					<th>Sconto</th>
 					<th>Percorso immagine</th>
+					<th>Azioni</th>
 				</tr>
 				<c:choose>
 					<c:when test="${products != null && products.size() != 0}">
@@ -37,6 +38,7 @@
 								<td>${product.iva}</td>
 								<td>${product.discount}</td>
 								<td>${product.imagePath}</td>
+								<td><a href="update-product?id=${product.id}">Aggiorna Info</a></td>
 							</tr>
 						</c:forEach>
 					</c:when>

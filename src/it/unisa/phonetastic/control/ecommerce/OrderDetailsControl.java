@@ -1,4 +1,4 @@
-package it.unisa.phonetastic.control;
+package it.unisa.phonetastic.control.ecommerce;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -16,15 +16,16 @@ import it.unisa.phonetastic.model.bean.ProductBean;
 import it.unisa.phonetastic.model.dao.DAOFactory;
 import it.unisa.phonetastic.model.dao.ProductDAO;
 
+/**
+ * Retrieves the products belonging to a specific order.
+ * @author DG266
+ *
+ */
 public class OrderDetailsControl extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
 
 	private static ProductDAO model = DAOFactory.getDAOFactory(DAOFactory.MYSQL).getProductDAO();
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		doPost(request, response);
-	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		

@@ -1,4 +1,4 @@
-package it.unisa.phonetastic.model;
+package it.unisa.phonetastic.model.cart;
 
 import java.util.ArrayList;
 

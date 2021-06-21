@@ -80,7 +80,7 @@
 					</ul>
 				</li>
 				<li class="sidebar-submenu">
-					<a href="#" <c:if test="${fn:endsWith(currentURL, '/admin/add-product') || fn:endsWith(currentURL, '/admin/products')}">id="open"</c:if> class="sidebar-menu-dropdown">
+					<a href="#" <c:if test="${fn:endsWith(currentURL, '/admin/add-product') || fn:endsWith(currentURL, '/admin/products') || fn:contains(currentURL, '/admin/update-product')}">id="open"</c:if> class="sidebar-menu-dropdown">
 						<i class='bx bx-category'></i>
 						<span>Catalogo</span>
 						<span class="dropdown-icon"></span>
@@ -97,7 +97,7 @@
 							</a>
 						</li>
 						<li>
-							<a href="#">
+							<a href="${pageContext.request.contextPath}/admin/update-product" <c:if test="${fn:contains(currentURL, '/admin/update-product')}">class="active"</c:if>>
 								Aggiorna prodotto
 							</a>
 						</li>

@@ -1,4 +1,4 @@
-package it.unisa.phonetastic.control;
+package it.unisa.phonetastic.control.ecommerce;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import it.unisa.phonetastic.model.Cart;
 import it.unisa.phonetastic.model.bean.ProductBean;
+import it.unisa.phonetastic.model.cart.Cart;
 import it.unisa.phonetastic.model.dao.DAOFactory;
 import it.unisa.phonetastic.model.dao.ProductDAO;
 

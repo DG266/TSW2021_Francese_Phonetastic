@@ -1,4 +1,4 @@
-package it.unisa.phonetastic.control;
+package it.unisa.phonetastic.control.ecommerce;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -14,6 +14,11 @@ import it.unisa.phonetastic.model.bean.UserBean;
 import it.unisa.phonetastic.model.dao.DAOFactory;
 import it.unisa.phonetastic.model.dao.OrderDAO;
 
+/**
+ * Retrieves the orders of a specific user.
+ * @author DG266
+ *
+ */
 public class OrderListControl extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
@@ -21,12 +26,21 @@ public class OrderListControl extends HttpServlet{
 	private static OrderDAO model = DAOFactory.getDAOFactory(DAOFactory.MYSQL).getOrderDAO();
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		doPost(request, response);
+		
+		UserBean user = (UserBean) request.getSession().getAttribute("currentSessionUser");
+		
+		try {
+			request.setAttribute("orders", model.retrieveOrdersByUserID(user.getId()));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/myOrders.jsp");
+		dispatcher.forward(request, response);
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		
-		UserBean user = (UserBean) request.getSession().getAttribute("currentSessionUser");
 		OrderBean order = new OrderBean();
 		String id = request.getParameter("id");
 
@@ -37,17 +51,9 @@ public class OrderListControl extends HttpServlet{
 				e.printStackTrace();
 			}
 			request.setAttribute("orderInfo", order);
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/order-details");
-			dispatcher.forward(request, response);
 		}
-		else {
-			try {
-				request.setAttribute("orders", model.retrieveOrdersByUserID(user.getId()));
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/myOrders.jsp");
-			dispatcher.forward(request, response);
-		}
+		
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/order-details");
+		dispatcher.forward(request, response);
 	}
 }
