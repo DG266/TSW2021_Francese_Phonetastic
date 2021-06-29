@@ -43,7 +43,21 @@
 							<li><a href="${pageContext.request.contextPath}/logout"><i class='bx bx-log-out'></i></a></li>
 						</c:otherwise>
 					</c:choose>
-                    <li><a href="${pageContext.request.contextPath}/cart"><i class="bx bx-cart"></i></a></li>
+                    <li>
+                    	<a href="${pageContext.request.contextPath}/cart"><i class="bx bx-cart"></i></a>
+            	        <div class="cart-quantity">
+                   			<span class="cart-quantity-number">
+                   				<c:choose>
+	                    			<c:when test="${cart != null}">
+	                    				${cart.getProducts().size()}
+	                    			</c:when>
+	                    			<c:otherwise>
+	                    				0
+	                    			</c:otherwise>
+	                    		</c:choose>
+                   			</span>
+                   		</div>
+                    </li>
                 </ul>
             </div>
             <!-- END MENU MOBILE -->
@@ -74,7 +88,21 @@
 									<li><a href="${pageContext.request.contextPath}/logout"><i class='bx bx-log-out'></i></a></li>
 								</c:otherwise>
 							</c:choose>
-                            <li><a href="${pageContext.request.contextPath}/cart"><i class="bx bx-cart"></i></a></li>
+                            <li>
+                            	<a href="${pageContext.request.contextPath}/cart"><i class="bx bx-cart"></i></a>
+	                    		<div class="cart-quantity">
+	                    			<span class="cart-quantity-number">
+	                    				<c:choose>
+			                    			<c:when test="${cart != null}">
+			                    				${cart.getProducts().size()}
+			                    			</c:when>
+			                    			<c:otherwise>
+			                    				0
+			                    			</c:otherwise>
+			                    		</c:choose>
+	                    			</span>
+	                    		</div>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -83,13 +111,14 @@
                 <!-- NAVBAR -->
                 <div class="navbar-background">
                     <div class="bottom-header container">
+                        <!-- REMEMBER TO MODIFY THE HREFS -->
                         <nav>
                             <ul>
                                 <li><a href="${pageContext.request.contextPath}/catalog">Home</a></li>
     
                                 <!-- CATEGORY MENU -->
                                 <li class="dropdown">
-                                    <a href="./products.html">Prodotti <i class="bx bxs-chevron-down"></i></a>
+                                    <a href="#">Prodotti <i class="bx bxs-chevron-down"></i></a>
                                     <div class="dropdown-content">
                                         <section class="category-grid">
                                             <div class="category-grid-item">

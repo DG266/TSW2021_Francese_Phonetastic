@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 	<c:import url="/WEB-INF/views/ecommerce/header.jsp" />
+	
 		<h2>Effettua il login</h2>
 		<form action="login?action=login" method="POST">
 			<input type="email" name="email" placeholder="Email" /> 
@@ -22,7 +23,6 @@
 			<br><br> 
 			<input type="submit" value="Register">
 		</form>
+		
 	
 		<c:import url="/WEB-INF/views/ecommerce/footer.jsp" />
-	</body>
-</html>

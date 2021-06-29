@@ -33,3 +33,7 @@ document.querySelector('#sidebar-close').onclick = () => {
     sidebar.classList.toggle('active')
     overlay.classList.toggle('active')
 }
+
+$(document).ready(function(){
+	$('#open').trigger('click');
+});

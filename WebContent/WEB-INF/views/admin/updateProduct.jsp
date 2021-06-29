@@ -39,7 +39,7 @@
 					</form>
 				</c:when>
 				<c:when test="${success != null && success == true}">
-				<h2>Prodotto aggiornato con successo.</h2>
+					<h2>Prodotto aggiornato con successo.</h2>
 				</c:when>
 				<c:when test="${success != null && success == false}">
 					<h2>Non sono riuscito ad aggiornare il prodotto.</h2>

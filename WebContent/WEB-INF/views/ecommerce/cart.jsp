@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 	<c:import url="/WEB-INF/views/ecommerce/header.jsp" />
-	<a href="catalog">Catalogo</a>
+	
 	<h2>Carrello</h2>
 		<c:choose>
 			<c:when test="${cart != null && cart.products.size() > 0}">
@@ -17,7 +17,7 @@
 						<tr>
 							<td>${cartItem.product.name}</td>
 							<td>
-								<form action="cart" method="GET">
+								<form action="cart" method="POST">
 									<input type="hidden" name="action" value="changeQuantity">
 									<input type="hidden" name="id" value="${cartItem.product.id}"> 
 									<input type="text" name="quantity" size="2" value="${cartItem.quantity}"> 	
@@ -26,7 +26,11 @@
 							</td>
 							<td>${cartItem.product.price * cartItem.quantity}</td>
 							<td>
-								<a href="cart?action=deleteCart&id=${cartItem.product.id}">Rimuovi dal carrello</a>
+								<form action="cart" method="POST">
+									<input type="hidden" name="action" value="deleteCart">
+									<input type="hidden" name="id" value="${cartItem.product.id}"> 
+									<input type="submit" value="Rimuovi dal carrello">
+								</form>
 							</td>
 						</tr>
 					</c:forEach>
@@ -40,6 +44,5 @@
 				<h2>Il tuo carrello è vuoto</h2>
 			</c:otherwise>
 		</c:choose>
+		
 		<c:import url="/WEB-INF/views/ecommerce/footer.jsp" />
-	</body>
-</html>

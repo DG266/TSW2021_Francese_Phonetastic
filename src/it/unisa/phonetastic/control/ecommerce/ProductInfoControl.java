@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import it.unisa.phonetastic.model.cart.Cart;
 import it.unisa.phonetastic.model.dao.DAOFactory;
 import it.unisa.phonetastic.model.dao.ProductDAO;
 
@@ -26,35 +25,16 @@ public class ProductInfoControl extends HttpServlet{
 		
 		try {
 			productId = Integer.parseInt(id);
+			request.setAttribute("product", model.retrieveProductByID(productId));
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
 		}
 		catch(NumberFormatException e) {
 			e.printStackTrace();
 		}
 		
-		try {
-			request.setAttribute("product", model.retrieveProductByID(productId));
-			
-			String action = request.getParameter("action");
-			
-			if(action != null) {
-				if(action.equalsIgnoreCase("addCart"));
-				Cart cart = (Cart) request.getSession().getAttribute("cart");
-				if(cart == null) {
-					cart = new Cart();
-				}
-				cart.addProduct(model.retrieveProductByID(productId));
-				request.getSession().setAttribute("cart", cart);
-			}
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
-		
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/productInfo.jsp");
 		dispatcher.forward(request, response);
-	}
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		doGet(request, response);
 	}
 }

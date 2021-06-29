@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-   
+<%@ page import="it.unisa.phonetastic.model.cart.*" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
         <footer>
             <div class="container">
                 <section class="footer-grid">
@@ -52,10 +54,12 @@
                 </section>
             </div>
         </footer>
-	    <script>
-	        document.querySelector('#open').addEventListener('click', () => document.querySelector('#header-wrapper').classList.add('active'))
-	
-	        document.querySelector('#close').addEventListener('click', () => document.querySelector('#header-wrapper').classList.remove('active'))
-	    </script>
+        <!--  
+        <div class="cart-notification" style="display: none;">
+        	<span>Prodotto aggiunto al carrello</span>
+        </div>
+        -->
+        <script src="${pageContext.request.contextPath}/resources/js/jquery-3.6.0.js"></script>
+	    <script src="${pageContext.request.contextPath}/resources/js/ecommerce.js"></script>
     </body>
 </html>

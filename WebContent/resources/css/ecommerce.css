@@ -136,6 +136,22 @@ img {
     font-size: 30px;
     margin-left: 15px;
 }
+
+.cart-quantity {
+	margin-top: -25px;
+	margin-left: 30px;
+}
+
+.cart-quantity-number {
+	background-color: navy;
+	color: white;
+	font-size: 12px;
+	padding-left: 9px;
+  	padding-right: 9px;
+	-webkit-border-radius: 9px;
+	-moz-border-radius: 9px;
+	border-radius: 9px;
+}
 /* END USER/CART/ETC. ICONS */
 
 /* NAV BAR */
@@ -320,6 +336,29 @@ footer ul li {
     margin-bottom: 10px;
 }
 /* END FOOTER */
+
+/* PRODUCT ADDED TO CART NOTIFICATION */
+.cart-notification {
+    /* background: #D34F2B; */
+    background: navy;
+    display:block; 
+    position:fixed; 
+    bottom:0px; 
+    left:0px; 
+    text-align:center; 
+    padding:10px 0px; 
+    width:100%;
+    z-index:99999;
+     
+}
+ 
+.cart-notification span {
+    color:#fff; 
+    text-shadow:1px 1px 0px #000;
+    font-size:18px;
+    font-weight:bold;
+}
+/* END PRODUCT ADDED TO CART NOTIFICATION */
 
 /* MEDIA QUERIES */
 @media only screen and (max-width: 1280px) {

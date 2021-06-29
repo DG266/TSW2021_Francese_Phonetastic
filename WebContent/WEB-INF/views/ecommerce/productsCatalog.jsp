@@ -13,25 +13,41 @@
         <section class="product-grid">
 	        <c:choose>
 				<c:when test="${products != null && products.size() != 0}">
-					<c:forEach var="bean" items="${products}">
+					<c:forEach var="product" items="${products}">
 						<div class="product-grid-item">
 			                <div class="product-card">
 			                    <div class="product-card-img">
-			                        <img src="${bean.imagePath}" alt="">
+			                        <img src="${product.imagePath}" alt="">
 			                    </div>
 			                    <div class="product-card-name">
-			                        <p>${bean.name}</p>
+			                        <p>${product.name}</p>
 			                    </div>
 			                    <div class="product-card-price">
-			                        <p>${bean.price}&euro;</p>
+			                        <p>${product.price}&euro;</p>
 			                    </div>
 			                    <div class="product-card-buttons">
-			                        <a href="info?id=${bean.id}"><button class="button-flat button-hover button-buy">Acquista adesso</button></a>
+			                        <a href="info?id=${product.id}"><button class="button-flat button-hover button-buy">Acquista adesso</button></a>
+			                        
+			                        
+			                        
+			                        <form action="${pageContext.request.contextPath}/cart" method="POST" class="cart-form">
+			                        	<input type="hidden" name="id" value ="${product.id}">
+			                        	<input type="hidden" name="productName" value ="${product.name}">
+			                        	<input type="hidden" name="quantity" value ="1">
+			                        	<input type="hidden" name="action" value ="addCart">
+			                        	<!-- WITH (TEMP) AJAX -->
+			                        	<button class="button-flat button-hover button-cart-add" type="submit">
+				                            <i class='bx bxs-cart-add'></i>
+				                        </button>
+			                        </form>
+			                        
+			                        <!-- NO AJAX
 			                        <a href="catalog?action=addCart&id=${bean.id}">
 				                        <button class="button-flat button-hover button-cart-add">
 				                            <i class='bx bxs-cart-add'></i>
 				                        </button>
 			                        </a>
+			                        -->
 			                    </div>
 			                </div>     
 			            </div>

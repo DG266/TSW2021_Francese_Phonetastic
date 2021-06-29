@@ -29,11 +29,11 @@
 			<form action="orders" method="POST">	
 				<p>Ricerca per codice utente</p>
 				<br>
-				<label for="customerId">Da</label>
-				<input type="text" id="customer-id" name="customer-id">
+				<label for="customer-id">ID: </label>
+				<input type="text" id="customer-id" name="customer-id" value="">
 				
 				<br><br>
-				<input type="submit" value="Cerca">
+				<input type="submit" value="Cerca ID">
 			</form>
 			
 			<br><br>

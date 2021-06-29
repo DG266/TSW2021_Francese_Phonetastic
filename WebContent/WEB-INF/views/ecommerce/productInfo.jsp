@@ -9,7 +9,12 @@
 				<h2>Descrizione: ${product.description}</h2>
 				<h2>Prezzo: ${product.price}</h2>
 				<h2>Disponibili: ${product.quantity}</h2>
-				<a href="info?action=addCart&id=${product.id}">Aggiungi al Carrello</a>
+				<form action="${pageContext.request.contextPath}/cart" method="POST">
+                	<input type="hidden" name="id" value ="${product.id}">
+                	<input type="hidden" name="quantity" value ="1">
+                	<input type="hidden" name="action" value ="addCart">
+                	<input type="submit" value="Aggiungi al carrello">
+            	</form>
 			</c:when>
 			<c:otherwise>
 				<h2>Prodotto non trovato</h2>
