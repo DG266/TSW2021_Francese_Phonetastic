@@ -29,31 +29,39 @@ public class OrderListControl extends HttpServlet{
 		
 		UserBean user = (UserBean) request.getSession().getAttribute("currentSessionUser");
 		
-		try {
-			request.setAttribute("orders", model.retrieveOrdersByUserID(user.getId()));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/myOrders.jsp");
-		dispatcher.forward(request, response);
-	}
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		
-		OrderBean order = new OrderBean();
-		String id = request.getParameter("id");
-
-		if(id != null) {
+		// prepare everything to show the details of a specific order
+		if(request.getParameter("id") != null) {
+			
+			OrderBean order = new OrderBean();
+			String id = request.getParameter("id");
+			
 			try {
 				order = model.retrieveOrderByID(Integer.parseInt(id));
 			} catch (NumberFormatException | SQLException e) {
 				e.printStackTrace();
 			}
-			request.setAttribute("orderInfo", order);
+			
+			// This is needed, a customer should be able to check ONLY his orders
+			if(order.getCustomerId() == user.getId()) {
+				request.setAttribute("orderInfo", order);
+			}
+			else {
+				request.setAttribute("orderInfo", new OrderBean());   // an empty OrderBean
+			}
+			
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/order-details");
+			dispatcher.forward(request, response);
 		}
-		
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/order-details");
-		dispatcher.forward(request, response);
+		// show the orders list
+		else {
+			try {
+				request.setAttribute("orders", model.retrieveOrdersByUserID(user.getId()));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/myOrders.jsp");
+			dispatcher.forward(request, response);
+		}
 	}
 }

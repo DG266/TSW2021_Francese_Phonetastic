@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>  
 
-		<c:import url="/WEB-INF/views/ecommerce/header.jsp" />
+	<%@ include file="/WEB-INF/views/ecommerce/fragments/header.jsp" %>
 		<table border="1">
 			<tr>
 				<th>ID</th>
@@ -17,7 +17,7 @@
 							<td><fmt:formatDate type="both" timeZone="UTC" value="${bean.lastUpdateDate}"/></td>
 							<td>${bean.total}</td>
 							<td>
-								<form action="my-orders" method="POST">
+								<form action="my-orders" method="GET">
 									<input type="hidden" name="id" value="${bean.id}"> 
 									<input type="submit" value="Dettagli">
 								</form>
@@ -32,6 +32,4 @@
 				</c:otherwise>
 			</c:choose>
 		</table>
-		<c:import url="/WEB-INF/views/ecommerce/footer.jsp" />
-	</body>
-</html>
+	<%@ include file="/WEB-INF/views/ecommerce/fragments/footer.jsp" %>

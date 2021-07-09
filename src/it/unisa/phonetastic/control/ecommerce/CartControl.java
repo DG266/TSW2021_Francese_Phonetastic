@@ -22,8 +22,14 @@ public class CartControl extends HttpServlet{
 	
 	private static final long serialVersionUID = 1L;
 	
+	private static int MAX_QUANTITY = -1;
+	
 	private static ProductDAO model = DAOFactory.getDAOFactory(DAOFactory.MYSQL).getProductDAO();
 
+	public void init() {
+		MAX_QUANTITY = Integer.parseInt(getServletContext().getInitParameter("max-quantity"));
+	}
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		
 		Cart cart = (Cart)request.getSession().getAttribute("cart");
@@ -43,7 +49,7 @@ public class CartControl extends HttpServlet{
 		    response.getWriter().write(json);
 		}
 		else {
-			request.setAttribute("cart", cart);
+			//request.setAttribute("cart", cart);
 			
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/cart.jsp");
 			dispatcher.forward(request, response);
@@ -62,37 +68,53 @@ public class CartControl extends HttpServlet{
 		String action = request.getParameter("action");
 		String productQuantity = request.getParameter("quantity");
 		
+		boolean ajax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
+		
+		boolean inStock = true;
+		
+		// check if the user wants to empty the cart
+		if (action.equalsIgnoreCase("deleteCart")) {
+			cart.emptyCart();
+		} 
+		
 		try {
-			if(productId != null && action != null) {
+			if(productId != null && action != null && productQuantity != null) {
 				
 				//System.out.println("PRODUCT ID: " + request.getParameter("id") + "\tACTION: " + request.getParameter("action") + "\tQUANTITY: " + request.getParameter("quantity"));
 				
 				int id = Integer.parseInt(request.getParameter("id"));
+				int quantity = Integer.parseInt(productQuantity);
 				ProductBean bean = model.retrieveProductByID(id);
 				
 				// check if the user added a product
 				if (action.equalsIgnoreCase("addCart")) {
-					cart.addProduct(model.retrieveProductByID(id));
-				} 
-				// check if the user deleted a product
-				else if (action.equalsIgnoreCase("deleteCart")) {
-					cart.deleteProduct(bean);
+					
+					int ordered = cart.getOrderedProductQuantity(id);  
+					if(ordered + quantity <= bean.getQuantity() && ordered + quantity <= MAX_QUANTITY) {				
+						cart.addProduct(bean);
+					}
+					else {
+						inStock = false;
+					}
 				} 
 				// check if the user changed the quantity of a specific product
 				else if(action.equalsIgnoreCase("changeQuantity")) {
-					if(productQuantity != null) {
-						// check if there are enough products in stock
-						int quantity = Integer.parseInt(productQuantity);
-						if(quantity <= bean.getQuantity()) {
-							cart.setQuantity(id, quantity);
-							//bean.setQuantity(bean.getQuantity() - quantity);   
-							//model.updateProduct(bean);
-						}
-						else {
-							// TODO error: "you're asking too much"
-						}
+					
+					if(quantity <= 0) {
+						cart.deleteProduct(bean);
+					}
+					
+					// check if there are enough products in stock
+					if(quantity <= bean.getQuantity() && quantity <= MAX_QUANTITY) {
+						cart.setQuantity(id, quantity);
+					}
+					else {
+						inStock = false;
 					}
 				}
+				
+				// after everything is done, update the cart
+				request.getSession().setAttribute("cart", cart);
 			}
 		}
 		catch(SQLException e) {
@@ -102,17 +124,22 @@ public class CartControl extends HttpServlet{
 			System.out.println("Error:" + e.getMessage());
 		}	
 		
-		request.setAttribute("cart", cart);
-		
-		boolean ajax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
+		//request.setAttribute("cart", cart); 
 		
 		if(ajax) {
-			// DO NOTHING
+			if(!inStock) {
+				response.setStatus(400);
+				response.setContentType("text/plain"); 
+			    response.setCharacterEncoding("UTF-8");
+			    response.getWriter().write("La quantità richiesta non è disponibile.");
+			}
 		}
 		else {
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/cart.jsp");
-			dispatcher.forward(request, response);
+			if(!inStock) {
+				request.setAttribute("errorMessage", "La quantità richiesta non è disponibile.");
+			}
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/cart.jsp");
+				dispatcher.forward(request, response);
 		}
-		
 	}
 }

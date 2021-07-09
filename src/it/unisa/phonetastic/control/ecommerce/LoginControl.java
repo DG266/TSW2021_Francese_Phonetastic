@@ -21,9 +21,10 @@ public class LoginControl extends HttpServlet {
 	private static UserDAO model = DAOFactory.getDAOFactory(DAOFactory.MYSQL).getUserDAO();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		doPost(request, response);
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/loginPage.jsp");
+		dispatcher.forward(request, response);
 	}
-
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
 		// CODE FOR TESTING PURPOSES ---- WILL BE FIXED
@@ -41,6 +42,7 @@ public class LoginControl extends HttpServlet {
 						//System.out.println("User found (isAdmin = " + user.isAdmin() + "): " + user.toString());
 						HttpSession session = request.getSession(true);
 						session.setAttribute("currentSessionUser", user);
+						
 						if(user.isAdmin()) {
 							response.sendRedirect("admin");
 						}

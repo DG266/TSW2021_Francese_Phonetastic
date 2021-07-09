@@ -135,7 +135,7 @@ public class MySqlUserDAO implements UserDAO {
 		return bean;
 	}
 	
-	public UserBean retrieveUserByEmailPwd(String email, String pwd) throws SQLException {
+	public synchronized UserBean retrieveUserByEmailPwd(String email, String pwd) throws SQLException {
 		
 		UserBean bean = new UserBean();
 		boolean userInfoSet = false;
@@ -183,7 +183,7 @@ public class MySqlUserDAO implements UserDAO {
 		return bean;
 	}
 
-	public void updateUser(UserBean user) throws SQLException {
+	public synchronized void updateUser(UserBean user) throws SQLException {
 		
 		String updateSQL = "UPDATE " + USER_TABLE_NAME
 		   	 	  		 + "SET email = ?, pwd = ?, first_name = ?, last_name = ?, birth_date = ?, sex = ?, tel_number = ?"

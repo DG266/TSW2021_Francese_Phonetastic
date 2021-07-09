@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     
-<c:import url="/WEB-INF/views/admin/header.jsp" />
+<%@ include file="/WEB-INF/views/admin/fragments/header.jsp" %>
 
 	<!-- MAIN CONTENT -->
 	<div class="main">
@@ -38,4 +38,4 @@
 		</div>
 	</div>
 
-<c:import url="/WEB-INF/views/admin/footer.jsp" />
+<%@ include file="/WEB-INF/views/admin/fragments/footer.jsp" %>

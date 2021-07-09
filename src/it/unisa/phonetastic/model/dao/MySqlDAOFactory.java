@@ -15,4 +15,12 @@ public class MySqlDAOFactory extends DAOFactory{
 	public OrderDAO getOrderDAO() {
 		return new MySqlOrderDAO();
 	}
+	
+	public AddressDAO getAddressDAO() {
+		return new MySqlAddressDAO();
+	}
+	
+	public PaymentMethodDAO getPaymentMethodDAO() {
+		return new MySqlPaymentMethodDAO();
+	}
 }

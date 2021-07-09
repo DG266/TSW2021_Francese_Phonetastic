@@ -20,10 +20,20 @@
 		<session-timeout>15</session-timeout>
 	</session-config>
 	
+	<context-param>
+		<param-name>max-quantity</param-name>
+		<param-value>5</param-value>
+	</context-param>
+	
+	
 	<!-- ERROR PAGES -->
 	<error-page>
 	    <error-code>404</error-code>
-	    <location>/WEB-INF/views/error/error404.html</location>
+	    <location>/WEB-INF/views/error/error404.jsp</location>
+	</error-page>
+	<error-page>
+	    <error-code>500</error-code>
+	    <location>/WEB-INF/views/error/error500.jsp</location>
 	</error-page>
 	
 	<!-- FILTERS -->
@@ -62,6 +72,12 @@
     <servlet>
         <servlet-name>CartControl</servlet-name>
         <servlet-class>it.unisa.phonetastic.control.ecommerce.CartControl</servlet-class>
+        <!--  
+        <init-param>
+        	<param-name>max-quantity</param-name>
+        	<param-value>5</param-value>
+        </init-param>
+       	-->
     </servlet>
     <servlet-mapping>
         <servlet-name>CartControl</servlet-name>
@@ -75,6 +91,15 @@
     <servlet-mapping>
         <servlet-name>InfoControl</servlet-name>
         <url-pattern>/info</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>FinalizeOrderControl</servlet-name>
+        <servlet-class>it.unisa.phonetastic.control.ecommerce.FinalizeOrderControl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FinalizeOrderControl</servlet-name>
+        <url-pattern>/finalize-order</url-pattern>
     </servlet-mapping>
     
     <servlet>
@@ -105,12 +130,39 @@
     </servlet-mapping>
     
     <servlet>
+        <servlet-name>AccountControl</servlet-name>
+        <servlet-class>it.unisa.phonetastic.control.ecommerce.AccountControl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AccountControl</servlet-name>
+        <url-pattern>/my-account</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
         <servlet-name>OrderListControl</servlet-name>
         <servlet-class>it.unisa.phonetastic.control.ecommerce.OrderListControl</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>OrderListControl</servlet-name>
         <url-pattern>/my-orders</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>AddressControl</servlet-name>
+        <servlet-class>it.unisa.phonetastic.control.ecommerce.AddressControl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddressControl</servlet-name>
+        <url-pattern>/my-addresses</url-pattern>
+    </servlet-mapping>
+    
+        <servlet>
+        <servlet-name>PaymentMethodControl</servlet-name>
+        <servlet-class>it.unisa.phonetastic.control.ecommerce.PaymentMethodControl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PaymentMethodControl</servlet-name>
+        <url-pattern>/my-payment-methods</url-pattern>
     </servlet-mapping>
     
      <servlet>

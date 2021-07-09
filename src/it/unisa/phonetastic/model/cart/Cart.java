@@ -50,6 +50,15 @@ public class Cart {
 		}
 	}
 	
+	public int getOrderedProductQuantity(int id) {
+		for(CartItem p : products) {
+			if(p.getProduct().getId() == id) {
+				return p.getQuantity();
+			}
+		}
+		return 0;
+	}
+	
 	public void emptyCart() {
 		products.clear();
 	}

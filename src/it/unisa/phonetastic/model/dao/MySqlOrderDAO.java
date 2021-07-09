@@ -43,11 +43,12 @@ public class MySqlOrderDAO implements OrderDAO{
 	public synchronized void insertOrder(OrderBean order) throws SQLException{
 		
 		String orderInsertSQL = "INSERT INTO " + TABLE_NAME
-						 	  + "(total, coupon_id, creation_date, last_update_date, customer_id) VALUES (?, ?, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), ?)";
+			 	  + "(total, creation_date, last_update_date, customer_id, address_id, p_method_id) VALUES (?, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), ?, ?, ?)";
 		
 		String orderDetailsInsertSQL = "INSERT INTO " + AUX_TABLE_NAME 
 				 					 + "(order_id, product_id, quantity, price, iva, discount) VALUES (?, ?, ?, ?, ?, ?)";
 		
+		// TODO Check IVA
 		ArrayList<OrderCompositionBean> elements = (ArrayList<OrderCompositionBean>) order.getElements();
 		BigDecimal total = new BigDecimal(0);
 		for(OrderCompositionBean c : elements) {
@@ -65,8 +66,9 @@ public class MySqlOrderDAO implements OrderDAO{
 			
 			try(PreparedStatement ps = conn.prepareStatement(orderInsertSQL, Statement.RETURN_GENERATED_KEYS)){
 				ps.setBigDecimal(1, total);
-				ps.setString(2, order.getCouponId());
-				ps.setInt(3, order.getCustomerId());
+				ps.setInt(2, order.getCustomerId());
+				ps.setInt(3, order.getAddressId());
+				ps.setInt(4, order.getPaymentMethodId());
 				
 				ps.executeUpdate();
 				
@@ -98,7 +100,7 @@ public class MySqlOrderDAO implements OrderDAO{
 		}
 	}
 	
-	public boolean deleteOrder(int id) throws SQLException{
+	public synchronized boolean deleteOrder(int id) throws SQLException{
 		
 		int result = 0;
 		
@@ -115,7 +117,7 @@ public class MySqlOrderDAO implements OrderDAO{
 		return (result != 0);	
 	}
 	
-	public OrderBean retrieveOrderByID(int id) throws SQLException{
+	public synchronized OrderBean retrieveOrderByID(int id) throws SQLException{
 		
 		OrderBean bean = new OrderBean();
 		boolean orderInfoSet = false;
@@ -124,7 +126,7 @@ public class MySqlOrderDAO implements OrderDAO{
 		// contains order_info stuff + order_composition stuff
 		// I need to save just one time the order_info stuff (it's repeated in all the rows)
 		
-		String selectSQL = "SELECT O1.order_id, total, coupon_id, creation_date, last_update_date, customer_id, product_id, quantity, price, iva, discount "
+		String selectSQL = "SELECT O1.order_id, total, creation_date, last_update_date, customer_id, address_id, p_method_id, product_id, quantity, price, iva, discount "
 						 + "FROM " + TABLE_NAME + " O1 JOIN " + AUX_TABLE_NAME + " O2 ON O1.order_id = O2.order_id "
 						 + "WHERE O1.order_id = ?";
 		
@@ -143,10 +145,11 @@ public class MySqlOrderDAO implements OrderDAO{
 					if(!orderInfoSet) {
 						bean.setId(rs.getInt("order_id"));
 						bean.setTotal(rs.getBigDecimal("total"));
-						bean.setCouponId(rs.getString("coupon_id"));
 						bean.setCreationDate(rs.getTimestamp("creation_date"));
 						bean.setLastUpdateDate(rs.getTimestamp("last_update_date"));
 						bean.setCustomerId(rs.getInt("customer_id"));
+						bean.setAddressId(rs.getInt("address_id"));
+						bean.setPaymentMethodId(rs.getInt("p_method_id"));
 						bean.setElements(elements);
 						
 						orderInfoSet = true;
@@ -164,12 +167,12 @@ public class MySqlOrderDAO implements OrderDAO{
 		return bean;
 	}
 	
-	public Collection<OrderBean> retrieveOrdersByUserID(int userId) throws SQLException{
+	public synchronized Collection<OrderBean> retrieveOrdersByUserID(int userId) throws SQLException{
 		
 		ArrayList<OrderBean> orders = new ArrayList<>();
 		int lastOrderId = -1;
 		
-		String selectSQL = "SELECT O1.order_id, total, coupon_id, creation_date, last_update_date, customer_id, product_id, quantity, price, iva, discount "
+		String selectSQL = "SELECT O1.order_id, total, creation_date, last_update_date, customer_id, address_id, p_method_id, product_id, quantity, price, iva, discount "
 						 + "FROM " + TABLE_NAME + " O1 JOIN " + AUX_TABLE_NAME + " O2 ON O1.order_id = O2.order_id "
 						 + "WHERE O1.customer_id = ?";
 		
@@ -187,10 +190,11 @@ public class MySqlOrderDAO implements OrderDAO{
 						elements = new ArrayList<OrderCompositionBean>();
 						bean.setId(rs.getInt("order_id"));
 						bean.setTotal(rs.getBigDecimal("total"));
-						bean.setCouponId(rs.getString("coupon_id"));
 						bean.setCreationDate(rs.getTimestamp("creation_date"));
 						bean.setLastUpdateDate(rs.getTimestamp("last_update_date"));
 						bean.setCustomerId(rs.getInt("customer_id"));
+						bean.setAddressId(rs.getInt("address_id"));
+						bean.setPaymentMethodId(rs.getInt("p_method_id"));
 						bean.setElements(elements);
 						
 						orders.add(bean);
@@ -213,12 +217,12 @@ public class MySqlOrderDAO implements OrderDAO{
 		return orders;
 	}
 	
-	public Collection<OrderBean> retrieveAllOrders(String sort) throws SQLException{
+	public synchronized Collection<OrderBean> retrieveAllOrders(String sort) throws SQLException{
 		
 		Collection<OrderBean> orders = new LinkedList<OrderBean>();
 		int lastOrderId = -1;
 
-		String selectSQL = "SELECT O1.order_id, total, coupon_id, creation_date, last_update_date, customer_id, product_id, quantity, price, iva, discount "
+		String selectSQL = "SELECT O1.order_id, total, creation_date, last_update_date, customer_id, address_id, p_method_id, product_id, quantity, price, iva, discount "
 				 		 + "FROM " + TABLE_NAME + " O1 JOIN " + AUX_TABLE_NAME + " O2 ON O1.order_id = O2.order_id ";
 		
 		if(sort != null && !sort.equals("")) {
@@ -240,10 +244,11 @@ public class MySqlOrderDAO implements OrderDAO{
 						elements = new ArrayList<OrderCompositionBean>();
 						bean.setId(rs.getInt("order_id"));
 						bean.setTotal(rs.getBigDecimal("total"));
-						bean.setCouponId(rs.getString("coupon_id"));
 						bean.setCreationDate(rs.getTimestamp("creation_date"));
 						bean.setLastUpdateDate(rs.getTimestamp("last_update_date"));
 						bean.setCustomerId(rs.getInt("customer_id"));
+						bean.setAddressId(rs.getInt("address_id"));
+						bean.setPaymentMethodId(rs.getInt("p_method_id"));
 						bean.setElements(elements);
 						
 						orders.add(bean);
@@ -264,12 +269,12 @@ public class MySqlOrderDAO implements OrderDAO{
 		return orders;
 	}
 	
-	public Collection<OrderBean> retrieveAllOrders(String sort, Date startDate, Date endDate) throws SQLException{
+	public synchronized Collection<OrderBean> retrieveAllOrders(String sort, Date startDate, Date endDate) throws SQLException{
 		
 		Collection<OrderBean> orders = new LinkedList<OrderBean>();
 		int lastOrderId = -1;
 
-		String selectSQL = "SELECT O1.order_id, total, coupon_id, creation_date, last_update_date, customer_id, product_id, quantity, price, iva, discount "
+		String selectSQL = "SELECT O1.order_id, total, creation_date, last_update_date, customer_id, address_id, p_method_id, product_id, quantity, price, iva, discount "
 				 		 + "FROM " + TABLE_NAME + " O1 JOIN " + AUX_TABLE_NAME + " O2 ON O1.order_id = O2.order_id "
 				 		 + "WHERE last_update_date >= ? AND last_update_date < ?";
 		
@@ -295,10 +300,11 @@ public class MySqlOrderDAO implements OrderDAO{
 						elements = new ArrayList<OrderCompositionBean>();
 						bean.setId(rs.getInt("order_id"));
 						bean.setTotal(rs.getBigDecimal("total"));
-						bean.setCouponId(rs.getString("coupon_id"));
 						bean.setCreationDate(rs.getTimestamp("creation_date"));
 						bean.setLastUpdateDate(rs.getTimestamp("last_update_date"));
 						bean.setCustomerId(rs.getInt("customer_id"));
+						bean.setAddressId(rs.getInt("address_id"));
+						bean.setPaymentMethodId(rs.getInt("p_method_id"));
 						bean.setElements(elements);
 						
 						orders.add(bean);

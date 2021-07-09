@@ -19,7 +19,7 @@ public class AuthenticationFilter implements Filter{
 	private HttpServletRequest httpRequest;
 	
 	private static final String[] loginRequiredURLs = {
-			"my-orders", "checkout"
+			"my-account", "my-addresses", "my-orders", "finalize-order", "checkout"
 	};
 	
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

@@ -4,6 +4,8 @@ document.querySelector('#open').addEventListener('click', () => document.querySe
 
 document.querySelector('#close').addEventListener('click', () => document.querySelector('#header-wrapper').classList.remove('active'));
 
+
+
 // CARRELLO CON AJAX
 $(document).ready(function(){
 	$(".button-cart-add").click(function(event) {
@@ -30,13 +32,24 @@ $(document).ready(function(){
 				$(".cart-notification").fadeOut(5000);
 				//$(".addtocartconfirmation").show();
 		    },
-		    error: function() { //on failure
-                alert("Errore." + form.serialize());
+		    error: function(jqXHR, errorType, exception) { 
+			
+                //alert("Errore." + form.serialize());
+	
+				
+				//$("body").append("<div class=\"cart-notification\"><span>C'è stato un problema, non ho aggiunto il prodotto al carrello.</span></div>");
+				//$(".cart-notification").fadeOut(5000);
+				
+			
+				$("body").append("<div class=\"cart-notification\"><span>" + jqXHR.responseText +"</span></div>");
+				$(".cart-notification").fadeOut(5000);
             }
 		});
 		
 	});	
 });
+
+
 
 
 

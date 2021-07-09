@@ -10,6 +10,7 @@ public class OrderCompositionBean implements Serializable{
 	//private int order_id;      Not needed (check OrderBean)
 	private int productId;
 	private int quantity;
+	private String productName;   // useful in case we want to print the product name in a "my-orders"-like page
 	private BigDecimal price;
 	private BigDecimal iva;
 	private BigDecimal discount;
@@ -17,6 +18,7 @@ public class OrderCompositionBean implements Serializable{
 	public OrderCompositionBean() {
 		productId = -1;
 		quantity = 0;
+		productName = null;
 		price = new BigDecimal(0);
 		iva = new BigDecimal(0);
 		discount = new BigDecimal(0);
@@ -36,6 +38,14 @@ public class OrderCompositionBean implements Serializable{
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 
 	public BigDecimal getPrice() {
@@ -64,7 +74,7 @@ public class OrderCompositionBean implements Serializable{
 
 	@Override
 	public String toString() {
-		return "OrderCompositionBean [productId=" + productId + ", quantity=" + quantity + ", price=" + price + ", iva="
-				+ iva + ", discount=" + discount + "]";
+		return "OrderCompositionBean [productId=" + productId + ", quantity=" + quantity + ", productName="
+				+ productName + ", price=" + price + ", iva=" + iva + ", discount=" + discount + "]";
 	}
 }

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-	<c:import url="/WEB-INF/views/ecommerce/header.jsp" />
+	<%@ include file="/WEB-INF/views/ecommerce/fragments/header.jsp" %>
 	
 		<h2>Effettua il login</h2>
 		<form action="login?action=login" method="POST">
@@ -25,4 +25,4 @@
 		</form>
 		
 	
-		<c:import url="/WEB-INF/views/ecommerce/footer.jsp" />
+		<%@ include file="/WEB-INF/views/ecommerce/fragments/footer.jsp" %>

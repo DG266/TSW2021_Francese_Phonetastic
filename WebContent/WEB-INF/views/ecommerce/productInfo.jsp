@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-		<c:import url="/WEB-INF/views/ecommerce/header.jsp" />
+		<%@ include file="/WEB-INF/views/ecommerce/fragments/header.jsp" %>
 		<c:choose>
 			<c:when test="${product.id != -1}">
 				<img src="${product.imagePath}" width="300" height="300">
@@ -23,6 +23,6 @@
 		<h2>
 			<a href="catalog">Torna al Catalogo</a>
 		</h2>
-		<c:import url="/WEB-INF/views/ecommerce/footer.jsp" />
+		<%@ include file="/WEB-INF/views/ecommerce/fragments/footer.jsp" %>
 	</body>
 </html>

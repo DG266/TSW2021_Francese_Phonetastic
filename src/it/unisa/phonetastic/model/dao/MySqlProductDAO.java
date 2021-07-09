@@ -145,7 +145,7 @@ public class MySqlProductDAO implements ProductDAO{
 		return products;
 	}
 
-	public void updateProduct(ProductBean product) throws SQLException {
+	public synchronized void updateProduct(ProductBean product) throws SQLException {
 		
 		String updateSQL = "UPDATE " + TABLE_NAME + " "
   	 	  		 		 + "SET product_name = ?, product_description = ?, quantity = ?, price = ?, iva = ?, discount = ?, image_path = ? "

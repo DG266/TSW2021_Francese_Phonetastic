@@ -7,6 +7,8 @@ public abstract class DAOFactory {
 	public abstract ProductDAO getProductDAO();
 	public abstract UserDAO getUserDAO();
 	public abstract OrderDAO getOrderDAO();
+	public abstract AddressDAO getAddressDAO();
+	public abstract PaymentMethodDAO getPaymentMethodDAO();
 	// if more DAOs are needed, they will be added here...
 	// getUserDAO()
 	// getOrderInfoDAO()
