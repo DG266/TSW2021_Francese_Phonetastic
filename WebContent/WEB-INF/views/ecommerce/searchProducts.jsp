@@ -3,10 +3,15 @@
 
 		<%@ include file="/WEB-INF/views/ecommerce/fragments/header.jsp" %>
 			
+		<h2>Hai cercato: ${param.keyword}</h2>
+		<c:if test="${foundProducts != null && foundProducts.size() != 0}">
+			<h3>Questi sono i risultati.</h3>
+		</c:if>
+			
         <section class="product-grid">
 	        <c:choose>
-				<c:when test="${products != null && products.size() != 0}">
-					<c:forEach var="product" items="${products}">
+				<c:when test="${foundProducts != null && foundProducts.size() != 0}">
+					<c:forEach var="product" items="${foundProducts}">
 						<c:if test="${product.quantity > 0}">
 							<div class="product-grid-item">
 				                <div class="product-card">
@@ -32,14 +37,6 @@
 					                            <i class='bx bxs-cart-add'></i>
 					                        </button>
 				                        </form>
-				                        
-				                        <!-- NO AJAX
-				                        <a href="catalog?action=addCart&id=${bean.id}">
-					                        <button class="button-flat button-hover button-cart-add">
-					                            <i class='bx bxs-cart-add'></i>
-					                        </button>
-				                        </a>
-				                        -->
 				                    </div>
 				                </div>     
 				            </div>
@@ -47,7 +44,7 @@
 					</c:forEach>
 				</c:when>
 				<c:otherwise>
-					<h1>Non ci sono prodotti disponibili.</h1>
+					<h1>Non ho trovato nulla.</h1>
 				</c:otherwise>
 			</c:choose>
         </section>

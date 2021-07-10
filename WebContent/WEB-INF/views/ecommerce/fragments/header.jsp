@@ -72,8 +72,17 @@
                     <div class="top-header container">
                         <a href="${pageContext.request.contextPath}/catalog" class="logo">Phonetastic</a>
                         <div class="search">
-                            <input type="text" placeholder="Cerca">
-                            <i class="bx bx-search-alt"></i>
+                        	<form action="${pageContext.request.contextPath}/search" method="GET" autocomplete="off">
+	                        	<input type="text" name="keyword" id="searchText" placeholder="Cerca">
+	                       		<button type="submit">
+	                       			<i class="bx bx-search-alt"></i>
+	                       		</button>
+                        	</form>
+                            <div class="suggestions-box">
+                                <ul class="suggestions">
+									<!-- SEARCH RESULTS WILL BE ADDED HERE -->
+								</ul>
+                            </div>
                         </div>
                         <ul class="user-menu">
                         	<c:if test="${currentSessionUser != null && currentSessionUser.isAdmin()}">

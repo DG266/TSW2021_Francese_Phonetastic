@@ -105,6 +105,11 @@ img {
     position: relative;
 }
 
+.search form {
+    height: 100%;
+    width: 100%;
+}
+
 .search input {
     height: 100%;
     width: 100%;
@@ -116,14 +121,85 @@ img {
     background-color: var(--search-bar-color);
 }
 
+/*
 .search i {
-    position: absolute;
+	position: absolute;
     top: 50%;
     transform: translateY(-50%);
     right: 20px;
     cursor: pointer;
     font-size: 25px;
 }
+*/
+
+.search button {
+	display: inline-block;
+    border: none;
+	position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 20px;
+    cursor: pointer;
+    font-size: 25px;
+    background-color: var(--search-bar-color);
+}
+
+.suggestions-box {
+	background: white;
+	box-shadow: 0 4px 6px rgba(32,33,36,.28);
+	display: flex;
+	flex-direction: column;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0 0 24px 24px;
+	overflow: hidden;
+	position: relative;
+	z-index: 1000;
+}
+
+.suggestions {
+	flex: auto;
+}
+
+.suggestions li {
+	display: flex;
+	align-items: center;
+	min-width: 0;
+	padding: 0;
+}
+
+.suggestions-element {
+	flex: auto;
+	display: flex;
+	align-items: center;
+	margin: 0 20px 0 14px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.suggestions-image {
+	margin: 4px 7px 4px -5px;
+	border-radius: 4px;
+	max-height: 32px;
+	max-width: 32px;
+}
+
+.suggestions-image > img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.suggestions-text > a {
+	cursor: pointer;
+	transition: padding-left 0.2s ease-in-out;
+}
+
+.suggestions-text > a:hover {
+	padding-left: 30px;
+}
+
 /* END SEARCH BAR */
 
 /* USER/CART/ETC. ICONS */

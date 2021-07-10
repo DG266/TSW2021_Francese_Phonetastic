@@ -171,4 +171,37 @@ public class MySqlProductDAO implements ProductDAO{
 			}
 		}
 	}
+	
+	public synchronized Collection<ProductBean> retrieveProductsByPartialName(String query) throws SQLException {
+		
+		Collection<ProductBean> products = new LinkedList<ProductBean>();
+
+		String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE product_name LIKE ?";
+		
+		try(Connection conn = ds.getConnection()){
+			try(PreparedStatement ps = conn.prepareStatement(selectSQL)){
+				
+				ps.setString(1, "%" + query + "%");	// Need this to create a query similar to SELECT * FROM table WHERE name LIKE %a%
+				
+				ResultSet rs = ps.executeQuery();
+				
+				while(rs.next()) {
+					ProductBean bean = new ProductBean();
+					
+					bean.setId(rs.getInt("product_id"));
+					bean.setName(rs.getString("product_name"));
+					bean.setDescription(rs.getString("product_description"));
+					bean.setQuantity(rs.getInt("quantity"));
+					bean.setPrice(rs.getBigDecimal("price"));
+					bean.setIva(rs.getBigDecimal("iva"));
+					bean.setDiscount(rs.getBigDecimal("discount"));
+					bean.setImagePath(rs.getString("image_path"));
+					
+					products.add(bean);
+				}
+			}
+		}
+		
+		return products;
+	}
 }
