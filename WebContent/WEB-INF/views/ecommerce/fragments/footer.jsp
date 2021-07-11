@@ -54,12 +54,8 @@
                 </section>
             </div>
         </footer>
-        <!--  
-        <div class="cart-notification" style="display: none;">
-        	<span>Prodotto aggiunto al carrello</span>
-        </div>
-        -->
         <script src="${pageContext.request.contextPath}/resources/js/jquery-3.6.0.js"></script>
 	    <script src="${pageContext.request.contextPath}/resources/js/ecommerce.js"></script>
+	    <script src="${pageContext.request.contextPath}/resources/js/loginFormValidation.js"></script>
     </body>
 </html>

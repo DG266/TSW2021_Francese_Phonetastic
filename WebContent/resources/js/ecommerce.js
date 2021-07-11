@@ -51,15 +51,15 @@ $(document).ready(function(){
 		
 	});	
 	
+	var timer = null;
+	
 	// SEARCHBAR CON AJAX
 	$("#searchText").keyup(function(){
 		
 		// preleva la stringa inserita dall'utente nella barra di ricerca
         var search = $(this).val();
-
-		var timer;
 		
-		// nel caso l'utente abbia inserito/cancellato un carattere, annullo il timeout precedente
+		// nel caso l'utente abbia inserito/cancellato un carattere, annullo il timeout precedente (posso farlo perchè timer è fuori da questo codeblock)
 		clearTimeout(timer);
 		
 		// la richiesta ajax viene inviata dopo 500 ms (evito troppe richieste verso il server)

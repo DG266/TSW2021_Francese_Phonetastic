@@ -2,6 +2,7 @@ package it.unisa.phonetastic.model.bean;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 public class ProductBean implements Serializable{
 
@@ -9,21 +10,25 @@ public class ProductBean implements Serializable{
 	
 	private int id;
 	private String name;
+	private String manufacturer;
 	private String description;
 	private int quantity;
 	private BigDecimal price;
 	private BigDecimal iva;
 	private BigDecimal discount;
 	private String imagePath;
+	private ArrayList<CategoryBean> categories;
 	
 	public ProductBean() {
 		id = -1;
 		name = null;
+		manufacturer = null;
 		description = null;
 		quantity = 0;
 		price = new BigDecimal(0);
 		iva = new BigDecimal(0);
 		discount = new BigDecimal(0);
+		categories = null;
 	}
 
 	public int getId() {
@@ -40,6 +45,14 @@ public class ProductBean implements Serializable{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getManufacturer() {
+		return manufacturer;
+	}
+
+	public void setManufacturer(String manufacturer) {
+		this.manufacturer = manufacturer;
 	}
 
 	public String getDescription() {
@@ -90,9 +103,18 @@ public class ProductBean implements Serializable{
 		this.imagePath = imagePath;
 	}
 	
+	public ArrayList<CategoryBean> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(ArrayList<CategoryBean> categories) {
+		this.categories = categories;
+	}
+
 	@Override
 	public String toString() {
-		return "ProductBean [id=" + id + ", name=" + name + ", description=" + description + ", quantity=" + quantity
-				+ ", price=" + price + ", iva=" + iva + ", discount=" + discount + ", imagePath=" + imagePath + "]";
+		return "ProductBean [id=" + id + ", name=" + name + ", manufacturer=" + manufacturer + ", description="
+				+ description + ", quantity=" + quantity + ", price=" + price + ", iva=" + iva + ", discount="
+				+ discount + ", imagePath=" + imagePath + ", categories=" + categories + "]";
 	}
 }

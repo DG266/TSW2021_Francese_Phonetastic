@@ -48,6 +48,7 @@ public class AddProductControl extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(request.getParameter("name") != null 
+				&& request.getParameter("manufacturer") != null 
 				&& request.getParameter("description") != null 
 				&& request.getParameter("quantity") != null 
 				&& request.getParameter("price") != null 
@@ -58,6 +59,7 @@ public class AddProductControl extends HttpServlet {
 			ProductBean newProduct = new ProductBean();
 			try {
 				newProduct.setName(request.getParameter("name"));
+				newProduct.setManufacturer(request.getParameter("manufacturer"));
 				newProduct.setDescription(request.getParameter("description"));
 				newProduct.setQuantity(Integer.parseInt(request.getParameter("quantity")));
 				newProduct.setPrice(new BigDecimal(request.getParameter("price")));

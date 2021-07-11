@@ -135,6 +135,24 @@ public class MySqlUserDAO implements UserDAO {
 		return bean;
 	}
 	
+	public synchronized boolean isEmailPresent(String email) throws SQLException {
+		
+		String selectSQL = "SELECT * FROM " + USER_TABLE_NAME + " WHERE email = ?";
+		boolean isPresent = false;
+		
+		try(Connection conn = ds.getConnection()){
+			try(PreparedStatement ps = conn.prepareStatement(selectSQL)){
+				ps.setString(1, email);
+				
+				ResultSet rs = ps.executeQuery();
+				
+				isPresent = rs.next();
+			}
+		}
+		
+		return isPresent;
+	}
+	
 	public synchronized UserBean retrieveUserByEmailPwd(String email, String pwd) throws SQLException {
 		
 		UserBean bean = new UserBean();

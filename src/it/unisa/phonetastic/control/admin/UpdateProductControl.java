@@ -44,7 +44,8 @@ public class UpdateProductControl extends HttpServlet {
 		request.setAttribute("success", false);
 		
 		if(request.getParameter("id") != null 
-				&& request.getParameter("name") != null 
+				&& request.getParameter("name") != null
+				&& request.getParameter("manufacturer") != null 
 				&& request.getParameter("description") != null 
 				&& request.getParameter("quantity") != null 
 				&& request.getParameter("price") != null 
@@ -56,6 +57,7 @@ public class UpdateProductControl extends HttpServlet {
 			try {
 				updatedProduct.setId(Integer.parseInt(request.getParameter("id")));
 				updatedProduct.setName(request.getParameter("name"));
+				updatedProduct.setManufacturer(request.getParameter("manufacturer"));
 				updatedProduct.setDescription(request.getParameter("description"));
 				updatedProduct.setQuantity(Integer.parseInt(request.getParameter("quantity")));
 				updatedProduct.setPrice(new BigDecimal(request.getParameter("price")));

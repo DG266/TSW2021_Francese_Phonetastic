@@ -20,6 +20,8 @@
 				<br><br>
 				<input type="text" name="name" placeholder="Nome" autofocus required/>
 				<br><br>
+				<input type="text" name="manufacturer" placeholder="Casa produttrice" autofocus required/>
+				<br><br>
 				<input type="number" name="price" placeholder="Prezzo" step="any" min="1" autofocus required/>
 				<br><br>
 				<input type="number" name="discount" placeholder="% Sconto" min="0" autofocus required/>

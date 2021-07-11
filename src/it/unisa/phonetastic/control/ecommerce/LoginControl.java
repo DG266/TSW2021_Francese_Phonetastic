@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.JsonObject;
+
 import it.unisa.phonetastic.model.bean.UserBean;
 import it.unisa.phonetastic.model.dao.DAOFactory;
 import it.unisa.phonetastic.model.dao.UserDAO;
@@ -21,21 +23,37 @@ public class LoginControl extends HttpServlet {
 	private static UserDAO model = DAOFactory.getDAOFactory(DAOFactory.MYSQL).getUserDAO();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/loginPage.jsp");
-		dispatcher.forward(request, response);
+		
+		boolean ajax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
+		
+		if(ajax) {
+			
+			JsonObject json = new JsonObject();
+			try {
+				json.addProperty("isPresent", model.isEmailPresent(request.getParameter("email")));
+			} catch (SQLException e) {
+				System.out.println("Error: " + e.getMessage());
+			}
+		
+			response.setContentType("application/json");
+		    response.setCharacterEncoding("UTF-8");
+		    response.getWriter().write(json.toString());
+		}
+		else {
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/loginPage.jsp");
+			dispatcher.forward(request, response);
+		}
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
-		// CODE FOR TESTING PURPOSES ---- WILL BE FIXED
-		// TODO clean up the code
-
+		
 		String action = request.getParameter("action");
 		
 		if (action != null) {
 			// if the user wants to log in, check if email and pwd are correct
 			try {
 				if (action.equalsIgnoreCase("login")) {
+				
 					UserBean user = new UserBean();
 					user = model.retrieveUserByEmailPwd(request.getParameter("email"), request.getParameter("pwd"));
 					if (user.isValid()) {
@@ -51,7 +69,9 @@ public class LoginControl extends HttpServlet {
 						}	
 					} 
 					else {
-						response.sendRedirect("login");  // + error (bad pwd or email), try again
+						request.setAttribute("message", "L'indirizzo email e/o la password che hai inserito non corrispondono a nessunt account, riprova.");
+						RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/loginPage.jsp");
+						dispatcher.forward(request, response);
 					}
 				} 
 				// if the user wants to register, create a new user and save the data (inside the db)
@@ -70,17 +90,27 @@ public class LoginControl extends HttpServlet {
 					
 					newUser.getRoles().add("Registered");
 					
-					model.insertUser(newUser);
+					boolean emailAlreadyPresent = model.isEmailPresent(email);
 					
-					response.sendRedirect("login");
+					if(!emailAlreadyPresent) {
+						model.insertUser(newUser);
+						request.setAttribute("message", "Adesso puoi effettuare il login con i tuoi dati.");
+					}
+					else {
+						request.setAttribute("message", "L'email inserita è già presente.");
+					}
+					
+					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/loginPage.jsp");
+					dispatcher.forward(request, response);
 				}
+				
 			}catch (SQLException e) {
 				System.out.println("Error: " + e.getMessage());
 			}
 		} 
 		else {
-				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/loginPage.jsp");
-				dispatcher.forward(request, response);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/loginPage.jsp");
+			dispatcher.forward(request, response);
 		}
 	}
 }

@@ -70,7 +70,7 @@
                 <!-- TOP HEADER -->
                 <div class="header-background">
                     <div class="top-header container">
-                        <a href="${pageContext.request.contextPath}/catalog" class="logo">Phonetastic</a>
+                        <a href="${pageContext.request.contextPath}" class="logo">Phonetastic</a>
                         <div class="search">
                         	<form action="${pageContext.request.contextPath}/search" method="GET" autocomplete="off">
 	                        	<input type="text" name="keyword" id="searchText" placeholder="Cerca">
@@ -123,38 +123,38 @@
                         <!-- REMEMBER TO MODIFY THE HREFS -->
                         <nav>
                             <ul>
-                                <li><a href="${pageContext.request.contextPath}/catalog">Home</a></li>
+                                <li><a href="${pageContext.request.contextPath}">Home</a></li>
     
                                 <!-- CATEGORY MENU -->
                                 <li class="dropdown">
-                                    <a href="#">Prodotti <i class="bx bxs-chevron-down"></i></a>
+                                    <a href="${pageContext.request.contextPath}/catalog">Prodotti <i class="bx bxs-chevron-down"></i></a>
                                     <div class="dropdown-content">
                                         <section class="category-grid">
                                             <div class="category-grid-item">
-                                                <h3>Smartphone</h3>
+                                                <h3><a href="${pageContext.request.contextPath}/catalog?category=Smartphone">Smartphone</a></h3>
                                                 <ul>
-                                                    <li><a href="#">Xiaomi</a></li>
-                                                    <li><a href="#">Apple</a></li>
-                                                    <li><a href="#">Huawei</a></li>
-                                                    <li><a href="#">Oneplus</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/catalog?category=Smartphone&manufacturer=Xiaomi">Xiaomi</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/catalog?category=Smartphone&manufacturer=Apple">Apple</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/catalog?category=Smartphone&manufacturer=Huawei">Huawei</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/catalog?category=Smartphone&manufacturer=Oneplus">Oneplus</a></li>
                                                 </ul>
                                             </div>
                                                <div class="category-grid-item">
-                                                <h3>Smartwatch</h3>
+                                                <h3><a href="${pageContext.request.contextPath}/catalog?category=Smartwatch">Smartwatch</a></h3>
                                                 <ul>
-                                                    <li><a href="#">Apple</a></li>
-                                                    <li><a href="#">Samsung</a></li>
-                                                    <li><a href="#">Xiaomi</a></li>
-                                                    <li><a href="#">Huawei</a></li>
-                                                    <li><a href="#">Asus</a></li>
-                                                    <li><a href="#">Amazfit</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/catalog?category=Smartwatch&manufacturer=Apple">Apple</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/catalog?category=Smartwatch&manufacturer=Samsung">Samsung</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/catalog?category=Smartwatch&manufacturer=Xiaomi">Xiaomi</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/catalog?category=Smartwatch&manufacturer=Huawei">Huawei</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/catalog?category=Smartwatch&manufacturer=Asus">Asus</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/catalog?category=Smartwatch&manufacturer=Amazfit">Amazfit</a></li>
                                                 </ul>
                                             </div>
                                             <div class="category-grid-item">
-                                                <h3>Accessori</h3>
+                                                <h3><a href="${pageContext.request.contextPath}/catalog?category=Accessori">Accessori</a></h3>
                                                 <ul>
-                                                    <li><a href="#">Auricolari</a></li>
-                                                    <li><a href="#">Cover</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/catalog?category=Auricolari">Auricolari</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/catalog?category=Cover">Cover</a></li>
                                                 </ul>
                                             </div>
                                         </section>

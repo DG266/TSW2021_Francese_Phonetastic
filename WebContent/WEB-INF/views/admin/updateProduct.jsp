@@ -23,6 +23,8 @@
 						<br><br>
 						<input type="text" name="name" value="${productToUpdate.name}" placeholder="${productToUpdate.name}" autofocus required/>
 						<br><br>
+						<input type="text" name="manufacturer" value="${productToUpdate.manufacturer}" placeholder="${productToUpdate.manufacturer}" autofocus required/>
+						<br><br>
 						<input type="number" name="price" value="${productToUpdate.price}" placeholder="${productToUpdate.price}" step="any" min="1" autofocus required/>
 						<br><br>
 						<input type="number" name="discount" value="${productToUpdate.discount}" placeholder="${productToUpdate.discount}" min="0" autofocus required/>

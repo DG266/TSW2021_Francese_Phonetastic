@@ -14,5 +14,7 @@ public interface UserDAO {
 	
 	public UserBean retrieveUserByEmailPwd(String email, String pwd) throws SQLException;
 	
+	public  boolean isEmailPresent(String email) throws SQLException;
+	
 	public void updateUser(UserBean user) throws SQLException;
 }

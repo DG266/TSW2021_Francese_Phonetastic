@@ -117,26 +117,24 @@ VALUES ("Smartphone", NULL),
        ("Smartwatch", NULL);
 
 # Product pics will be saved in the file system of the server 
-CREATE TABLE product(
-	product_id				INT AUTO_INCREMENT PRIMARY KEY,
-    product_name			VARCHAR(255) NOT NULL,
-    product_description		VARCHAR(1000) NOT NULL,
-    quantity				INT NOT NULL,
-    price 					DECIMAL(10,2) NOT NULL,
-    iva						DECIMAL(4,2) NOT NULL,
-    discount				DECIMAL(4,2),	
-#   image					BLOB,
-    image_path				VARCHAR(1023)
-# Possible solution to maintain product information (even if they're discontinued etc.)
-#	is_deleted				BOOLEAN DEFAULT(FALSE),    
+CREATE TABLE product (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_name VARCHAR(255) NOT NULL,
+    product_manufacturer VARCHAR(255) NOT NULL,
+    product_description VARCHAR(1000) NOT NULL,
+    quantity INT NOT NULL,
+    price DECIMAL(10 , 2 ) NOT NULL,
+    iva DECIMAL(4 , 2 ) NOT NULL,
+    discount DECIMAL(4 , 2 ),
+    image_path VARCHAR(1023)
 );
 
-INSERT INTO product(product_name, product_description, quantity, price, iva, discount, image_path)
-VALUES ("Xiaomi Redmi Note 5 Pro", "Qui andrà la descrizione.", 50, 199.99, 22.0, 0, ".\\resources\\images\\ProductImages\\Xiaomi-Redmi-Note-5-Pro.png"),
-	   ("IPhone X", "Qui andrà la descrizione.", 100, 799.99, 22.0, 0, ".\\resources\\images\\ProductImages\\Iphone-X.png"),	
-	   ("Xiaomi Redmi Note 8", "Qui andrà la descrizione.", 200, 299.99, 22.0, 0, ".\\resources\\images\\ProductImages\\Xiaomi-Redmi-Note-8.png"),
-	   ("Huawei P10 Lite", "Qui andrà la descrizione.", 1000, 159.99, 22.0, 0, ".\\resources\\images\\ProductImages\\Huawei-P10-Lite.png"),
-       ("Apple Watch Series 6", "Qui andrà la descrizione.", 1000, 430.99, 22.0, 0, ".\\resources\\images\\ProductImages\\Apple-Watch-Series-6.png");
+INSERT INTO product(product_name, product_manufacturer, product_description, quantity, price, iva, discount, image_path)
+VALUES ("Xiaomi Redmi Note 5 Pro", "Xiaomi", "Qui andrà la descrizione.", 50, 199.99, 22.0, 0, ".\\resources\\images\\ProductImages\\Xiaomi-Redmi-Note-5-Pro.png"),
+	   ("Apple IPhone X", "Apple", "Qui andrà la descrizione.", 100, 799.99, 22.0, 0, ".\\resources\\images\\ProductImages\\Apple-IPhone-X.png"),	
+	   ("Xiaomi Redmi Note 8", "Xiaomi", "Qui andrà la descrizione.", 200, 299.99, 22.0, 0, ".\\resources\\images\\ProductImages\\Xiaomi-Redmi-Note-8.png"),
+	   ("Huawei P10 Lite", "Huawei", "Qui andrà la descrizione.", 1000, 159.99, 22.0, 0, ".\\resources\\images\\ProductImages\\Huawei-P10-Lite.png"),
+       ("Apple Watch Series 6", "Apple", "Qui andrà la descrizione.", 1000, 430.99, 22.0, 0, ".\\resources\\images\\ProductImages\\Apple-Watch-Series-6.png");
 
 CREATE TABLE product_categories(
 	product_id	INT,
@@ -156,6 +154,9 @@ CREATE TABLE product_categories(
 INSERT INTO product_categories(product_id, cat_id)
 VALUES ((SELECT product_id FROM product WHERE product_name = "Xiaomi Redmi Note 5 Pro"), (SELECT cat_id FROM category WHERE cat_name = "Smartphone")),
 	   ((SELECT product_id FROM product WHERE product_name = "Xiaomi Redmi Note 5 Pro"), (SELECT cat_id FROM category WHERE cat_name = "Smartphone nuovi")),
+	   ((SELECT product_id FROM product WHERE product_name = "Apple Iphone X"), (SELECT cat_id FROM category WHERE cat_name = "Smartphone")),
+       ((SELECT product_id FROM product WHERE product_name = "Xiaomi Redmi Note 8"), (SELECT cat_id FROM category WHERE cat_name = "Smartphone")),
+       ((SELECT product_id FROM product WHERE product_name = "Huawei P10 Lite"), (SELECT cat_id FROM category WHERE cat_name = "Smartphone")),
 	   ((SELECT product_id FROM product WHERE product_name = "Apple Watch Series 6"), (SELECT cat_id FROM category WHERE cat_name = "Smartwatch"));
 
 CREATE TABLE order_info(
