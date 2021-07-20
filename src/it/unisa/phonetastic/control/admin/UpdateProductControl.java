@@ -3,6 +3,7 @@ package it.unisa.phonetastic.control.admin;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -51,6 +52,7 @@ public class UpdateProductControl extends HttpServlet {
 				&& request.getParameter("price") != null 
 				&& request.getParameter("iva") != null 
 				&& request.getParameter("discount") != null
+				&& request.getParameter("insertion-date") != null
 				&& request.getParameter("image") != null) {
 			
 			ProductBean updatedProduct = new ProductBean();
@@ -63,7 +65,14 @@ public class UpdateProductControl extends HttpServlet {
 				updatedProduct.setPrice(new BigDecimal(request.getParameter("price")));
 				updatedProduct.setIva(new BigDecimal(request.getParameter("iva")));   
 				updatedProduct.setDiscount(new BigDecimal(request.getParameter("discount")));
+				updatedProduct.setInsertionDate(Timestamp.valueOf(request.getParameter("insertion-date")));
 				updatedProduct.setImagePath(request.getParameter("image"));
+				if(request.getParameter("is-deleted") != null) {
+					updatedProduct.setDeleted(true);
+				}
+				else {
+					updatedProduct.setDeleted(false);
+				}
 				
 				model.updateProduct(updatedProduct);
 				

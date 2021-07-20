@@ -1,7 +1,9 @@
 package it.unisa.phonetastic.control.ecommerce;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import it.unisa.phonetastic.model.bean.ProductBean;
 import it.unisa.phonetastic.model.cart.Cart;
@@ -41,12 +44,35 @@ public class CartControl extends HttpServlet{
 		boolean ajax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
 		
 		if(ajax) {
-		    List<CartItem> items = cart.getProducts();
-		    String json = new Gson().toJson(items);
-		    
-		    response.setContentType("application/json");
-		    response.setCharacterEncoding("UTF-8");
-		    response.getWriter().write(json);
+			
+			if(request.getParameter("updatePrice") != null) {
+				
+				BigDecimal totalWithIva = cart.getTotalWithIva();
+				BigDecimal totalDiscount = cart.getTotalDiscount();
+				BigDecimal totalWithDiscountAndIva = cart.getTotalWithDiscountAndIva();
+				
+				NumberFormat currency = NumberFormat.getCurrencyInstance();
+	
+				JsonObject json = new JsonObject();
+				
+				json.addProperty("cartSize", cart.getProducts().size());
+				json.addProperty("totalWithIva", currency.format(totalWithIva));
+				json.addProperty("totalDiscount", currency.format(totalDiscount));
+				json.addProperty("totalWithDiscountAndIva", currency.format(totalWithDiscountAndIva));
+
+				
+				response.setContentType("application/json");
+			    response.setCharacterEncoding("UTF-8");
+			    response.getWriter().write(json.toString());
+			}
+			else {
+			    List<CartItem> items = cart.getProducts();
+			    String json = new Gson().toJson(items);
+			    
+			    response.setContentType("application/json");
+			    response.setCharacterEncoding("UTF-8");
+			    response.getWriter().write(json);
+			}
 		}
 		else {
 			//request.setAttribute("cart", cart);
@@ -126,13 +152,16 @@ public class CartControl extends HttpServlet{
 		
 		//request.setAttribute("cart", cart); 
 		
+		// if this is an ajax request...
 		if(ajax) {
+			// If there aren't enough products in stock...
 			if(!inStock) {
 				response.setStatus(400);
 				response.setContentType("text/plain"); 
 			    response.setCharacterEncoding("UTF-8");
 			    response.getWriter().write("La quantità richiesta non è disponibile.");
 			}
+			// DO NOTHING
 		}
 		else {
 			if(!inStock) {

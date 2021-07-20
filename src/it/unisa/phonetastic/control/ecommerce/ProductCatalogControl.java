@@ -23,39 +23,28 @@ public class ProductCatalogControl extends HttpServlet{
 		String category = request.getParameter("category");
 		String manufacturer = request.getParameter("manufacturer");
 		
-		if(category != null && manufacturer != null) {
-			try {
+		try {
+			if(category != null && manufacturer != null) {
 				request.removeAttribute("products");
 				request.setAttribute("products", model.retrieveProductsByCategoryAndManufacturer(category, manufacturer));
-			} catch (SQLException e) {
-				System.out.println("Error: " + e.getMessage());
 			}
-		}
-		else if(category != null) {
-			try {
+			else if(category != null) {
 				request.removeAttribute("products");
 				request.setAttribute("products", model.retrieveProductsByCategoryName(category));
-			} catch (SQLException e) {
-				System.out.println("Error: " + e.getMessage());
 			}
-		}
-		else if(manufacturer != null) {
-			try {
+			else if(manufacturer != null) {
 				request.removeAttribute("products");
 				request.setAttribute("products", model.retrieveProductsByManufacturer(manufacturer));
-			} catch (SQLException e) {
-				System.out.println("Error: " + e.getMessage());
 			}
-		}
-		else {
-			try {
+			else {
 				request.removeAttribute("products");
 				request.setAttribute("products", model.retrieveAllProducts(sort));
-			} catch (SQLException e) {
-				System.out.println("Error: " + e.getMessage());
 			}
 		}
-
+		catch (SQLException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+		
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/productsCatalog.jsp");
 		dispatcher.forward(request, response);
 	}

@@ -2,6 +2,7 @@ package it.unisa.phonetastic.model.bean;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class ProductBean implements Serializable{
@@ -16,7 +17,10 @@ public class ProductBean implements Serializable{
 	private BigDecimal price;
 	private BigDecimal iva;
 	private BigDecimal discount;
+	private Timestamp insertionDate;
+	private Timestamp lastUpdateDate;
 	private String imagePath;
+	private boolean isDeleted;
 	private ArrayList<CategoryBean> categories;
 	
 	public ProductBean() {
@@ -28,6 +32,10 @@ public class ProductBean implements Serializable{
 		price = new BigDecimal(0);
 		iva = new BigDecimal(0);
 		discount = new BigDecimal(0);
+		insertionDate = null;
+		lastUpdateDate = null;
+		imagePath = null;
+		isDeleted = false;
 		categories = null;
 	}
 
@@ -74,6 +82,19 @@ public class ProductBean implements Serializable{
 	public BigDecimal getPrice() {
 		return price;
 	}
+	
+	public BigDecimal getPriceWithIva() {
+		BigDecimal taxToAdd = price.multiply(iva.divide(new BigDecimal(100)));
+		return price.add(taxToAdd);
+	}
+	
+	public BigDecimal getPriceWithDiscountAndIva() {	
+		BigDecimal priceDiscount = price.multiply(discount.divide(new BigDecimal(100)));
+		BigDecimal priceDiscounted = price.subtract(priceDiscount);
+		BigDecimal taxToAdd = priceDiscounted.multiply(iva.divide(new BigDecimal(100)));
+		
+		return priceDiscounted.add(taxToAdd);
+	}
 
 	public void setPrice(BigDecimal price) {
 		this.price = price;
@@ -95,6 +116,22 @@ public class ProductBean implements Serializable{
 		this.discount = discount;
 	}
 
+	public Timestamp getInsertionDate() {
+		return insertionDate;
+	}
+
+	public void setInsertionDate(Timestamp insertionDate) {
+		this.insertionDate = insertionDate;
+	}
+
+	public Timestamp getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Timestamp lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+
 	public String getImagePath() {
 		return imagePath;
 	}
@@ -103,6 +140,14 @@ public class ProductBean implements Serializable{
 		this.imagePath = imagePath;
 	}
 	
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
 	public ArrayList<CategoryBean> getCategories() {
 		return categories;
 	}
@@ -111,10 +156,11 @@ public class ProductBean implements Serializable{
 		this.categories = categories;
 	}
 
-	@Override
 	public String toString() {
 		return "ProductBean [id=" + id + ", name=" + name + ", manufacturer=" + manufacturer + ", description="
 				+ description + ", quantity=" + quantity + ", price=" + price + ", iva=" + iva + ", discount="
-				+ discount + ", imagePath=" + imagePath + ", categories=" + categories + "]";
+				+ discount + ", insertionDate=" + insertionDate + ", lastUpdateDate=" + lastUpdateDate + ", imagePath="
+				+ imagePath + ", isDeleted=" + isDeleted + ", categories=" + categories + "]";
 	}
+
 }

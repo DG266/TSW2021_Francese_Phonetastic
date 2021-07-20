@@ -63,8 +63,11 @@ public class AddProductControl extends HttpServlet {
 				newProduct.setDescription(request.getParameter("description"));
 				newProduct.setQuantity(Integer.parseInt(request.getParameter("quantity")));
 				newProduct.setPrice(new BigDecimal(request.getParameter("price")));
-				newProduct.setIva(new BigDecimal(request.getParameter("iva")));   
+				newProduct.setIva(new BigDecimal(request.getParameter("iva"))); 
 				newProduct.setDiscount(new BigDecimal(request.getParameter("discount")));
+				
+				// insertionDate, lastUpdateDate and isDeleted will be handled by the model
+				// (well, they'll have default values: current_timestamp x 2 + false)
 				
 				// get the product images folder path (we need to save the image of the new product)
 				String savePath = request.getServletContext().getRealPath("") + SAVE_DIR;
@@ -89,6 +92,8 @@ public class AddProductControl extends HttpServlet {
 				}	
 				
 				model.insertProduct(newProduct);
+				
+				request.setAttribute("message", "Il prodotto è stato aggiunto con successo!");
 				
 				// TODO Handle more product pics
 				

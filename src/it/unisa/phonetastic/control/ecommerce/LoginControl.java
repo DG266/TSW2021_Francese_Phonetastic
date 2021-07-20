@@ -65,7 +65,7 @@ public class LoginControl extends HttpServlet {
 							response.sendRedirect("admin");
 						}
 						else {
-							response.sendRedirect("catalog");
+							response.sendRedirect("./");
 						}	
 					} 
 					else {

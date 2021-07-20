@@ -94,7 +94,7 @@ public class CheckoutControl extends HttpServlet {
 							comp.setQuantity(item.getQuantity());
 							comp.setPrice(item.getProduct().getPrice());
 							comp.setIva(item.getProduct().getIva());
-							comp.setDiscount(item.getProduct().getDiscount());  // TODO Should consider coupon discount + product discount etc. Will fix later
+							comp.setDiscount(item.getProduct().getDiscount()); 
 							elements.add(comp);
 								
 							ProductBean toUp = productModel.retrieveProductByID(item.getProduct().getId());
@@ -104,7 +104,7 @@ public class CheckoutControl extends HttpServlet {
 						
 						// STEP 4: SAVE DATA
 						bean.setElements(elements);
-						model.insertOrder(bean);
+						model.insertOrder(bean, cart.getTotalWithDiscountAndIva());    // TODO Fix this
 					
 		
 						// STEP 5: REMOVE ALL PRODUCTS FROM CART

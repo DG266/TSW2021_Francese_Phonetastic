@@ -1,5 +1,6 @@
 package it.unisa.phonetastic.model.cart;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import it.unisa.phonetastic.model.bean.ProductBean;
@@ -57,6 +58,41 @@ public class Cart {
 			}
 		}
 		return 0;
+	}
+	
+	public BigDecimal getTotalWithIva() {
+		
+		BigDecimal total = new BigDecimal(0);
+		for(CartItem item : products) {
+			ProductBean product = item.getProduct();
+			int quantity = item.getQuantity();
+			total = total.add(product.getPriceWithIva().multiply(new BigDecimal(quantity)));
+		}
+		return total;
+	}
+	
+	public BigDecimal getTotalWithDiscountAndIva() {
+		
+		BigDecimal total = new BigDecimal(0);
+		for(CartItem item : products) {
+			ProductBean product = item.getProduct();
+			int quantity = item.getQuantity();
+			total = total.add(product.getPriceWithDiscountAndIva().multiply(new BigDecimal(quantity)));
+		}
+		return total;
+	}
+	
+	public BigDecimal getTotalDiscount() {
+		BigDecimal totalDiscount = new BigDecimal(0);
+		for(CartItem item : products) {
+			ProductBean product = item.getProduct();
+			if(product.getDiscount().compareTo(new BigDecimal(0)) > 0) {
+				int quantity = item.getQuantity();
+				BigDecimal discount = product.getPriceWithIva().subtract(product.getPriceWithDiscountAndIva());
+				totalDiscount = totalDiscount.add(discount.multiply(new BigDecimal(quantity)));
+			}	
+		}
+		return totalDiscount;
 	}
 	
 	public void emptyCart() {

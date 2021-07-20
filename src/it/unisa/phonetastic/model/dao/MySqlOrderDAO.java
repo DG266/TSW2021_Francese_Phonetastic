@@ -40,7 +40,7 @@ public class MySqlOrderDAO implements OrderDAO{
 	private static final String TABLE_NAME = "order_info";
 	private static final String AUX_TABLE_NAME = "order_composition";
 	
-	public synchronized void insertOrder(OrderBean order) throws SQLException{
+	public synchronized void insertOrder(OrderBean order, BigDecimal total) throws SQLException{
 		
 		String orderInsertSQL = "INSERT INTO " + TABLE_NAME
 			 	  + "(total, creation_date, last_update_date, customer_id, address_id, p_method_id) VALUES (?, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), ?, ?, ?)";
@@ -48,8 +48,10 @@ public class MySqlOrderDAO implements OrderDAO{
 		String orderDetailsInsertSQL = "INSERT INTO " + AUX_TABLE_NAME 
 				 					 + "(order_id, product_id, quantity, price, iva, discount) VALUES (?, ?, ?, ?, ?, ?)";
 		
+		
 		// TODO Check IVA
 		ArrayList<OrderCompositionBean> elements = (ArrayList<OrderCompositionBean>) order.getElements();
+		/*
 		BigDecimal total = new BigDecimal(0);
 		for(OrderCompositionBean c : elements) {
 			BigDecimal quantity = new BigDecimal(c.getQuantity());
@@ -57,6 +59,7 @@ public class MySqlOrderDAO implements OrderDAO{
 			// total = total + (price of the item * quantity);
 			total = total.add(price.multiply(quantity));
 		}
+		*/
 		
 		try(Connection conn = ds.getConnection()){
 			// TODO Should do that for each method

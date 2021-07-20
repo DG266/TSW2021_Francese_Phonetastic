@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 		<%@ include file="/WEB-INF/views/ecommerce/fragments/header.jsp" %>
 			
@@ -7,7 +8,7 @@
 	        <c:choose>
 				<c:when test="${products != null && products.size() != 0}">
 					<c:forEach var="product" items="${products}">
-						<c:if test="${product.quantity > 0}">
+						<c:if test="${product.quantity > 0 && !product.deleted}">
 							<div class="product-grid-item">
 				                <div class="product-card">
 				                    <div class="product-card-img">
@@ -17,7 +18,20 @@
 				                        <p>${product.name}</p>
 				                    </div>
 				                    <div class="product-card-price">
-				                        <p>${product.price}&euro;</p>
+				                    	<c:set var="productPriceWithIva">
+				                    		<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${product.getPriceWithIva()}" />
+				                    	</c:set>
+				                    	<c:set var="productPriceWithDiscountAndIva">
+				                    		<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${product.getPriceWithDiscountAndIva()}" />
+				                    	</c:set>
+				                    	<c:choose>
+				                    		<c:when test="${product.discount > 0}">
+				                    			<del>${productPriceWithIva}&euro;</del> <span class="discount-price">${productPriceWithDiscountAndIva}&euro;</span>
+				                    		</c:when>
+				                    		<c:otherwise>
+				                    			<p>${productPriceWithDiscountAndIva}&euro;</p>
+				                    		</c:otherwise>
+				                    	</c:choose>
 				                    </div>
 				                    <div class="product-card-buttons">
 				                        <a href="info?id=${product.id}"><button class="button-flat button-hover button-buy">Acquista adesso</button></a>

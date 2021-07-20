@@ -6,7 +6,7 @@
          version="3.1">
          
     <welcome-file-list>
-        <welcome-file>catalog</welcome-file>
+        <welcome-file>welcome</welcome-file>
     </welcome-file-list>
     
     <resource-ref>
@@ -59,6 +59,15 @@
 	</filter-mapping>
 	
 	<!-- SERVLETS -->
+	
+	<servlet>
+        <servlet-name>MainPageControl</servlet-name>
+        <servlet-class>it.unisa.phonetastic.control.ecommerce.MainPageControl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MainPageControl</servlet-name>
+        <url-pattern>/welcome</url-pattern>
+    </servlet-mapping>
 	
     <servlet>
         <servlet-name>ProductCatalogControl</servlet-name>

@@ -40,8 +40,9 @@ public class MySqlProductDAO implements ProductDAO{
 	public synchronized void insertProduct(ProductBean product) throws SQLException {
 		
 		String insertSQL = "INSERT INTO " + TABLE_NAME + " "
-						 + "(product_name, product_manufacturer, product_description, quantity, price, iva, discount, image_path) "
-						 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+						 + "(product_name, product_manufacturer, product_description, quantity, price, iva, discount, "
+						 + "insertion_date, last_update_date, image_path, is_deleted) "
+						 + "VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), ?, ?)";
 		
 		try(Connection conn = ds.getConnection()){
 			// TODO Should do that for each method
@@ -55,6 +56,7 @@ public class MySqlProductDAO implements ProductDAO{
 				ps.setBigDecimal(6, product.getIva());
 				ps.setBigDecimal(7, product.getDiscount());
 				ps.setString(8, product.getImagePath());
+				ps.setBoolean(9, false);
 				
 				ps.executeUpdate();
 				
@@ -100,7 +102,10 @@ public class MySqlProductDAO implements ProductDAO{
 					bean.setPrice(rs.getBigDecimal("price"));
 					bean.setIva(rs.getBigDecimal("iva"));
 					bean.setDiscount(rs.getBigDecimal("discount"));
+					bean.setInsertionDate(rs.getTimestamp("insertion_date"));
+					bean.setLastUpdateDate(rs.getTimestamp("last_update_date"));
 					bean.setImagePath(rs.getString("image_path"));
+					bean.setDeleted(rs.getBoolean("is_deleted"));
 				}
 			}
 		}
@@ -129,8 +134,8 @@ public class MySqlProductDAO implements ProductDAO{
 		}
 		
 		try(Connection conn = ds.getConnection()){
-			try(PreparedStatement ps = conn.prepareStatement(selectSQL)){
-				ResultSet rs = ps.executeQuery();
+			try(Statement s = conn.createStatement()){
+				ResultSet rs = s.executeQuery(selectSQL);
 				
 				while(rs.next()) {
 					ProductBean bean = new ProductBean();
@@ -143,7 +148,10 @@ public class MySqlProductDAO implements ProductDAO{
 					bean.setPrice(rs.getBigDecimal("price"));
 					bean.setIva(rs.getBigDecimal("iva"));
 					bean.setDiscount(rs.getBigDecimal("discount"));
+					bean.setInsertionDate(rs.getTimestamp("insertion_date"));
+					bean.setLastUpdateDate(rs.getTimestamp("last_update_date"));
 					bean.setImagePath(rs.getString("image_path"));
+					bean.setDeleted(rs.getBoolean("is_deleted"));
 					
 					products.add(bean);
 				}
@@ -156,7 +164,8 @@ public class MySqlProductDAO implements ProductDAO{
 		
 		String updateSQL = "UPDATE " + TABLE_NAME + " "
   	 	  		 		 + "SET product_name = ?, product_manufacturer = ?, product_description = ?, "
-  	 	  		 		 + "quantity = ?, price = ?, iva = ?, discount = ?, image_path = ? "
+  	 	  		 		 + "quantity = ?, price = ?, iva = ?, discount = ?, insertion_date = ?, last_update_date = CURRENT_TIMESTAMP(), "
+  	 	  		 		 + "image_path = ?, is_deleted = ? "
   	 	  		 		 + "WHERE product_id = ?"; 
 		
 		try(Connection conn = ds.getConnection()){
@@ -170,15 +179,49 @@ public class MySqlProductDAO implements ProductDAO{
 				ps.setBigDecimal(5, product.getPrice());
 				ps.setBigDecimal(6, product.getIva());
 				ps.setBigDecimal(7, product.getDiscount());
-				ps.setString(8, product.getImagePath());
+				ps.setTimestamp(8, product.getInsertionDate());
+				ps.setString(9, product.getImagePath());
+				ps.setBoolean(10, product.isDeleted());
 				
-				ps.setInt(9, product.getId());
+				ps.setInt(11, product.getId());
 				
 				ps.executeUpdate();
 				
 				conn.commit();
 			}
 		}
+	}
+	
+	public synchronized Collection<ProductBean> retrieveDiscountedProducts() throws SQLException {
+		Collection<ProductBean> products = new LinkedList<ProductBean>();
+
+		String selectSQL = "SELECT * FROM " + TABLE_NAME + "WHERE discount > 0";
+		
+		try(Connection conn = ds.getConnection()){
+			try(Statement s = conn.createStatement()){
+				ResultSet rs = s.executeQuery(selectSQL);
+				
+				while(rs.next()) {
+					ProductBean bean = new ProductBean();
+					
+					bean.setId(rs.getInt("product_id"));
+					bean.setName(rs.getString("product_name"));
+					bean.setManufacturer(rs.getString("product_manufacturer"));
+					bean.setDescription(rs.getString("product_description"));
+					bean.setQuantity(rs.getInt("quantity"));
+					bean.setPrice(rs.getBigDecimal("price"));
+					bean.setIva(rs.getBigDecimal("iva"));
+					bean.setDiscount(rs.getBigDecimal("discount"));
+					bean.setInsertionDate(rs.getTimestamp("insertion_date"));
+					bean.setLastUpdateDate(rs.getTimestamp("last_update_date"));
+					bean.setImagePath(rs.getString("image_path"));
+					bean.setDeleted(rs.getBoolean("is_deleted"));
+					
+					products.add(bean);
+				}
+			}
+		}
+		return products;
 	}
 	
 	public synchronized Collection<ProductBean> retrieveProductsByManufacturer(String manufacturer) throws SQLException {
@@ -205,7 +248,10 @@ public class MySqlProductDAO implements ProductDAO{
 					bean.setPrice(rs.getBigDecimal("price"));
 					bean.setIva(rs.getBigDecimal("iva"));
 					bean.setDiscount(rs.getBigDecimal("discount"));
+					bean.setInsertionDate(rs.getTimestamp("insertion_date"));
+					bean.setLastUpdateDate(rs.getTimestamp("last_update_date"));
 					bean.setImagePath(rs.getString("image_path"));
+					bean.setDeleted(rs.getBoolean("is_deleted"));
 					
 					products.add(bean);
 				}
@@ -239,7 +285,44 @@ public class MySqlProductDAO implements ProductDAO{
 					bean.setPrice(rs.getBigDecimal("price"));
 					bean.setIva(rs.getBigDecimal("iva"));
 					bean.setDiscount(rs.getBigDecimal("discount"));
+					bean.setInsertionDate(rs.getTimestamp("insertion_date"));
+					bean.setLastUpdateDate(rs.getTimestamp("last_update_date"));
 					bean.setImagePath(rs.getString("image_path"));
+					bean.setDeleted(rs.getBoolean("is_deleted"));
+					
+					products.add(bean);
+				}
+			}
+		}
+		
+		return products;
+	}
+	
+	public synchronized Collection<ProductBean> retrieveNewestProducts() throws SQLException {
+		
+		Collection<ProductBean> products = new LinkedList<ProductBean>();
+
+		String selectSQL = "SELECT * FROM " + TABLE_NAME + " ORDER BY insertion_date DESC LIMIT 8";
+		
+		try(Connection conn = ds.getConnection()){
+			try(Statement s = conn.createStatement()){
+				ResultSet rs = s.executeQuery(selectSQL);
+				
+				while(rs.next()) {
+					ProductBean bean = new ProductBean();
+					
+					bean.setId(rs.getInt("product_id"));
+					bean.setName(rs.getString("product_name"));
+					bean.setManufacturer(rs.getString("product_manufacturer"));
+					bean.setDescription(rs.getString("product_description"));
+					bean.setQuantity(rs.getInt("quantity"));
+					bean.setPrice(rs.getBigDecimal("price"));
+					bean.setIva(rs.getBigDecimal("iva"));
+					bean.setDiscount(rs.getBigDecimal("discount"));
+					bean.setInsertionDate(rs.getTimestamp("insertion_date"));
+					bean.setLastUpdateDate(rs.getTimestamp("last_update_date"));
+					bean.setImagePath(rs.getString("image_path"));
+					bean.setDeleted(rs.getBoolean("is_deleted"));
 					
 					products.add(bean);
 				}
@@ -254,7 +337,8 @@ public class MySqlProductDAO implements ProductDAO{
 		Collection<ProductBean> products = new LinkedList<ProductBean>();
 		int lastProductId = -1;
 		
-		String selectSQL = "SELECT P.product_id, product_name, product_manufacturer, product_description, quantity, price, iva, discount, image_path, "
+		String selectSQL = "SELECT P.product_id, product_name, product_manufacturer, product_description, quantity, price, iva, discount, "
+						 + "insertion_date, last_update_date, image_path, is_deleted, "
 						 + "C.cat_id, cat_name, superior_cat " 
 						 + "FROM  product P, product_categories PC, category C "
 						 + "WHERE P.product_id = PC.product_id AND PC.cat_id = C.cat_id";
@@ -279,7 +363,10 @@ public class MySqlProductDAO implements ProductDAO{
 						product.setPrice(rs.getBigDecimal("price"));
 						product.setIva(rs.getBigDecimal("iva"));
 						product.setDiscount(rs.getBigDecimal("discount"));
+						product.setInsertionDate(rs.getTimestamp("insertion_date"));
+						product.setLastUpdateDate(rs.getTimestamp("last_update_date"));
 						product.setImagePath(rs.getString("image_path"));
+						product.setDeleted(rs.getBoolean("is_deleted"));
 						product.setCategories(categories);
 						
 						products.add(product);
@@ -304,7 +391,8 @@ public class MySqlProductDAO implements ProductDAO{
 		Collection<ProductBean> products = new LinkedList<ProductBean>();
 		int lastProductId = -1;
 		
-		String selectSQL = "SELECT P.product_id, product_name, product_manufacturer, product_description, quantity, price, iva, discount, image_path, "
+		String selectSQL = "SELECT P.product_id, product_name, product_manufacturer, product_description, quantity, price, iva, discount, "
+						 + "insertion_date, last_update_date, image_path, is_deleted, "
 						 + "C.cat_id, cat_name, superior_cat " 
 						 + "FROM  product P, product_categories PC, category C "
 						 + "WHERE P.product_id = PC.product_id AND PC.cat_id = C.cat_id AND cat_name = ?";
@@ -331,7 +419,10 @@ public class MySqlProductDAO implements ProductDAO{
 						product.setPrice(rs.getBigDecimal("price"));
 						product.setIva(rs.getBigDecimal("iva"));
 						product.setDiscount(rs.getBigDecimal("discount"));
+						product.setInsertionDate(rs.getTimestamp("insertion_date"));
+						product.setLastUpdateDate(rs.getTimestamp("last_update_date"));
 						product.setImagePath(rs.getString("image_path"));
+						product.setDeleted(rs.getBoolean("is_deleted"));
 						product.setCategories(categories);
 						
 						products.add(product);
@@ -355,7 +446,8 @@ public class MySqlProductDAO implements ProductDAO{
 		Collection<ProductBean> products = new LinkedList<ProductBean>();
 		int lastProductId = -1;
 		
-		String selectSQL = "SELECT P.product_id, product_name, product_manufacturer, product_description, quantity, price, iva, discount, image_path, "
+		String selectSQL = "SELECT P.product_id, product_name, product_manufacturer, product_description, quantity, price, iva, discount, "
+						 + "insertion_date, last_update_date, image_path, is_deleted, "
 						 + "C.cat_id, cat_name, superior_cat " 
 						 + "FROM  product P, product_categories PC, category C "
 						 + "WHERE P.product_id = PC.product_id AND PC.cat_id = C.cat_id AND cat_name = ? AND product_manufacturer = ?";
@@ -383,7 +475,10 @@ public class MySqlProductDAO implements ProductDAO{
 						product.setPrice(rs.getBigDecimal("price"));
 						product.setIva(rs.getBigDecimal("iva"));
 						product.setDiscount(rs.getBigDecimal("discount"));
+						product.setInsertionDate(rs.getTimestamp("insertion_date"));
+						product.setLastUpdateDate(rs.getTimestamp("last_update_date"));
 						product.setImagePath(rs.getString("image_path"));
+						product.setDeleted(rs.getBoolean("is_deleted"));
 						product.setCategories(categories);
 						
 						products.add(product);

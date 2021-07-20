@@ -29,7 +29,7 @@
                 <span class="mobile-menu-toggle" id="open">
                     <i class="bx bx-menu"></i>
                 </span>
-                <a href="${pageContext.request.contextPath}/catalog" class="mobile-logo">Phonetastic</a>
+                <a href="${pageContext.request.contextPath}/" class="mobile-logo">Phonetastic</a>
                 <ul class="user-menu">
                 	<c:if test="${currentSessionUser != null && currentSessionUser.isAdmin()}">
 						<li><a href="${pageContext.request.contextPath}/admin"><i class="bx bxs-crown"></i></a></li>

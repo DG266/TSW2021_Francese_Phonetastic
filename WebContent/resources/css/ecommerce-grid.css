@@ -21,11 +21,12 @@
 	grid-row: span 1;
 }
 
+/* PRODUCT GRID */
+
 .product-grid {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	grid-gap: 10px;
-	grid-auto-rows: minmax(100px, auto);
 }
 
 [class^='product-grid-item'] {
@@ -33,33 +34,72 @@
 	grid-row: span 1;
 }
 
+
+/* END PRODUCT GRID */
+
+
 .footer-grid {
 	font-family: "Poppins", sans-serif;
 	display: inline-grid;
 	grid-gap: 10px;
-    /* grid-template-columns: repeat(4, 1fr); */
+	/*
+    grid-template-columns: 250px 250px 250px 550px;
     grid-auto-flow: column;
+    */
+    grid-template-columns: 1fr 1fr 1.5fr 3fr;
 }
 
 [class^='footer-grid-item'] {
 	padding: 20px;
 }
 
+
+
+
 @media only screen and (max-width: 1280px) {
 	.product-grid {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
 		grid-gap: 10px;
-		grid-auto-rows: minmax(100px, auto);
 	}
 	
 	[class^='product-grid-item'] {
 		grid-column: span 1;
 		grid-row: span 1;
 	}
+	
+	.footer-grid {
+	font-family: "Poppins", sans-serif;
+	display: inline-grid;
+	grid-gap: 10px;
+	/*
+    grid-template-columns: 250px 250px 250px 550px;
+    grid-auto-flow: column;
+    */
+    grid-template-columns: 1fr 1fr 1.5fr;
+    grid-template-rows: 1fr;
 }
 
-@media only screen and (max-width: 750px) {
+	[class^='footer-grid-item'] {
+		padding: 20px;
+	}
+}
+
+@media only screen and (max-width: 960px) {
+	.product-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-gap: 10px;
+	}
+	
+	[class^='product-grid-item'] {
+		grid-column: span 1;
+		grid-row: span 1;
+	}
+	
+}
+
+@media only screen and (max-width: 768px) {
 	.category-grid {
 		font-family: "Poppins", sans-serif;
 		display: inline-grid;
@@ -74,9 +114,9 @@
 
 	.product-grid {
 		display: grid;
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: repeat(1, 1fr);
 		grid-gap: 10px;
-		grid-auto-rows: minmax(100px, auto);
+		/* grid-auto-rows: minmax(100px, auto); */
 	}
 	
 	[class^='product-grid-item'] {
@@ -88,10 +128,10 @@
 		font-family: "Poppins", sans-serif;
 		display: inline-grid;
 		grid-gap: 10px;
-		/* grid-template-columns: repeat(4, 1fr); */
-		grid-auto-flow: row;
+	    grid-template-columns: 1fr;
+	    grid-template-rows: 1fr;
 	}
-	
+
 	[class^='footer-grid-item'] {
 		padding: 20px;
 	}

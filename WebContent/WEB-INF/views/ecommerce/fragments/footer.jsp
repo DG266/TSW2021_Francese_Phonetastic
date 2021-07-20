@@ -34,7 +34,7 @@
                     </div>
                     <div class="footer-grid-item">
                         <div class="contact">
-                            <h3 class="contact-header">Phonetastic</h3>
+                            <h3>Phonetastic</h3>
                             <ul class="contact-socials">
                                 <li><a href="#">
                                         <i class='bx bxl-facebook-circle'></i>

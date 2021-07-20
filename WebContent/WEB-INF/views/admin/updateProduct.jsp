@@ -35,7 +35,11 @@
 						<br><br>
 						<input type="number" name="quantity" value="${productToUpdate.quantity}" placeholder="${productToUpdate.quantity}" min="1" autofocus required/>
 						<br><br>
+						<label for="checkbox1">Da cancellare:</label><br>
+						<input type="checkbox" name="is-deleted" id="checkbox1" value="true" autofocus />
+						<br><br>
 						<!-- Maybe we should add the option to update the product image -->
+						<input type ="hidden" name="insertion-date" value="${productToUpdate.insertionDate}">
 						<input type ="hidden" name="image" value="${productToUpdate.imagePath}">
 						<input type="submit" value="Aggiorna">
 					</form>

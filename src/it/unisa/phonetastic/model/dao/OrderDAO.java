@@ -1,5 +1,6 @@
 package it.unisa.phonetastic.model.dao;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -8,7 +9,7 @@ import it.unisa.phonetastic.model.bean.OrderBean;
 
 public interface OrderDAO {
 
-	public void insertOrder(OrderBean order) throws SQLException;
+	public void insertOrder(OrderBean order, BigDecimal total) throws SQLException;
 	
 	public boolean deleteOrder(int id) throws SQLException;
 	

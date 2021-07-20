@@ -86,20 +86,6 @@ CREATE TABLE payment_method(
 INSERT INTO payment_method(user_id, p_method_id, card_number, expiry_date, cvv)
 VALUES (100101, 1, "1234 5678 9123 4567", "2027-01-01", 123);
 
-/*
-CREATE TABLE coupon(
-	coupon_id			VARCHAR(255) PRIMARY KEY,
-    start_date			TIMESTAMP NOT NULL,
-    end_date			TIMESTAMP NOT NULL,
-	is_active			BOOLEAN DEFAULT(TRUE) NOT NULL,
-    discount_percentage	DECIMAL(4,2) NOT NULL,
-	CHECK(start_date < end_date)
-);
-
-INSERT INTO coupon(coupon_id, start_date, end_date, discount_percentage)
-VALUES ("BENVENUTO2021", "2021-01-01", "2021-12-31", 25);
-*/
-
 CREATE TABLE category(
 	cat_id			INT AUTO_INCREMENT PRIMARY KEY,
     cat_name		VARCHAR(255) NOT NULL,
@@ -123,18 +109,21 @@ CREATE TABLE product (
     product_manufacturer VARCHAR(255) NOT NULL,
     product_description VARCHAR(1000) NOT NULL,
     quantity INT NOT NULL,
-    price DECIMAL(10 , 2 ) NOT NULL,
+    price DECIMAL(13, 2) NOT NULL,
     iva DECIMAL(4 , 2 ) NOT NULL,
     discount DECIMAL(4 , 2 ),
-    image_path VARCHAR(1023)
+	insertion_date		TIMESTAMP NOT NULL,
+    last_update_date	TIMESTAMP NOT NULL,
+    image_path VARCHAR(1023),
+    is_deleted BOOLEAN NOT NULL
 );
 
-INSERT INTO product(product_name, product_manufacturer, product_description, quantity, price, iva, discount, image_path)
-VALUES ("Xiaomi Redmi Note 5 Pro", "Xiaomi", "Qui andrà la descrizione.", 50, 199.99, 22.0, 0, ".\\resources\\images\\ProductImages\\Xiaomi-Redmi-Note-5-Pro.png"),
-	   ("Apple IPhone X", "Apple", "Qui andrà la descrizione.", 100, 799.99, 22.0, 0, ".\\resources\\images\\ProductImages\\Apple-IPhone-X.png"),	
-	   ("Xiaomi Redmi Note 8", "Xiaomi", "Qui andrà la descrizione.", 200, 299.99, 22.0, 0, ".\\resources\\images\\ProductImages\\Xiaomi-Redmi-Note-8.png"),
-	   ("Huawei P10 Lite", "Huawei", "Qui andrà la descrizione.", 1000, 159.99, 22.0, 0, ".\\resources\\images\\ProductImages\\Huawei-P10-Lite.png"),
-       ("Apple Watch Series 6", "Apple", "Qui andrà la descrizione.", 1000, 430.99, 22.0, 0, ".\\resources\\images\\ProductImages\\Apple-Watch-Series-6.png");
+INSERT INTO product(product_name, product_manufacturer, product_description, quantity, price, iva, discount, insertion_date, last_update_date, image_path, is_deleted)
+VALUES ("Xiaomi Redmi Note 5 Pro", "Xiaomi", "Qui andrà la descrizione.", 50, 199.99, 22.0, 0, TIMESTAMP("2021-04-01",  "00:00:00"), TIMESTAMP("2021-04-01",  "00:00:00"),  ".\\resources\\images\\ProductImages\\Xiaomi-Redmi-Note-5-Pro.png", false),
+	   ("Apple IPhone X", "Apple", "Qui andrà la descrizione.", 100, 799.99, 22.0, 0, TIMESTAMP("2021-04-02",  "00:00:00"), TIMESTAMP("2021-04-02",  "00:00:00"), ".\\resources\\images\\ProductImages\\Apple-IPhone-X.png", false),	
+	   ("Xiaomi Redmi Note 8", "Xiaomi", "Qui andrà la descrizione.", 200, 299.99, 22.0, 0, TIMESTAMP("2021-04-03",  "00:00:00"), TIMESTAMP("2021-04-03",  "00:00:00"),  ".\\resources\\images\\ProductImages\\Xiaomi-Redmi-Note-8.png", false),
+	   ("Huawei P10 Lite", "Huawei", "Qui andrà la descrizione.", 1000, 159.99, 22.0, 0, TIMESTAMP("2021-04-04",  "00:00:00"), TIMESTAMP("2021-04-04",  "00:00:00"), ".\\resources\\images\\ProductImages\\Huawei-P10-Lite.png", false),
+       ("Apple Watch Series 6", "Apple", "Qui andrà la descrizione.", 1000, 430.99, 22.0, 0, TIMESTAMP("2021-04-05",  "00:00:00"), TIMESTAMP("2021-04-05",  "00:00:00"), ".\\resources\\images\\ProductImages\\Apple-Watch-Series-6.png", false);
 
 CREATE TABLE product_categories(
 	product_id	INT,
@@ -162,17 +151,12 @@ VALUES ((SELECT product_id FROM product WHERE product_name = "Xiaomi Redmi Note 
 CREATE TABLE order_info(
 	order_id 			BIGINT AUTO_INCREMENT PRIMARY KEY,
 	total 				DECIMAL(10,2) NOT NULL,
-#   coupon_id			VARCHAR(255),
 #	state				CHAR NOT NULL,		# Might be "S" for "shipped", "N" for "not shipped", etc.
     creation_date		TIMESTAMP NOT NULL,
     last_update_date	TIMESTAMP NOT NULL,
     customer_id			INT,
     address_id			INT,
     p_method_id			INT,			
-#   FOREIGN KEY(coupon_id)
-#			REFERENCES coupon(coupon_id)
-#           ON UPDATE CASCADE
-#           ON DELETE NO ACTION,
     FOREIGN KEY(customer_id)
 			REFERENCES user_info(user_id)
             ON UPDATE CASCADE
@@ -192,32 +176,11 @@ ALTER TABLE order_info AUTO_INCREMENT= 200200;
 INSERT INTO order_info(total, creation_date, last_update_date, customer_id, address_id, p_method_id)
 VALUES(199.99, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 100101, 1, 1);
 
-/*
-CREATE TABLE payment_details(
-	order_id		BIGINT PRIMARY KEY,
-    state			CHAR NOT NULL,			# Very similar to order_info(state): "P" for "paid", "N" for "not paid", etc.
-    payment_date	TIMESTAMP,
-    user_id			INT,
-    p_method_id		INT,
-    FOREIGN KEY(order_id)
-			REFERENCES order_info(order_id)
-            ON UPDATE CASCADE
-            ON DELETE CASCADE,
-    FOREIGN KEY(user_id, p_method_id)
-			REFERENCES payment_method(user_id, p_method_id)
-            ON UPDATE CASCADE
-            ON DELETE SET NULL
-);	
-
-INSERT INTO payment_details(order_id, state, payment_date, user_id, p_method_id)
-VALUES (200200, "G", CURRENT_TIMESTAMP(), 100101, 1);
-*/
-
 CREATE TABLE order_composition(
 	order_id		BIGINT,
     product_id		INT,
     quantity		INT NOT NULL,
-    price			DECIMAL(10,2) NOT NULL,
+    price			DECIMAL(13, 2) NOT NULL,
     iva				DECIMAL(4,2) NOT NULL,
     discount		DECIMAL(4,2),
     PRIMARY KEY(order_id, product_id),
@@ -234,26 +197,3 @@ CREATE TABLE order_composition(
 INSERT INTO order_composition(order_id, product_id, quantity, price, iva, discount)
 VALUES (200200, (SELECT product_id FROM product WHERE product_name = "Xiaomi Redmi Note 5 Pro"), 
         1, (SELECT price FROM product P WHERE product_id = P.product_id AND P.product_name = "Xiaomi Redmi Note 5 Pro"), 22.0, 0); 
-
-/*
-CREATE TABLE review(
-	review_id		INT AUTO_INCREMENT PRIMARY KEY,
-	user_id			INT,
-    product_id		INT,
-    rev_text		VARCHAR(1000),
-    rev_date		TIMESTAMP NOT NULL,
-    score			DECIMAL(2,1) NOT NULL CHECK(score >= 0 AND score <= 5.0),
-    FOREIGN KEY(user_id)
-			REFERENCES user_info(user_id)
-            ON UPDATE CASCADE
-            ON DELETE SET NULL,
-	FOREIGN KEY(product_id)
-			REFERENCES product(product_id)
-            ON UPDATE CASCADE
-            ON DELETE CASCADE
-);
-
-INSERT INTO review(user_id, product_id, rev_text, rev_date, score)
-VALUES (100101, (SELECT product_id FROM product WHERE product_name = "Xiaomi Redmi Note 5 Pro"), 
-		"Molto soddisfatto.", CURRENT_TIMESTAMP(), 5.0);
-*/

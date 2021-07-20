@@ -15,6 +15,7 @@
 				<input type="password" name="pwd" placeholder="Password" required/> 
 				<input type="submit" value="Login">
 			</form>
+			<p id="loginInfo"></p>
 		</div>	
 		
 		<div class="register-form">	
@@ -28,8 +29,9 @@
 					<input type="email" name="email" placeholder="Email" required/> 
 					<input type="password" name="pwd" placeholder="Password" required/>
 					<br><br> 
-					<input type="submit" value="Register">
+					<input type="submit" value="Registrati">
 			</form>
+			<p id="registrationInfo"></p>
 		</div>	
 	</div>	
 		<%@ include file="/WEB-INF/views/ecommerce/fragments/footer.jsp" %>

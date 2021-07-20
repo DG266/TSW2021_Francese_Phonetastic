@@ -14,6 +14,9 @@
 			</div>
 		</div>
 		<div class="main-content">
+			<c:if test="${message != null}">
+				<h2>${message}</h2>
+			</c:if>
 			<br><br>
 			<h2>Aggiungi un prodotto</h2>
 			<form action="add-product" method="POST" enctype="multipart/form-data">

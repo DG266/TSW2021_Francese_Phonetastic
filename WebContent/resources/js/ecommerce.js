@@ -1,14 +1,63 @@
 // N.B.: Ho lasciato i commenti in italiano per chiarezza
 
-// NECESSARIO PER IL FUNZIONAMENTO DEL MENU MOBILE
-document.querySelector('#open').addEventListener('click', () => document.querySelector('#header-wrapper').classList.add('active'));
-
-document.querySelector('#close').addEventListener('click', () => document.querySelector('#header-wrapper').classList.remove('active'));
-
-
-
-
 $(document).ready(function(){
+	
+	// NECESSARIO PER IL FUNZIONAMENTO DEL MENU MOBILE
+	$("#open").click(function(){
+		$("#header-wrapper").addClass("active");
+	});
+	
+	$("#close").click(function(){
+		$("#header-wrapper").removeClass("active");
+	});
+	
+	// SLIDESHOW
+	
+	let slideIndex = 0;
+	
+	function hideAllSlide(){
+		$(".slide").each(function(){
+			$(this).removeClass("active");
+		});
+	}
+	
+	function showSlide(){
+		hideAllSlide();
+		$(".slide").eq(slideIndex).addClass("active");
+	}
+	
+	function nextSlide(){
+		if(slideIndex + 1 == $(".slide").length){
+			slideIndex = 0;
+		}
+		else{
+			slideIndex++;
+		}
+	}
+	
+	function prevSlide(){
+		if(slideIndex - 1 < 0){
+			slideIndex = $(".slide").length - 1;
+		}
+		else{
+			slideIndex--;
+		}
+	}
+	
+	$(".slide-next").click(function(){
+	    nextSlide();
+	    showSlide();
+	})
+	
+	$(".slide-prev").click(function(){
+	    prevSlide();
+	    showSlide();
+	})
+	
+	showSlide();
+	
+	// FINE SLIDESHOW
+	
 	
 	// CARRELLO CON AJAX
 	$(".button-cart-add").click(function(event) {
@@ -92,6 +141,40 @@ $(document).ready(function(){
 			}
 		}, 500);
     });
+
+	// RIMOZIONE PRODOTTI DAL CARRELLO CON AJAX
+	$(".removeCartItem").click(function(event){
+		
+		event.preventDefault();
+		
+		var form = $(this);   
+		var productToRemove = $(this).closest(".cart-product");
+		
+		$.ajax({
+		    type: "POST",
+		    url: "./cart",
+		    async: true,
+		    data: form.serialize(),
+		    success: function() {
+				productToRemove.remove();    
+				
+				// aggiornamento icona carrello e prezzi
+				$.get("./cart", {updatePrice : true},function(responseJson) { 
+					if(responseJson.cartSize > 0){
+						$(".cart-quantity-number").html(responseJson.cartSize);
+					} 
+					else{
+						$(".cart").append("<h2>Il tuo carrello è vuoto</h2>");
+					}
+					$("#cart-subtotal").html(responseJson.totalWithIva);
+					$("#cart-promo").html("-" + responseJson.totalDiscount);
+					$("#cart-total").html(responseJson.totalWithDiscountAndIva);
+				});
+		    }
+		});
+	});
+	
+	
 });
 
 
