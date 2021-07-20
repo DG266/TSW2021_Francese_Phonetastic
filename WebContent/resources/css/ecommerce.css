@@ -1205,6 +1205,137 @@ footer ul li {
 	}
 }
 
+/* Css Product Info Page */
+/* Container */
+.container-info-product{
+  font-family: 'Roboto', sans-serif;
+}
+
+
+/* Columns */
+.column-maker {
+  display: flex;
+}
+
+.column-maker > div {
+  margin: 10px;
+  padding: 75px;
+  font-size: 35px;
+}
+
+/* Product Description */
+.product-description {
+  border-bottom: 1px solid #E1E8EE;
+  margin-bottom: 20px;
+}
+.product-description span {
+  font-size: 25px;
+  color: #358ED7;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.product-description h1 {
+  font-weight: 300;
+  font-size: 52px;
+  color: #43484D;
+  letter-spacing: -2px;
+}
+
+ h4 {
+  font-weight: 150;
+  font-size: 40px;
+  color: brown;
+  letter-spacing: -2px;
+}
+
+.description-lovers{
+display : flex;
+justify-content:center;		
+font-weight: 150;
+font-size: 40px;
+padding-bottom : 50px;
+}
+
+.product-description p {
+  font-size: 16px;
+  font-weight: 300;
+  color: #86939E;
+  line-height: 24px;
+}
+
+/* Product Color */
+.product-color {
+  margin-bottom: 30px;
+}
+ 
+.color-choose div {
+  display: inline-block;
+}
+ 
+.color-choose input{
+  display: none;
+}
+ 
+.color-choose input + label span {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  margin: -1px 4px 0 0;
+  vertical-align: middle;
+  cursor: pointer;
+  border-radius: 50%;
+}
+ 
+.color-choose input + label span {
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.33);
+}
+ 
+.color-choose input#red + label span {
+  background-color: #C91524;
+}
+.color-choose input#blue + label span {
+  background-color: #314780;
+}
+.color-choose input#black + label span {
+  background-color: #323232;
+}
+ 
+.color-choose input:checked + label span {
+  background-image: url(images/check-icn.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+
+/* Product Price */
+.product-price {
+  display: flex;
+  align-items: center;
+}
+ 
+.product-price span {
+  font-size: 35px;
+  font-weight: 300;
+  color: #43474D;
+  margin-right: 20px;
+}
+ 
+.cart-btn {
+  display: inline-block;
+  background-color: grey;
+  border-radius: 6px;
+  font-size: 25px;
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 12px 30px;
+  transition: all .5s;
+}
+.cart-btn:hover {
+  background-color: rgb(0, 0, 255);
+}
+
 /* CART MOBILE */
   @media screen and (max-width: 940px) {
   aside,
