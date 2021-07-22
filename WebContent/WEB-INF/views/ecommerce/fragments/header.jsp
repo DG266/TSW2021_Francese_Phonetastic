@@ -8,8 +8,8 @@
     	<meta charset="UTF-8">
     	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     	<title>Phonetastic</title>
-		<!-- Icona scheda (da mettere) -->
-		<link rel="shortcut icon" href="" type="image/png">
+		<!-- Icona scheda -->
+		<link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/doge.ico" type="image/ico">
         <!-- BOXICONS -->
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/boxicons.min.css">
 		

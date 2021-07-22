@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>  
     
 <%@ include file="/WEB-INF/views/admin/fragments/header.jsp" %>
 
@@ -18,12 +19,14 @@
 				<tr>
 					<th>ID</th>
 					<th>Nome</th>
-					<th>Descrizione</th>
+					<th>Casa Produttrice</th>
 					<th>Quantità</th>
 					<th>Prezzo</th>
 					<th>IVA</th>
 					<th>Sconto</th>
-					<th>Percorso immagine</th>
+					<th>Data inserimento</th>
+					<th>Data ultimo aggiornamento</th>
+					<th>Nascosto</th>
 					<th>Azioni</th>
 				</tr>
 				<c:choose>
@@ -32,12 +35,15 @@
 							<tr>
 								<td>${product.id}</td>
 								<td>${product.name}</td>
-								<td>${product.description}</td>
+								<td>${product.manufacturer}</td>
 								<td>${product.quantity}</td>
 								<td>${product.price}</td>
-								<td>${product.iva}</td>
-								<td>${product.discount}</td>
-								<td>${product.imagePath}</td>
+								<td>${product.iva}%</td>
+								<td>${product.discount}%</td>
+								<td><fmt:formatDate type="both" timeZone="UTC" value="${product.insertionDate}"/></td>
+								<td><fmt:formatDate type="both" timeZone="UTC" value="${product.lastUpdateDate}"/></td>
+								<td>${product.deleted}</td>
+								
 								<td><a href="update-product?id=${product.id}">Aggiorna Info</a></td>
 							</tr>
 						</c:forEach>

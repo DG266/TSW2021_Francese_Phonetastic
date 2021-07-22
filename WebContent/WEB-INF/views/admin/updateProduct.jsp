@@ -18,7 +18,7 @@
 			<c:choose>
 				<c:when test="${productToUpdate != null && productToUpdate.id != -1}">
 					<h2>Aggiorna le informazioni di ${productToUpdate.name} - (ID: ${productToUpdate.id})</h2>
-					<form action="update-product" method="POST">
+					<form action="update-product" method="POST" class="productForm">
 						<input type ="hidden" name="id" value="${productToUpdate.id}">
 						<br><br>
 						<input type="text" name="name" value="${productToUpdate.name}" placeholder="${productToUpdate.name}" autofocus required/>
@@ -27,9 +27,9 @@
 						<br><br>
 						<input type="number" name="price" value="${productToUpdate.price}" placeholder="${productToUpdate.price}" step="any" min="1" autofocus required/>
 						<br><br>
-						<input type="number" name="discount" value="${productToUpdate.discount}" placeholder="${productToUpdate.discount}" min="0" autofocus required/>
+						<input type="number" name="discount" value="${productToUpdate.discount}" placeholder="${productToUpdate.discount}" min="0" max="100" autofocus required/>
 						<br><br>
-						<input type="number" name="iva" value="${productToUpdate.iva}" placeholder="${productToUpdate.iva}" min="1" autofocus required/>
+						<input type="number" name="iva" value="${productToUpdate.iva}" placeholder="${productToUpdate.iva}" min="0" max="100" autofocus required/>
 						<br><br>
 						<textarea name="description" rows="5" cols="48" placeholder="${productToUpdate.description}" autofocus required>${productToUpdate.description}</textarea>
 						<br><br>

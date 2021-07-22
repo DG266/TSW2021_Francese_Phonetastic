@@ -55,6 +55,30 @@ public class OrderCompositionBean implements Serializable{
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
+	
+	public BigDecimal getTotalIva() {
+		BigDecimal taxToAdd = price.multiply(iva.divide(new BigDecimal(100)));
+		return (taxToAdd).multiply(new BigDecimal(quantity));
+	}
+	
+	public BigDecimal getTotalPriceWithIva() {
+		BigDecimal taxToAdd = price.multiply(iva.divide(new BigDecimal(100)));
+		return (price.add(taxToAdd)).multiply(new BigDecimal(quantity));
+	}
+	
+	public BigDecimal getTotalPriceWithDiscount() {
+		BigDecimal priceDiscount = price.multiply(discount.divide(new BigDecimal(100)));
+		BigDecimal priceDiscounted = price.subtract(priceDiscount);
+		return (priceDiscounted).multiply(new BigDecimal(quantity));
+	}
+	
+	public BigDecimal getTotalPriceWithDiscountAndIva() {	
+		BigDecimal priceDiscount = price.multiply(discount.divide(new BigDecimal(100)));
+		BigDecimal priceDiscounted = price.subtract(priceDiscount);
+		BigDecimal taxToAdd = priceDiscounted.multiply(iva.divide(new BigDecimal(100)));
+		
+		return (priceDiscounted.add(taxToAdd)).multiply(new BigDecimal(quantity));
+	}
 
 	public BigDecimal getIva() {
 		return iva;

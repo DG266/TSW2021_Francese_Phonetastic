@@ -82,7 +82,8 @@ public class FinalizeOrderControl extends HttpServlet {
 		// Check if the user filled the payment method form (this happens when the user wants to
 		// finalize an order but he has no payment method saved)
 		if(request.getParameter("card-number") != null 
-				&& request.getParameter("expiry-date") != null 
+				&& request.getParameter("exp-month") != null 
+				&& request.getParameter("exp-year") != null 
 				&& request.getParameter("cvv") != null) {
 			
 			PaymentMethodBean newPaymentMethod = new PaymentMethodBean();
@@ -92,8 +93,11 @@ public class FinalizeOrderControl extends HttpServlet {
 				
 				newPaymentMethod.setUserId(userId);
 				
+				String expMonth = request.getParameter("exp-month");
+				String expYear = request.getParameter("exp-year");
+				
 				newPaymentMethod.setCardNumber(request.getParameter("card-number"));
-				newPaymentMethod.setExpiryDate(Date.valueOf(request.getParameter("expiry-date")));
+				newPaymentMethod.setExpiryDate(Date.valueOf("20" + expYear + "-" + expMonth + "-01"));   // THIS IS SO BAD, FORGIVE ME -DG266
 				newPaymentMethod.setCvv(Integer.parseInt(request.getParameter("cvv")));
 				
 				paymentMethodModel.insertPaymentMethod(newPaymentMethod);

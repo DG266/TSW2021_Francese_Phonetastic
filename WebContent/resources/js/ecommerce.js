@@ -64,7 +64,8 @@ $(document).ready(function(){
 		
 	    event.preventDefault();		// previene l'invio del form
 		
-	    var form = $(this).closest(".cart-form");       
+	    var form = $(this).closest(".cart-form");    
+		var productId = $(this).siblings("input[name=id]").val();
 	    
 		// richiesta AJAX per aggiungere un prodotto al carrello
 		$.ajax({
@@ -77,11 +78,18 @@ $(document).ready(function(){
 				// aggiornamento icona carrello
 				$.get("./cart", function(responseJson) {  
 					$(".cart-quantity-number").html(responseJson.length);
+					for( var i = 0; i < responseJson.length; i++) {
+						// notifica aggiunta prodotto al carrello
+						if(responseJson[i].product.id == productId){
+							$("body").append("<div class=\"cart-notification\"><span>" + responseJson[i].product.name + " aggiunto al carrello</span></div>");
+							$(".cart-notification").fadeOut(5000);
+						}
+					}
 				});
 				
 				// notifica aggiunta prodotto al carrello
-				$("body").append("<div class=\"cart-notification\"><span>Prodotto aggiunto al carrello</span></div>");
-				$(".cart-notification").fadeOut(5000);
+				//$("body").append("<div class=\"cart-notification\"><span>Prodotto aggiunto al carrello</span></div>");
+				//$(".cart-notification").fadeOut(5000);
 				//$(".addtocartconfirmation").show();
 		    },
 		    error: function(jqXHR, errorType, exception) { 
@@ -160,7 +168,7 @@ $(document).ready(function(){
 				
 				// aggiornamento icona carrello e prezzi
 				$.get("./cart", {updatePrice : true},function(responseJson) { 
-					if(responseJson.cartSize > 0){
+					if(responseJson.cartSize >= 0){
 						$(".cart-quantity-number").html(responseJson.cartSize);
 					} 
 					else{
@@ -174,6 +182,22 @@ $(document).ready(function(){
 		});
 	});
 	
+	$("#decreaseQuantity").click(function(){
+		
+		var desiredQuantity = $("#productInfoQuantityVal").text();
+		if(desiredQuantity > 1){
+			$("#productInfoQuantityVal").text(desiredQuantity - 1);
+			$("#productInfoCartForm input[name=quantity]").val(desiredQuantity - 1);
+		}
+	});
+	
+	$("#increaseQuantity").click(function(){
+		var desiredQuantity = $("#productInfoQuantityVal").text();
+		if(desiredQuantity < 99){
+			$("#productInfoQuantityVal").text(desiredQuantity - (-1));  // è una cosa vergognosa, ma ho dovuto -DG266
+			$("#productInfoCartForm input[name=quantity]").val(desiredQuantity - (-1));
+		}
+	});
 	
 });
 

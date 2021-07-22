@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="it.unisa.phonetastic.model.cart.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
         <footer>
             <div class="container">
@@ -54,8 +55,15 @@
                 </section>
             </div>
         </footer>
+        <c:set var = "currentURL" value = "${requestScope['javax.servlet.forward.request_uri']}"/>
+        
         <script src="${pageContext.request.contextPath}/resources/js/jquery-3.6.0.js"></script>
 	    <script src="${pageContext.request.contextPath}/resources/js/ecommerce.js"></script>
+	    <c:if test="${fn:contains(currentURL, '/info')}">
+	    	<script src="${pageContext.request.contextPath}/resources/js/zoom.js"></script>
+	    </c:if>
 	    <script src="${pageContext.request.contextPath}/resources/js/loginFormValidation.js"></script>
+	    <script src="${pageContext.request.contextPath}/resources/js/paymentMethodValidation.js"></script>
+	    <script src="${pageContext.request.contextPath}/resources/js/addressValidation.js"></script>
     </body>
 </html>

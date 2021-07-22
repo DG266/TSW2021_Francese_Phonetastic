@@ -9,7 +9,7 @@ import it.unisa.phonetastic.model.bean.OrderBean;
 
 public interface OrderDAO {
 
-	public void insertOrder(OrderBean order, BigDecimal total) throws SQLException;
+	public Long insertOrder(OrderBean order, BigDecimal total) throws SQLException;
 	
 	public boolean deleteOrder(int id) throws SQLException;
 	

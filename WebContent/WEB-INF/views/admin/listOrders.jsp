@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>  
     
 <%@ include file="/WEB-INF/views/admin/fragments/header.jsp" %>
 
@@ -52,8 +53,8 @@
 							<tr>
 								<td>${order.id}</td>
 								<td>${order.total}</td>
-								<td>${order.creationDate}</td>
-								<td>${order.lastUpdateDate}</td>
+								<td><fmt:formatDate type="both" timeZone="UTC" value="${order.creationDate}"/></td>
+								<td><fmt:formatDate type="both" timeZone="UTC" value="${order.lastUpdateDate}"/></td>
 								<td>${order.customerId}</td>
 								<td>${order.addressId}</td>
 							</tr>

@@ -2,17 +2,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 	<%@ include file="/WEB-INF/views/ecommerce/fragments/header.jsp" %>
-	<c:choose>
-		<c:when
-			test="${currentSessionUser == null || !currentSessionUser.valid}">
-			<h1>Non ho fatto nulla!</h1>
-			<p>Ricorda di fare il login.</p>
-			<a href="catalog">Torna al Catalogo</a>
-		</c:when>
-		<c:otherwise>
-			<h1>Grazie per il tuo acquisto!</h1>
-			<p>(esempio di checkout, ho svuotato il tuo carrello e salvato l'ordine nel database)</p>
-			<a href="catalog">Torna al Catalogo</a>
-		</c:otherwise>
-	</c:choose>
+	
+	<div class="container">
+		<div class="purchase-completed-content">
+			<div class="my-account-pages-title">
+				<h2>Grazie per aver scelto Phonetastic!</h2>
+			</div>
+			<div class="my-account-pages-title">
+				<h2>Il tuo ordine (N° ${newOrderId}) è stato registrato con successo.</h2>
+			</div>
+			
+			<div class="my-account-pages-title">
+				<h3>Clicca <a href="${pageContext.request.contextPath}/my-orders">qui</a> per visualizzare la pagina "I tuoi ordini"!</h3>
+			</div>
+		</div>
+	</div>
+	
 	<%@ include file="/WEB-INF/views/ecommerce/fragments/footer.jsp" %>

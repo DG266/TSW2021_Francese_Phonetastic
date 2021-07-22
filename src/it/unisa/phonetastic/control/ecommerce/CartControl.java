@@ -118,6 +118,7 @@ public class CartControl extends HttpServlet{
 					int ordered = cart.getOrderedProductQuantity(id);  
 					if(ordered + quantity <= bean.getQuantity() && ordered + quantity <= MAX_QUANTITY) {				
 						cart.addProduct(bean);
+						cart.setQuantity(id, ordered + quantity);
 					}
 					else {
 						inStock = false;

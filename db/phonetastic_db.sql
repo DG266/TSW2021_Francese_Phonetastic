@@ -110,8 +110,8 @@ CREATE TABLE product (
     product_description VARCHAR(1000) NOT NULL,
     quantity INT NOT NULL,
     price DECIMAL(13, 2) NOT NULL,
-    iva DECIMAL(4 , 2 ) NOT NULL,
-    discount DECIMAL(4 , 2 ),
+    iva DECIMAL(5 , 2 ) NOT NULL,
+    discount DECIMAL(5 , 2 ),
 	insertion_date		TIMESTAMP NOT NULL,
     last_update_date	TIMESTAMP NOT NULL,
     image_path VARCHAR(1023),
@@ -174,15 +174,15 @@ CREATE TABLE order_info(
 ALTER TABLE order_info AUTO_INCREMENT= 200200;
 
 INSERT INTO order_info(total, creation_date, last_update_date, customer_id, address_id, p_method_id)
-VALUES(199.99, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 100101, 1, 1);
+VALUES(243.99, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 100101, 1, 1);
 
 CREATE TABLE order_composition(
 	order_id		BIGINT,
     product_id		INT,
     quantity		INT NOT NULL,
     price			DECIMAL(13, 2) NOT NULL,
-    iva				DECIMAL(4,2) NOT NULL,
-    discount		DECIMAL(4,2),
+    iva				DECIMAL(5,2) NOT NULL,
+    discount		DECIMAL(5,2),
     PRIMARY KEY(order_id, product_id),
     FOREIGN KEY(order_id)
 			REFERENCES order_info(order_id)
@@ -191,7 +191,7 @@ CREATE TABLE order_composition(
 	FOREIGN KEY(product_id)
 			REFERENCES product(product_id)
             ON UPDATE CASCADE
-            ON DELETE NO ACTION					# TODO: find a solution to the products deletion problem
+            ON DELETE NO ACTION					
 );
 
 INSERT INTO order_composition(order_id, product_id, quantity, price, iva, discount)

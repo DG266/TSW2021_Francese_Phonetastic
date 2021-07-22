@@ -17,9 +17,11 @@
 			<c:if test="${message != null}">
 				<h2>${message}</h2>
 			</c:if>
+			<div class="info">
+			</div>
 			<br><br>
 			<h2>Aggiungi un prodotto</h2>
-			<form action="add-product" method="POST" enctype="multipart/form-data">
+			<form action="add-product" method="POST" enctype="multipart/form-data" class="productForm">
 				<br><br>
 				<input type="text" name="name" placeholder="Nome" autofocus required/>
 				<br><br>
@@ -27,9 +29,9 @@
 				<br><br>
 				<input type="number" name="price" placeholder="Prezzo" step="any" min="1" autofocus required/>
 				<br><br>
-				<input type="number" name="discount" placeholder="% Sconto" min="0" autofocus required/>
+				<input type="number" name="discount" placeholder="% Sconto" min="0" max="100" autofocus required/>
 				<br><br>
-				<input type="number" name="iva" placeholder="IVA" min="1" autofocus required/>
+				<input type="number" name="iva" placeholder="IVA" min="0" max="100" autofocus required/>
 				<br><br>
 				<textarea name="description" rows="5" cols="48" placeholder="Aggiungi una descrizione del prodotto..." autofocus required></textarea>
 				<br><br>

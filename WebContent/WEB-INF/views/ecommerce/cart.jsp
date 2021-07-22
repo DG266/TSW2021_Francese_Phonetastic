@@ -93,13 +93,21 @@
 					</div>
 				</div>
 				<div class="summary-checkout">
-					<form action="finalize-order" method="GET">
-						<button type="submit" class="checkout-button">Completa l'acquisto</button>
-					</form>			
+					<c:if test="${cart != null && cart.products.size() > 0}">
+						<form action="finalize-order" method="GET">
+							<button type="submit" class="checkout-button">Completa l'acquisto</button>
+						</form>	
+					</c:if>
 				</div>
 			</div>
 		</aside>
 	</div>
+	<c:if test="${cart != null && cart.products.size() > 0}">
+		<form action="cart" method="POST">
+			<input type="hidden" name="action" value="deleteCart">
+			<input type="submit" value="Svuota il carrello">
+		</form>
+	</c:if>
 </div>
 
 

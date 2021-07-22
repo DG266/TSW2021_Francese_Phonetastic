@@ -32,7 +32,7 @@ $(document).ready(function(){
 	$("#loginForm").submit(function(event){
 		if(!validateEmail($("#loginForm input[name=email]"))) {
 			$("#loginInfo").html("Inserisci una email valida.");
-			return false;
+			return false;   // blocca il submit del form
 		}
 	});
 	

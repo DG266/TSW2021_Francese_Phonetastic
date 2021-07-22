@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html>
 <html>
@@ -8,8 +8,8 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Dashboard</title>
-		<!-- Icona scheda (da mettere) -->
-		<link rel="shortcut icon" href="" type="image/png">
+		<!-- Icona scheda -->
+		<link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/doge.ico" type="image/ico">
 		<!-- BOXICONS -->
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/boxicons.min.css">
 		<!-- APP CSS -->
@@ -23,16 +23,21 @@
 		<!-- SIDEBAR -->
 		<div class ="sidebar">
 			<div class="sidebar-logo">
+				<a href="${pageContext.request.contextPath}" class="logo">Phonetastic</a>
+				<!--  
 				<a href="${pageContext.request.contextPath}/catalog">
 					<img src="${pageContext.request.contextPath}/resources/images/LogoImage/logo.png" alt="Logo sito">
 				</a>
+				-->
 				<div class="sidebar-close" id="sidebar-close">
 					<i class="bx bx-left-arrow-alt"></i>
 				</div>
 			</div>
 			<div class="sidebar-user">
 				<div class="sidebar-user-info">
+					<!--  
 					<img src="" alt="Foto profilo" class="profile-image">
+					-->
 					<div class="sidebar-user-name">
 						Ciao, ${currentSessionUser.firstName}
 					</div>
@@ -52,12 +57,15 @@
                    		<span>Dashboard</span>
 					</a>
 				</li>
+				<!--  
 				<li>
 					<a href="#">
 						<i class='bx bx-chart'></i>
                    		<span>Statistiche</span>
 					</a>
 				</li>
+				-->
+				<!--  
 				<li class="sidebar-submenu">
 					<a href="#" class="sidebar-menu-dropdown">
 						<i class='bx bx-user-circle'></i>
@@ -82,6 +90,7 @@
 						</li>
 					</ul>
 				</li>
+				-->
 				<li class="sidebar-submenu">
 					<a href="#" <c:if test="${fn:endsWith(currentURL, '/admin/add-product') || fn:endsWith(currentURL, '/admin/products') || fn:contains(currentURL, '/admin/update-product')}">id="open"</c:if> class="sidebar-menu-dropdown">
 						<i class='bx bx-category'></i>

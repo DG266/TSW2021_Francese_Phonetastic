@@ -104,11 +104,13 @@ public class CheckoutControl extends HttpServlet {
 						
 						// STEP 4: SAVE DATA
 						bean.setElements(elements);
-						model.insertOrder(bean, cart.getTotalWithDiscountAndIva());    // TODO Fix this
+						Long newOrderId = model.insertOrder(bean, cart.getTotalWithDiscountAndIva());    // TODO Not a perfect solution
 					
 		
 						// STEP 5: REMOVE ALL PRODUCTS FROM CART
 						cart.emptyCart();
+						
+						request.setAttribute("newOrderId", newOrderId);
 			
 						RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/ecommerce/purchaseCompleted.jsp");
 						dispatcher.forward(request, response);
