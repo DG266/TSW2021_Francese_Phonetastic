@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import it.unisa.phonetastic.model.bean.CategoryBean;
 import it.unisa.phonetastic.model.bean.ProductBean;
 import it.unisa.phonetastic.model.dao.DAOFactory;
 import it.unisa.phonetastic.model.dao.ProductDAO;
@@ -41,6 +43,14 @@ public class AddProductControl extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		try {
+			request.setAttribute("categories", model.retrieveAllCategories());
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/views/admin/addProduct.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -54,6 +64,7 @@ public class AddProductControl extends HttpServlet {
 				&& request.getParameter("price") != null 
 				&& request.getParameter("iva") != null 
 				&& request.getParameter("discount") != null
+				&& request.getParameter("category") != null
 				&& request.getPart("image") != null) {
 			
 			ProductBean newProduct = new ProductBean();
@@ -65,6 +76,11 @@ public class AddProductControl extends HttpServlet {
 				newProduct.setPrice(new BigDecimal(request.getParameter("price")));
 				newProduct.setIva(new BigDecimal(request.getParameter("iva"))); 
 				newProduct.setDiscount(new BigDecimal(request.getParameter("discount")));
+				
+				ArrayList<CategoryBean> categories = new ArrayList<>();
+				categories.add(model.retrieveCategoryByName(request.getParameter("category")));
+				
+				newProduct.setCategories(categories);
 				
 				// insertionDate, lastUpdateDate and isDeleted will be handled by the model
 				// (well, they'll have default values: current_timestamp x 2 + false)

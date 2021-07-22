@@ -10,8 +10,14 @@
 				<h2>Inserisci i dati mancanti per poter continuare.</h2>
 			</div>
 		</c:if>
+		
+		<div class="my-account-pages-error" id="addressError">
+		</div>
+		
+		<div class="my-account-pages-error" id="paymentMethodError">
+		</div>
 
-	 	<form action="${pageContext.request.contextPath}/finalize-order" method="POST" id="addressForm">
+	 	<form action="${pageContext.request.contextPath}/finalize-order" method="POST" class="addressForm paymentMethodForm">
 	 		<c:choose>
 	 			<c:when test="${userAddresses.size() > 0}">
 	 				<h1>Scegli l'indirizzo di spedizione</h1>

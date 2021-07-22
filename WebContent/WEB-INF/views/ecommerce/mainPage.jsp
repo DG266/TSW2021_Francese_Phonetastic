@@ -9,13 +9,32 @@
 		<div class="slider">
 			<div class="container">
 				<!-- SLIDE ITEM -->
+				<div class="slide">
+					<div class="info">
+						<div class="info-content">
+							<h3 class="top-down">ONEPLUS NORD CE 5G</h3>
+							<h2 class="top-down trans-delay-0-2">Novità per te!</h2>
+                            <p class="top-down trans-delay-0-4">
+                                Clicca qui sotto per acquistarlo!
+                            </p>
+                            <div class="top-down trans-delay-0-6">
+                                <button class="button-flat button-hover"><span>Acquista adesso</span></button>
+                            </div>
+						</div>
+					</div>
+					<div class="img top-down">
+						<img src="${pageContext.request.contextPath}/resources/images/ProductImages/OnePlus-Nord-CE-5G-128GB-Blue-Void.png" alt="">
+					</div>
+				</div>
+				<!-- END SLIDE ITEM -->
+				<!-- SLIDE ITEM -->
 				<div class="slide active">
 					<div class="info">
 						<div class="info-content">
 							<h3 class="top-down">APPLE WATCH SERIES 6</h3>
-							<h2 class="top-down trans-delay-0-2">Novità!</h2>
+							<h2 class="top-down trans-delay-0-2">Novità per te!</h2>
                             <p class="top-down trans-delay-0-4">
-                                Altre informazioni...
+                                Clicca qui sotto per acquistarlo!
                             </p>
                             <div class="top-down trans-delay-0-6">
                                 <button class="button-flat button-hover"><span>Acquista adesso</span></button>
@@ -31,10 +50,10 @@
 				<div class="slide">
 					<div class="info">
 						<div class="info-content">
-							<h3 class="top-down">APPLE IPHONE X</h3>
-							<h2 class="top-down trans-delay-0-2">Novità!</h2>
+							<h3 class="top-down">APPLE IPHONE 12 PRO</h3>
+							<h2 class="top-down trans-delay-0-2">Novità per te!</h2>
                             <p class="top-down trans-delay-0-4">
-                                Altre informazioni...
+                                Clicca qui sotto per acquistarlo!
                             </p>
                             <div class="top-down trans-delay-0-6">
                                 <button class="button-flat button-hover"><span>Acquista adesso</span></button>
@@ -42,7 +61,7 @@
 						</div>
 					</div>
 					<div class="img top-down">
-						<img src="${pageContext.request.contextPath}/resources/images/ProductImages/Apple-IPhone-X.png" alt="">
+						<img src="${pageContext.request.contextPath}/resources/images/ProductImages/Apple-IPhone-12-Pro-Gold.png" alt="">
 					</div>
 				</div>
 				<!-- END SLIDE ITEM -->
@@ -90,10 +109,10 @@
 		<div class="promotion-box">
 			<div class="promotion-content">
 				<div class="text">
-                	<h3>Oneplus</h3>
-                	<a href="${pageContext.request.contextPath}/catalog?manufacturer=Oneplus">
+                	<h3>OnePlus</h3>
+                	<a href="${pageContext.request.contextPath}/catalog?manufacturer=OnePlus">
 	                	<button class="button-flat button-hover">
-	                		<span>Scopri i prodotti Oneplus</span>
+	                		<span>Scopri i prodotti OnePlus</span>
 	                	</button>
                 	</a>
             	</div>
@@ -103,7 +122,7 @@
 	</section>
 	<!-- END PROMOTION SECTION -->
 	
-	<!-- BESTSELLERS SECTION -->
+	<!-- NEW PRODUCTS SECTION -->
 	<section class="latest-products">
 		<div class="container">
 			<div class="latest-products-title">
@@ -162,6 +181,6 @@
             </div>
 		</div>
 	</section>
-	<!-- END BESTSELLERS SECTION -->
+	<!-- END NEW PRODUCTS SECTION -->
 	
 <%@ include file="/WEB-INF/views/ecommerce/fragments/footer.jsp" %>

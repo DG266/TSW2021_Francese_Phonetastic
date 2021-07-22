@@ -50,16 +50,41 @@ function validateProvince(province) {
 
 $(document).ready(function(){
 	
-	$("#addressForm").submit(function(event){
+	$(".addressForm").submit(function(event){
 		
-		var stateValid = allLetter($("#addressForm input[name=state]"));
-		var cityValid = allLetter($("#addressForm input[name=city]"));
-		var provinceValid = validateProvince($("#addressForm input[name=province]"));
-		var capValid = validateCap($("#addressForm input[name=cap]"));
-		var addressValid = alphanumeric($("#addressForm input[name=address]"));
+		$("#addressError").empty();
+		
+		var stateValid = allLetter($(".addressForm input[name=state]"));
+		var cityValid = allLetter($(".addressForm input[name=city]"));
+		var provinceValid = validateProvince($(".addressForm input[name=province]"));
+		var capValid = validateCap($(".addressForm input[name=cap]"));
+		var addressValid = alphanumeric($(".addressForm input[name=address]"));
 		
 		if(!stateValid || !cityValid || !provinceValid || !capValid || !addressValid) {
-			// TODO Metti messaggi di errore
+			
+			var error = "";
+			
+			if(!stateValid){
+				error = error + "Stato";
+			}
+			
+			if(!cityValid){
+				error = error + " Città";
+			}
+			
+			if(!provinceValid){
+				error = error + " Provincia";
+			}
+			
+			if(!capValid){
+				error = error + " CAP";
+			}
+			
+			if(!addressValid){
+				error = error + " Indirizzo";
+			}
+			
+			$("#addressError").append("<h2>Ricontrolla i dati relativi all'indirizzo inseriti. (" + error +")<h2>");
 			return false;
 		}
 	});

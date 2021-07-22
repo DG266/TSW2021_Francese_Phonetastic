@@ -8,19 +8,19 @@ CREATE TABLE user_info (
     email VARCHAR(255) UNIQUE NOT NULL,
     pwd VARCHAR(32) NOT NULL,
 	first_name	VARCHAR(255),
-    last_name	VARCHAR(255),
-    birth_date	DATE,
-    sex			CHAR,
-    tel_number	VARCHAR(255)
+    last_name	VARCHAR(255)
+    #birth_date	DATE,
+    #sex			CHAR,
+    #tel_number	VARCHAR(255)
 );
 
 ALTER TABLE user_info AUTO_INCREMENT = 100100;
 
-INSERT INTO user_info(email, pwd, first_name, last_name, birth_date, sex, tel_number)
-VALUES ("admin@phonetastic.it", "admin", "Franco", "Armani", null, null, null),
-	   ("daniele.galloppo@gmail.com", "pippo123", "Daniele", "Galloppo", "2000-01-01", "M", "+39 333 444 5555"),
-	   ("ferdinando.esposito@gmail.com", "topolino456", null, null, null, null, null),
-       ("antonio.monetti@gmail.com", "pluto789", null, null, null, null, null);
+INSERT INTO user_info(email, pwd, first_name, last_name)
+VALUES ("admin@phonetastic.it", "AdminAdmin123%", "Franco", "Armani"),
+	   ("daniele.galloppo@gmail.com", "PippoPippo123%", "Daniele", "Galloppo"),
+	   ("ferdinando.esposito@gmail.com", "Topolino456%", "Ferdinando", "Esposito"),
+       ("antonio.monetti@gmail.com", "Pluto789$", "Antonio", "Monetti");
 
 CREATE TABLE roles (
 	role_id		INT AUTO_INCREMENT PRIMARY KEY,
@@ -119,12 +119,18 @@ CREATE TABLE product (
 );
 
 INSERT INTO product(product_name, product_manufacturer, product_description, quantity, price, iva, discount, insertion_date, last_update_date, image_path, is_deleted)
-VALUES ("Xiaomi Redmi Note 5 Pro", "Xiaomi", "Qui andrà la descrizione.", 50, 199.99, 22.0, 0, TIMESTAMP("2021-04-01",  "00:00:00"), TIMESTAMP("2021-04-01",  "00:00:00"),  ".\\resources\\images\\ProductImages\\Xiaomi-Redmi-Note-5-Pro.png", false),
-	   ("Apple IPhone X", "Apple", "Qui andrà la descrizione.", 100, 799.99, 22.0, 0, TIMESTAMP("2021-04-02",  "00:00:00"), TIMESTAMP("2021-04-02",  "00:00:00"), ".\\resources\\images\\ProductImages\\Apple-IPhone-X.png", false),	
+VALUES ("Xiaomi Redmi Note 5 Pro", "Xiaomi", "Qui andrà la descrizione.", 50, 200.00, 22.0, 0, TIMESTAMP("2021-04-01",  "00:00:00"), TIMESTAMP("2021-04-01",  "00:00:00"),  ".\\resources\\images\\ProductImages\\Xiaomi-Redmi-Note-5-Pro.png", false),
+	   ("Apple IPhone X", "Apple", "Qui andrà la descrizione.", 100, 800.00, 22.0, 0, TIMESTAMP("2021-04-02",  "00:00:00"), TIMESTAMP("2021-04-02",  "00:00:00"), ".\\resources\\images\\ProductImages\\Apple-IPhone-X.png", false),	
 	   ("Xiaomi Redmi Note 8", "Xiaomi", "Qui andrà la descrizione.", 200, 299.99, 22.0, 0, TIMESTAMP("2021-04-03",  "00:00:00"), TIMESTAMP("2021-04-03",  "00:00:00"),  ".\\resources\\images\\ProductImages\\Xiaomi-Redmi-Note-8.png", false),
-	   ("Huawei P10 Lite", "Huawei", "Qui andrà la descrizione.", 1000, 159.99, 22.0, 0, TIMESTAMP("2021-04-04",  "00:00:00"), TIMESTAMP("2021-04-04",  "00:00:00"), ".\\resources\\images\\ProductImages\\Huawei-P10-Lite.png", false),
-       ("Apple Watch Series 6", "Apple", "Qui andrà la descrizione.", 1000, 430.99, 22.0, 0, TIMESTAMP("2021-04-05",  "00:00:00"), TIMESTAMP("2021-04-05",  "00:00:00"), ".\\resources\\images\\ProductImages\\Apple-Watch-Series-6.png", false);
-
+	   ("Huawei P10 Lite", "Huawei", "Qui andrà la descrizione.", 1000, 160.00, 22.0, 0, TIMESTAMP("2021-04-04",  "00:00:00"), TIMESTAMP("2021-04-04",  "00:00:00"), ".\\resources\\images\\ProductImages\\Huawei-P10-Lite.png", false),
+       ("Apple Watch Series 6", "Apple", "Qui andrà la descrizione.", 1000, 430.00, 22.0, 0, TIMESTAMP("2021-04-05",  "00:00:00"), TIMESTAMP("2021-04-05",  "00:00:00"), ".\\resources\\images\\ProductImages\\Apple-Watch-Series-6.png", false),
+       ("Apple IPhone 12 128GB Red", "Apple", "Qui andrà la descrizione.", 100, 989.00, 22.0, 0, TIMESTAMP("2021-04-06",  "00:00:00"), TIMESTAMP("2021-04-06",  "00:00:00"), ".\\resources\\images\\ProductImages\\Apple-IPhone-12-Red.png", false),
+	   ("Apple IPhone 12 Pro 128GB Blue", "Apple", "Qui andrà la descrizione.", 100, 1189.00, 22.0, 0, TIMESTAMP("2021-04-07",  "00:00:00"), TIMESTAMP("2021-04-07",  "00:00:00"), ".\\resources\\images\\ProductImages\\Apple-IPhone-12-Pro-Blue.png", false),
+	   ("Apple IPhone 12 Pro 128GB Gold", "Apple", "Qui andrà la descrizione.", 100, 1189.00, 22.0, 0, TIMESTAMP("2021-04-08",  "00:00:00"), TIMESTAMP("2021-04-08",  "00:00:00"), ".\\resources\\images\\ProductImages\\Apple-IPhone-12-Pro-Gold.png", false),
+       ("OnePlus Nord CE 5G 128GB Silver Ray", "OnePlus", "Qui andrà la descrizione.", 100, 399.00, 22.0, 0, TIMESTAMP("2021-04-09",  "00:00:00"), TIMESTAMP("2021-04-09",  "00:00:00"), ".\\resources\\images\\ProductImages\\OnePlus-Nord-CE-5G-128GB-Silver-Ray.png", false),
+       ("OnePlus Nord CE 5G 128GB Charcoal Ink", "OnePlus", "Qui andrà la descrizione.", 100, 399.00, 22.0, 0, TIMESTAMP("2021-04-10",  "00:00:00"), TIMESTAMP("2021-04-10",  "00:00:00"), ".\\resources\\images\\ProductImages\\OnePlus-Nord-CE-5G-128GB-Charcoal-Ink.png", false),
+       ("OnePlus Nord CE 5G 128GB Blue Void", "OnePlus", "Qui andrà la descrizione.", 100, 399.00, 22.0, 0, TIMESTAMP("2021-04-11",  "00:00:00"), TIMESTAMP("2021-04-11",  "00:00:00"), ".\\resources\\images\\ProductImages\\OnePlus-Nord-CE-5G-128GB-Blue-Void.png", false),
+       ("Xiaomi Mi 9T 64GB Black", "Xiaomi", "Qui andrà la descrizione.", 100, 329.90, 22.0, 0, TIMESTAMP("2021-04-12",  "00:00:00"), TIMESTAMP("2021-04-12",  "00:00:00"), ".\\resources\\images\\ProductImages\\Xiaomi-Mi-9T-64GB-Black.png", false);
 CREATE TABLE product_categories(
 	product_id	INT,
     cat_id		INT,
@@ -146,7 +152,14 @@ VALUES ((SELECT product_id FROM product WHERE product_name = "Xiaomi Redmi Note 
 	   ((SELECT product_id FROM product WHERE product_name = "Apple Iphone X"), (SELECT cat_id FROM category WHERE cat_name = "Smartphone")),
        ((SELECT product_id FROM product WHERE product_name = "Xiaomi Redmi Note 8"), (SELECT cat_id FROM category WHERE cat_name = "Smartphone")),
        ((SELECT product_id FROM product WHERE product_name = "Huawei P10 Lite"), (SELECT cat_id FROM category WHERE cat_name = "Smartphone")),
-	   ((SELECT product_id FROM product WHERE product_name = "Apple Watch Series 6"), (SELECT cat_id FROM category WHERE cat_name = "Smartwatch"));
+	   ((SELECT product_id FROM product WHERE product_name = "Apple Watch Series 6"), (SELECT cat_id FROM category WHERE cat_name = "Smartwatch")),
+       ((SELECT product_id FROM product WHERE product_name = "Apple IPhone 12 128GB Red"), (SELECT cat_id FROM category WHERE cat_name = "Smartphone")),
+       ((SELECT product_id FROM product WHERE product_name = "Apple IPhone 12 Pro 128GB Blue"), (SELECT cat_id FROM category WHERE cat_name = "Smartphone")),
+       ((SELECT product_id FROM product WHERE product_name = "Apple IPhone 12 Pro 128GB Gold"), (SELECT cat_id FROM category WHERE cat_name = "Smartphone")),
+       ((SELECT product_id FROM product WHERE product_name = "OnePlus Nord CE 5G 128GB Silver Ray"), (SELECT cat_id FROM category WHERE cat_name = "Smartphone")),
+       ((SELECT product_id FROM product WHERE product_name = "OnePlus Nord CE 5G 128GB Charcoal Ink"), (SELECT cat_id FROM category WHERE cat_name = "Smartphone")),
+       ((SELECT product_id FROM product WHERE product_name = "OnePlus Nord CE 5G 128GB Blue Void"), (SELECT cat_id FROM category WHERE cat_name = "Smartphone")),
+       ((SELECT product_id FROM product WHERE product_name = "Xiaomi Mi 9T 64GB Black"), (SELECT cat_id FROM category WHERE cat_name = "Smartphone"));
 
 CREATE TABLE order_info(
 	order_id 			BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -174,7 +187,7 @@ CREATE TABLE order_info(
 ALTER TABLE order_info AUTO_INCREMENT= 200200;
 
 INSERT INTO order_info(total, creation_date, last_update_date, customer_id, address_id, p_method_id)
-VALUES(243.99, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 100101, 1, 1);
+VALUES(244.00, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 100101, 1, 1);
 
 CREATE TABLE order_composition(
 	order_id		BIGINT,

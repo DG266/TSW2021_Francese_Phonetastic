@@ -13,6 +13,20 @@ function validateEmail(inputEmail) {
 	}
 }
 
+ 
+
+function validatePassword(password) {
+	var passwordRegexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$";
+	
+	if(password.val().match(passwordRegexp)) {
+		return true;
+	}
+	else {
+		password.focus();
+		return false;
+	}
+}
+
 function allLetter(name) {
 	
 	var letters = /^[A-Za-z]+$/;
@@ -44,10 +58,11 @@ $(document).ready(function(){
 		var firstNameValid = allLetter($("#registrationForm input[name=firstName]"));
 		var lastNameValid = allLetter($("#registrationForm input[name=lastName]"))
 		var emailValid = validateEmail($("#registrationForm input[name=email]"));
+		var passwordValid = validatePassword($("#registrationForm input[name=pwd]"));
 		
 		//console.log("firstNameValid = " + firstNameValid + " lastNameValid = " + lastNameValid + " emailValid = " + emailValid);
 		
-		if(!firstNameValid || !lastNameValid || !emailValid ) {
+		if(!firstNameValid || !lastNameValid || !emailValid || !passwordValid) {
 			$("#registrationInfo").html("Ricontrolla i dati inseriti.<br>");
 			return false;
 		}

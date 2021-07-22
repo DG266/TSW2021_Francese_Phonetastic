@@ -35,8 +35,13 @@ public class MySqlUserDAO implements UserDAO {
 	private static final String ROLES_TABLE_NAME = "roles";
 
 	public synchronized void insertUser(UserBean user) throws SQLException {
+		/*
 		String userInsertSQL = "INSERT INTO " + USER_TABLE_NAME
 						 	 + "(email, pwd, first_name, last_name, birth_date, sex, tel_number) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		*/
+		
+		String userInsertSQL = "INSERT INTO " + USER_TABLE_NAME
+							 + "(email, pwd, first_name, last_name) VALUES (?, ?, ?, ?)";
 		
 		String roleInsertSQL = "INSERT INTO " + USER_ROLES_TABLE_NAME
 							 + "(role_id, user_id) VALUES ((SELECT role_id FROM " + ROLES_TABLE_NAME + " WHERE role_name = ?), ?)";
@@ -52,9 +57,11 @@ public class MySqlUserDAO implements UserDAO {
 				ps.setString(2, user.getPassword());    // TODO Fix this: not good at all
 				ps.setString(3, user.getFirstName());
 				ps.setString(4, user.getLastName());
+				/*
 				ps.setDate(5, user.getBirthDate());
 				ps.setString(6, user.getSex());
 				ps.setString(7, user.getPhoneNumber());
+				*/
 				
 				ps.executeUpdate();
 				
@@ -101,9 +108,15 @@ public class MySqlUserDAO implements UserDAO {
 		
 		//String selectSQL = "SELECT * FROM " + MySqlUserDAO.TABLE_NAME + " WHERE user_id = ?"; 
 		
+		/*
 		String selectSQL = "SELECT U.user_id, U.email, U.pwd, U.first_name, U.last_name, U.birth_date, U.sex, U.tel_number, R.role_name "
 				 		 + "FROM " + USER_TABLE_NAME + " U, " + USER_ROLES_TABLE_NAME + " UR, " + ROLES_TABLE_NAME + " R "
 				 		 + "WHERE U.user_id = UR.user_id AND UR.role_id = R.role_id AND U.user_id = ?";
+		*/
+		
+		String selectSQL = "SELECT U.user_id, U.email, U.pwd, U.first_name, U.last_name, R.role_name "
+						 + "FROM " + USER_TABLE_NAME + " U, " + USER_ROLES_TABLE_NAME + " UR, " + ROLES_TABLE_NAME + " R "
+						 + "WHERE U.user_id = UR.user_id AND UR.role_id = R.role_id AND U.user_id = ?";
 		
 		try(Connection conn = ds.getConnection()){
 			try(PreparedStatement ps = conn.prepareStatement(selectSQL)){
@@ -121,9 +134,11 @@ public class MySqlUserDAO implements UserDAO {
 						bean.setPassword(rs.getString("pwd"));
 						bean.setFirstName(rs.getString("first_name"));
 						bean.setLastName(rs.getString("last_name"));
+						/*
 						bean.setBirthDate(rs.getDate("birth_date"));
 						bean.setSex(rs.getString("sex"));
 						bean.setPhoneNumber(rs.getString("tel_number"));
+						*/
 						bean.setRoles(roles);
 						
 						bean.setValid(true);
@@ -164,11 +179,16 @@ public class MySqlUserDAO implements UserDAO {
 		String selectSQL = "SELECT U.user_id, U.email, U.pwd, U.first_name, U.last_name, U.birth_date, U.sex, U.tel_number, R.role_name "
 						 + "FROM (user_info U JOIN user_roles UR ON U.user_id = UR.user_id) JOIN roles R ON UR.role_id = R.role_id "
 						 + "WHERE U.email = ? AND U.pwd = ?";
-		*/
+		
 		
 		String selectSQL = "SELECT U.user_id, U.email, U.pwd, U.first_name, U.last_name, U.birth_date, U.sex, U.tel_number, R.role_name "
 						 + "FROM " + USER_TABLE_NAME + " U, " + USER_ROLES_TABLE_NAME + " UR, " + ROLES_TABLE_NAME + " R "
 						 + "WHERE U.user_id = UR.user_id AND UR.role_id = R.role_id AND U.email = ? AND U.pwd = ?";
+		*/
+		
+		String selectSQL = "SELECT U.user_id, U.email, U.pwd, U.first_name, U.last_name, R.role_name "
+				 		 + "FROM " + USER_TABLE_NAME + " U, " + USER_ROLES_TABLE_NAME + " UR, " + ROLES_TABLE_NAME + " R "
+				 		 + "WHERE U.user_id = UR.user_id AND UR.role_id = R.role_id AND U.email = ? AND U.pwd = ?";
 		
 		try(Connection conn = ds.getConnection()){
 			try(PreparedStatement ps = conn.prepareStatement(selectSQL)){
@@ -187,9 +207,11 @@ public class MySqlUserDAO implements UserDAO {
 						bean.setPassword(rs.getString("pwd"));
 						bean.setFirstName(rs.getString("first_name"));
 						bean.setLastName(rs.getString("last_name"));
+						/*
 						bean.setBirthDate(rs.getDate("birth_date"));
 						bean.setSex(rs.getString("sex"));
 						bean.setPhoneNumber(rs.getString("tel_number"));
+						*/
 						bean.setRoles(roles);
 						
 						bean.setValid(true);
@@ -203,9 +225,15 @@ public class MySqlUserDAO implements UserDAO {
 
 	public synchronized void updateUser(UserBean user) throws SQLException {
 		
+		/*
 		String updateSQL = "UPDATE " + USER_TABLE_NAME
 		   	 	  		 + "SET email = ?, pwd = ?, first_name = ?, last_name = ?, birth_date = ?, sex = ?, tel_number = ?"
 		   	 	  		 + "WHERE user_id = ?";
+		*/
+		
+		String updateSQL = "UPDATE " + USER_TABLE_NAME + " "
+  	 	  		 		 + "SET email = ?, pwd = ?, first_name = ?, last_name = ? "
+  	 	  		 		 + "WHERE user_id = ?";
 		
 		try(Connection conn = ds.getConnection()){
 			conn.setAutoCommit(false);
@@ -215,9 +243,11 @@ public class MySqlUserDAO implements UserDAO {
 				ps.setString(2, user.getPassword());
 				ps.setString(3, user.getFirstName());
 				ps.setString(4, user.getLastName());
+				/*
 				ps.setDate(5, user.getBirthDate());
 				ps.setString(6, user.getSex());
 				ps.setString(7, user.getPhoneNumber());
+				*/
 				
 				ps.setInt(8, user.getId());
 				

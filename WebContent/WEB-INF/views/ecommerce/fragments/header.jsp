@@ -136,7 +136,7 @@
                                                     <li><a href="${pageContext.request.contextPath}/catalog?category=Smartphone&manufacturer=Xiaomi">Xiaomi</a></li>
                                                     <li><a href="${pageContext.request.contextPath}/catalog?category=Smartphone&manufacturer=Apple">Apple</a></li>
                                                     <li><a href="${pageContext.request.contextPath}/catalog?category=Smartphone&manufacturer=Huawei">Huawei</a></li>
-                                                    <li><a href="${pageContext.request.contextPath}/catalog?category=Smartphone&manufacturer=Oneplus">Oneplus</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/catalog?category=Smartphone&manufacturer=OnePlus">OnePlus</a></li>
                                                 </ul>
                                             </div>
                                                <div class="category-grid-item">
@@ -162,7 +162,7 @@
                                 </li>
                                  <!-- END CATEGORY MENU -->
     
-                                <li><a href="#">Offerte</a></li>
+                                <li><a href="${pageContext.request.contextPath}/deals">Offerte</a></li>
                             </ul>
                         </nav>
                     </div>

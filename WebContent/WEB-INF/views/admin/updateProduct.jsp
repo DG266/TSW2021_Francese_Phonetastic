@@ -25,6 +25,13 @@
 						<br><br>
 						<input type="text" name="manufacturer" value="${productToUpdate.manufacturer}" placeholder="${productToUpdate.manufacturer}" autofocus required/>
 						<br><br>
+						<input list="categories" name="category" id="category" placeholder="Categoria" autofocus required>
+						<datalist id="categories">
+							<c:forEach var="cat" items="${categories}">
+							 	<option value="${cat.categoryName}"/>
+							</c:forEach>
+						</datalist>
+						<br><br>
 						<input type="number" name="price" value="${productToUpdate.price}" placeholder="${productToUpdate.price}" step="any" min="1" autofocus required/>
 						<br><br>
 						<input type="number" name="discount" value="${productToUpdate.discount}" placeholder="${productToUpdate.discount}" min="0" max="100" autofocus required/>

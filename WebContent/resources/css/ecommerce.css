@@ -27,17 +27,6 @@ th, td {
   	text-align: left;
 }
 
-input[type=submit] {
-	display: flex;
-	justify-content: flex-end;
-	margin: 25px;
-    border: 2px solid #000000;
-    border-radius: 3px;
-    padding: 2px;
-    background-color: #dcdcdc;
-    cursor: pointer;
-}
-
 body {
     font-family: "Poppins", sans-serif;     /* ADD MORE FONTS */
     overflow-x: hidden;
@@ -726,7 +715,7 @@ nav > ul > li > a:hover {
 /* HERO SECTION STUFF */
 .hero {
     height: calc(
-        100vh - (var(--top-header-size) + var(--navbar-size))
+        108vh - (var(--top-header-size) + var(--navbar-size))
     );
     padding: 0 20px;
 }
@@ -896,6 +885,29 @@ nav > ul > li > a:hover {
 
 /* END PROMOTION SECTION */
 
+/* PRODUCT PAGE */
+
+.product-grid-container {
+	margin: 40px 0px;
+	min-height: 500px;
+}
+
+.products-list-head {
+	display: flex;
+	justify-content: center;
+	margin: 40px 0px;
+	border: solid;
+    border-radius: 14px;
+}
+
+.products-list-title {
+	display: flex;
+	justify-content: center;
+	margin: 40px 0px;
+}
+
+/* END PRODUCT PAGE */
+
 /* PRODUCT CARD */
 .product-card {
     background-color: var(--primary-bg-color);
@@ -1041,6 +1053,10 @@ nav > ul > li > a:hover {
 	color: #c0392b;
 }
 
+.product-info-price del {
+	color: black;
+}
+
 .product-info-quantity {
 	margin-top: 25px;
 	display: flex;
@@ -1164,6 +1180,13 @@ nav > ul > li > a:hover {
 }
 
 .my-account-pages-title a{
+	color: #c0392b;
+}
+
+.my-account-pages-error {
+	display: flex;
+	justify-content: center;
+	margin: 20px 0px;
 	color: #c0392b;
 }
 

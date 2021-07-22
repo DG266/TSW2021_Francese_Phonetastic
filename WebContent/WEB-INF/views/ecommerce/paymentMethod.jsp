@@ -8,11 +8,14 @@
 	<h2>Aggiungi un metodo di pagamento</h2>
 </div>
 
+<div class="my-account-pages-error" id="paymentMethodError">
+</div>
+
 <div id="success-message">
 </div>
 <div id="error-message">
 </div>
-<form action="${pageContext.request.contextPath}/my-payment-methods" method="POST" id="paymentMethodForm">
+<form action="${pageContext.request.contextPath}/my-payment-methods" method="POST" class="paymentMethodForm">
 	<div class="payment-method-form-container">
 		<div class="card-front">
 			<div class="shadow">

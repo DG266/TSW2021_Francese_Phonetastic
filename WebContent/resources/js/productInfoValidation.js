@@ -1,7 +1,7 @@
 // VALIDAZIONE FORM CHE RIGUARDANO AGGIUNTA/AGGIORNAMENTO INFO PRODOTTI
 
 function validatePricesAndPercentages(value) {
-	if(value > 0){
+	if(value >= 0){
 		
 		return true;
 	}

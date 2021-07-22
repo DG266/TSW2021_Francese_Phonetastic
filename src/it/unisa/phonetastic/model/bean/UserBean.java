@@ -13,9 +13,9 @@ public class UserBean implements Serializable {
 	private String password;
 	private String firstName;
 	private String lastName;
-	private Date birthDate;
-	private String sex;
-	private String phoneNumber;
+	//private Date birthDate;
+	//private String sex;
+	//private String phoneNumber;
 	private ArrayList<String> roles;
 	
 	private boolean valid;
@@ -26,9 +26,9 @@ public class UserBean implements Serializable {
 		password = null;
 		firstName = null;
 		lastName = null;
-		birthDate = null;
-		sex = null;
-		phoneNumber = null;
+		//birthDate = null;
+		//sex = null;
+		//phoneNumber = null;
 		valid = false;
 		roles = new ArrayList<>();
 	}
@@ -73,6 +73,7 @@ public class UserBean implements Serializable {
 		this.lastName = lastName;
 	}
 
+	/*
 	public Date getBirthDate() {
 		return birthDate;
 	}
@@ -96,6 +97,7 @@ public class UserBean implements Serializable {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+	*/
 
 	public boolean isValid() {
 		return valid;
@@ -117,10 +119,5 @@ public class UserBean implements Serializable {
 		return this.roles.contains("Admin");
 	}
 	
-	@Override
-	public String toString() {
-		return "UserBean [id=" + id + ", email=" + email + ", password=" + password + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", birthDate=" + birthDate + ", sex=" + sex + ", phoneNumber="
-				+ phoneNumber + ", roles=" + roles + ", valid=" + valid + "]";
-	}
+	
 }

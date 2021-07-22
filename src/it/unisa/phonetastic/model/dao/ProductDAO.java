@@ -3,6 +3,7 @@ package it.unisa.phonetastic.model.dao;
 import java.sql.SQLException;
 import java.util.Collection;
 
+import it.unisa.phonetastic.model.bean.CategoryBean;
 import it.unisa.phonetastic.model.bean.ProductBean;
 
 public interface ProductDAO {
@@ -31,4 +32,9 @@ public interface ProductDAO {
 	
 	public Collection<ProductBean> retrieveProductsByCategoryAndManufacturer(String catName, String manufacturer) throws SQLException;
 	
+	// CATEGORIES STUFF (MAYBE USING A DIFFERENT DAO WOULD BE A BETTER APPROACH)
+	
+	public Collection<CategoryBean> retrieveAllCategories() throws SQLException;
+	
+	public CategoryBean retrieveCategoryByName(String categoryName) throws SQLException;
 }

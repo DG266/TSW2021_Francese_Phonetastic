@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import it.unisa.phonetastic.model.bean.CategoryBean;
 import it.unisa.phonetastic.model.bean.ProductBean;
 import it.unisa.phonetastic.model.dao.DAOFactory;
 import it.unisa.phonetastic.model.dao.ProductDAO;
@@ -27,6 +29,7 @@ public class UpdateProductControl extends HttpServlet {
 		if(id != null) {
 			try {
 				request.setAttribute("productToUpdate", model.retrieveProductByID(Integer.parseInt(id)));
+				request.setAttribute("categories", model.retrieveAllCategories());
 			}
 			catch(SQLException e) {
 				System.out.println("Database error: " + e.getMessage());
@@ -53,6 +56,7 @@ public class UpdateProductControl extends HttpServlet {
 				&& request.getParameter("iva") != null 
 				&& request.getParameter("discount") != null
 				&& request.getParameter("insertion-date") != null
+				&& request.getParameter("category") != null
 				&& request.getParameter("image") != null) {
 			
 			ProductBean updatedProduct = new ProductBean();
@@ -67,6 +71,12 @@ public class UpdateProductControl extends HttpServlet {
 				updatedProduct.setDiscount(new BigDecimal(request.getParameter("discount")));
 				updatedProduct.setInsertionDate(Timestamp.valueOf(request.getParameter("insertion-date")));
 				updatedProduct.setImagePath(request.getParameter("image"));
+				
+				ArrayList<CategoryBean> categories = new ArrayList<>();
+				categories.add(model.retrieveCategoryByName(request.getParameter("category")));
+				
+				updatedProduct.setCategories(categories);
+				
 				if(request.getParameter("is-deleted") != null) {
 					updatedProduct.setDeleted(true);
 				}

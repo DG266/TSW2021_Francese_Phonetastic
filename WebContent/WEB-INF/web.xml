@@ -79,6 +79,15 @@
     </servlet-mapping>
     
     <servlet>
+        <servlet-name>DealsControl</servlet-name>
+        <servlet-class>it.unisa.phonetastic.control.ecommerce.DealsControl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DealsControl</servlet-name>
+        <url-pattern>/deals</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
         <servlet-name>CartControl</servlet-name>
         <servlet-class>it.unisa.phonetastic.control.ecommerce.CartControl</servlet-class>
         <!--  

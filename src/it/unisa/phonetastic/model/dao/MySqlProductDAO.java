@@ -34,20 +34,30 @@ public class MySqlProductDAO implements ProductDAO{
 	}
 	
 	private static final String TABLE_NAME = "product";
+	private static final String PRODUCT_CATEGORIES_TABLE_NAME = "product_categories";
+	private static final String CATEGORIES_TABLE_NAME = "category";
 
 	// TODO Should I use synchronized?
 	
 	public synchronized void insertProduct(ProductBean product) throws SQLException {
 		
-		String insertSQL = "INSERT INTO " + TABLE_NAME + " "
+		String productInsertSQL = "INSERT INTO " + TABLE_NAME + " "
 						 + "(product_name, product_manufacturer, product_description, quantity, price, iva, discount, "
 						 + "insertion_date, last_update_date, image_path, is_deleted) "
 						 + "VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), ?, ?)";
 		
+		String categoriesInsertSQL = "INSERT INTO " + PRODUCT_CATEGORIES_TABLE_NAME + " "
+									+ "(product_id, cat_id) "
+									+ "VALUES (?, ?)";
+		
+		int productId = -1;
+		
+		ArrayList<CategoryBean> categories = product.getCategories();
+		
 		try(Connection conn = ds.getConnection()){
 			// TODO Should do that for each method
 			conn.setAutoCommit(false);
-			try(PreparedStatement ps = conn.prepareStatement(insertSQL)){
+			try(PreparedStatement ps = conn.prepareStatement(productInsertSQL, Statement.RETURN_GENERATED_KEYS)){
 				ps.setString(1, product.getName());
 				ps.setString(2, product.getManufacturer());
 				ps.setString(3, product.getDescription());
@@ -60,7 +70,24 @@ public class MySqlProductDAO implements ProductDAO{
 				
 				ps.executeUpdate();
 				
+				// Retrieve the auto-generated order PK (useful in the next insert)
+				ResultSet rs = ps.getGeneratedKeys();
+				if(rs.next()) {
+					productId = rs.getInt(1);
+				}
+				
 				conn.commit();
+			}
+			
+			try(PreparedStatement ps = conn.prepareStatement(categoriesInsertSQL)){
+				for(CategoryBean cat : categories) {
+					ps.setInt(1, productId);
+					ps.setInt(2, cat.getCategoryId());
+					
+					ps.executeUpdate();
+					
+					conn.commit();
+				}
 			}
 		}		
 	}
@@ -162,15 +189,23 @@ public class MySqlProductDAO implements ProductDAO{
 
 	public synchronized void updateProduct(ProductBean product) throws SQLException {
 		
-		String updateSQL = "UPDATE " + TABLE_NAME + " "
+		String updateProductSQL = "UPDATE " + TABLE_NAME + " "
   	 	  		 		 + "SET product_name = ?, product_manufacturer = ?, product_description = ?, "
   	 	  		 		 + "quantity = ?, price = ?, iva = ?, discount = ?, insertion_date = ?, last_update_date = CURRENT_TIMESTAMP(), "
   	 	  		 		 + "image_path = ?, is_deleted = ? "
   	 	  		 		 + "WHERE product_id = ?"; 
 		
+		String deleteOldCategoriesSQL = "DELETE FROM " + PRODUCT_CATEGORIES_TABLE_NAME + " WHERE product_id = ?";
+		
+		String categoriesInsertSQL = "INSERT INTO " + PRODUCT_CATEGORIES_TABLE_NAME + " "
+								   + "(product_id, cat_id) "
+								   + "VALUES (?, ?)";
+		
+		ArrayList<CategoryBean> categories = product.getCategories();
+		
 		try(Connection conn = ds.getConnection()){
 			conn.setAutoCommit(false);
-			try(PreparedStatement ps = conn.prepareStatement(updateSQL)){
+			try(PreparedStatement ps = conn.prepareStatement(updateProductSQL)){
 				
 				ps.setString(1, product.getName());
 				ps.setString(2, product.getManufacturer());
@@ -189,13 +224,29 @@ public class MySqlProductDAO implements ProductDAO{
 				
 				conn.commit();
 			}
+			
+			try(PreparedStatement ps = conn.prepareStatement(deleteOldCategoriesSQL)){
+				ps.setInt(1, product.getId());
+				ps.executeUpdate();
+			}
+			
+			try(PreparedStatement ps = conn.prepareStatement(categoriesInsertSQL)){
+				for(CategoryBean cat : categories) {
+					ps.setInt(1, product.getId());
+					ps.setInt(2, cat.getCategoryId());
+					
+					ps.executeUpdate();
+					
+					conn.commit();
+				}
+			}
 		}
 	}
 	
 	public synchronized Collection<ProductBean> retrieveDiscountedProducts() throws SQLException {
 		Collection<ProductBean> products = new LinkedList<ProductBean>();
 
-		String selectSQL = "SELECT * FROM " + TABLE_NAME + "WHERE discount > 0";
+		String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE discount > 0";
 		
 		try(Connection conn = ds.getConnection()){
 			try(Statement s = conn.createStatement()){
@@ -495,5 +546,52 @@ public class MySqlProductDAO implements ProductDAO{
 		}
 
 		return products;
+	}
+
+	public synchronized Collection<CategoryBean> retrieveAllCategories() throws SQLException {
+		
+		Collection<CategoryBean> categories = new LinkedList<CategoryBean>();
+
+		String selectSQL = "SELECT * FROM " + CATEGORIES_TABLE_NAME;
+		
+		try(Connection conn = ds.getConnection()){
+			try(Statement s = conn.createStatement()){
+				ResultSet rs = s.executeQuery(selectSQL);
+				
+				while(rs.next()) {
+					CategoryBean bean = new CategoryBean();
+					
+					bean.setCategoryId(rs.getInt("cat_id"));
+					bean.setCategoryName(rs.getString("cat_name"));
+					bean.setSuperiorCategoryId(rs.getInt("superior_cat"));
+					
+					categories.add(bean);
+				}
+			}
+		}
+		return categories;
+	}
+
+	public synchronized CategoryBean retrieveCategoryByName(String categoryName) throws SQLException {
+
+		CategoryBean bean = new CategoryBean();
+
+		String selectSQL = "SELECT * FROM " + CATEGORIES_TABLE_NAME + " WHERE cat_name = ?";
+		
+		try(Connection conn = ds.getConnection()){
+			try(PreparedStatement ps = conn.prepareStatement(selectSQL)){
+				
+				ps.setString(1, categoryName);
+				
+				ResultSet rs = ps.executeQuery();
+				
+				if(rs.next()) {
+					bean.setCategoryId(rs.getInt("cat_id"));
+					bean.setCategoryName(rs.getString("cat_name"));
+					bean.setSuperiorCategoryId(rs.getInt("superior_cat"));
+				}
+			}
+		}
+		return bean;
 	}
 }

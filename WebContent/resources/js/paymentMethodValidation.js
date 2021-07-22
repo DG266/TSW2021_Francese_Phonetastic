@@ -1,6 +1,6 @@
 
 function validateCardNumber(cardNumber) {
-	cardNumberRegexp = /\b\d{4}[ -]?\d{4}[ -]?\d{4}[ -]?\d{4}\b/;;
+	cardNumberRegexp = /\b\d{4}[ -]?\d{4}[ -]?\d{4}[ -]?\d{4}\b/;
 	if(cardNumber.val().match(cardNumberRegexp)) {
 		return true;
 	}
@@ -24,12 +24,12 @@ function validateMonth(month) {
 function validateYear(year) {
 	var yearRegexp = /^\d{2}$/;
 	if(year.val().match(yearRegexp)) {
-		return true;
+		if(year.val() > 21) {   // male male male 
+			return true;
+		}  
 	}
-	else {
-		year.focus();
-		return false;
-	}
+	year.focus();
+	return false;
 }
 
 function validateCvv(cvv) {
@@ -45,15 +45,35 @@ function validateCvv(cvv) {
 
 $(document).ready(function(){
 	
-	$("#paymentMethodForm").submit(function(event){
+	$(".paymentMethodForm").submit(function(event){
 		
-		var cardNumberValid = validateCardNumber($("#paymentMethodForm input[name=card-number]"));
-		var monthValid = validateMonth($("#paymentMethodForm input[name=exp-month]"));
-		var yearValid = validateYear($("#paymentMethodForm input[name=exp-year]"));
-		var cvvValid = validateCvv($("#paymentMethodForm input[name=cvv]"));
+		$("#paymentMethodError").empty();
+		
+		var cardNumberValid = validateCardNumber($(".paymentMethodForm input[name=card-number]"));
+		var monthValid = validateMonth($(".paymentMethodForm input[name=exp-month]"));
+		var yearValid = validateYear($(".paymentMethodForm input[name=exp-year]"));
+		var cvvValid = validateCvv($(".paymentMethodForm input[name=cvv]"));
 		
 		if(!cardNumberValid || !monthValid || !yearValid || !cvvValid) {
-			// TODO Metti messaggi di errore
+			var error = "";
+			
+			if(!cardNumberValid){
+				error = error + "Numero carta";
+			}
+			
+			if(!monthValid){
+				error = error + " Mese";
+			}
+			
+			if(!yearValid){
+				error = error + " Anno";
+			}
+			
+			if(!cvvValid){
+				error = error + " CVV";
+			}
+			
+			$("#paymentMethodError").append("<h2>Ricontrolla i dati relativi al metodo di pagamento inseriti. (" + error +")<h2>");
 			return false;
 		}
 	});

@@ -7,11 +7,14 @@
 		<h2>Aggiungi un indirizzo di spedizione</h2>
 	</div>
 	
+	<div class="my-account-pages-error" id="addressError">
+	</div>
+	
 	
 	<div class="container">
 		<div class="address-form-container">
 			<div class="address-column">
-				<form action="${pageContext.request.contextPath}/my-addresses" method="POST" id="addressForm">
+				<form action="${pageContext.request.contextPath}/my-addresses" method="POST" class="addressForm">
 		            <h1>
 		                <i class='bx bxs-plane-take-off'></i>
 		                Dettagli spedizione
