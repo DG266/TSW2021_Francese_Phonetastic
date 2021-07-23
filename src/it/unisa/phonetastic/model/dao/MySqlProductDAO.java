@@ -189,23 +189,15 @@ public class MySqlProductDAO implements ProductDAO{
 
 	public synchronized void updateProduct(ProductBean product) throws SQLException {
 		
-		String updateProductSQL = "UPDATE " + TABLE_NAME + " "
+		String updateSQL = "UPDATE " + TABLE_NAME + " "
   	 	  		 		 + "SET product_name = ?, product_manufacturer = ?, product_description = ?, "
   	 	  		 		 + "quantity = ?, price = ?, iva = ?, discount = ?, insertion_date = ?, last_update_date = CURRENT_TIMESTAMP(), "
   	 	  		 		 + "image_path = ?, is_deleted = ? "
   	 	  		 		 + "WHERE product_id = ?"; 
 		
-		String deleteOldCategoriesSQL = "DELETE FROM " + PRODUCT_CATEGORIES_TABLE_NAME + " WHERE product_id = ?";
-		
-		String categoriesInsertSQL = "INSERT INTO " + PRODUCT_CATEGORIES_TABLE_NAME + " "
-								   + "(product_id, cat_id) "
-								   + "VALUES (?, ?)";
-		
-		ArrayList<CategoryBean> categories = product.getCategories();
-		
 		try(Connection conn = ds.getConnection()){
 			conn.setAutoCommit(false);
-			try(PreparedStatement ps = conn.prepareStatement(updateProductSQL)){
+			try(PreparedStatement ps = conn.prepareStatement(updateSQL)){
 				
 				ps.setString(1, product.getName());
 				ps.setString(2, product.getManufacturer());
@@ -224,24 +216,9 @@ public class MySqlProductDAO implements ProductDAO{
 				
 				conn.commit();
 			}
-			
-			try(PreparedStatement ps = conn.prepareStatement(deleteOldCategoriesSQL)){
-				ps.setInt(1, product.getId());
-				ps.executeUpdate();
-			}
-			
-			try(PreparedStatement ps = conn.prepareStatement(categoriesInsertSQL)){
-				for(CategoryBean cat : categories) {
-					ps.setInt(1, product.getId());
-					ps.setInt(2, cat.getCategoryId());
-					
-					ps.executeUpdate();
-					
-					conn.commit();
-				}
-			}
 		}
 	}
+
 	
 	public synchronized Collection<ProductBean> retrieveDiscountedProducts() throws SQLException {
 		Collection<ProductBean> products = new LinkedList<ProductBean>();
@@ -593,5 +570,61 @@ public class MySqlProductDAO implements ProductDAO{
 			}
 		}
 		return bean;
+	}
+	
+	public synchronized void updateProductWithCategories(ProductBean product) throws SQLException {
+		
+		String updateProductSQL = "UPDATE " + TABLE_NAME + " "
+  	 	  		 		 + "SET product_name = ?, product_manufacturer = ?, product_description = ?, "
+  	 	  		 		 + "quantity = ?, price = ?, iva = ?, discount = ?, insertion_date = ?, last_update_date = CURRENT_TIMESTAMP(), "
+  	 	  		 		 + "image_path = ?, is_deleted = ? "
+  	 	  		 		 + "WHERE product_id = ?"; 
+		
+		String deleteOldCategoriesSQL = "DELETE FROM " + PRODUCT_CATEGORIES_TABLE_NAME + " WHERE product_id = ?";
+		
+		String categoriesInsertSQL = "INSERT INTO " + PRODUCT_CATEGORIES_TABLE_NAME + " "
+								   + "(product_id, cat_id) "
+								   + "VALUES (?, ?)";
+		
+		ArrayList<CategoryBean> categories = product.getCategories();
+		
+		try(Connection conn = ds.getConnection()){
+			conn.setAutoCommit(false);
+			try(PreparedStatement ps = conn.prepareStatement(updateProductSQL)){
+				
+				ps.setString(1, product.getName());
+				ps.setString(2, product.getManufacturer());
+				ps.setString(3, product.getDescription());
+				ps.setInt(4, product.getQuantity());
+				ps.setBigDecimal(5, product.getPrice());
+				ps.setBigDecimal(6, product.getIva());
+				ps.setBigDecimal(7, product.getDiscount());
+				ps.setTimestamp(8, product.getInsertionDate());
+				ps.setString(9, product.getImagePath());
+				ps.setBoolean(10, product.isDeleted());
+				
+				ps.setInt(11, product.getId());
+				
+				ps.executeUpdate();
+				
+				conn.commit();
+			}
+			
+			try(PreparedStatement ps = conn.prepareStatement(deleteOldCategoriesSQL)){
+				ps.setInt(1, product.getId());
+				ps.executeUpdate();
+			}
+			
+			try(PreparedStatement ps = conn.prepareStatement(categoriesInsertSQL)){
+				for(CategoryBean cat : categories) {
+					ps.setInt(1, product.getId());
+					ps.setInt(2, cat.getCategoryId());
+					
+					ps.executeUpdate();
+					
+					conn.commit();
+				}
+			}
+		}
 	}
 }

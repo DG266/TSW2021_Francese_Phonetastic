@@ -27,7 +27,8 @@
 						<span>${product.quantity}</span>
 					</div>
 					<p class="product-description-info">
-						${product.description}
+						<!-- ${product.description} -->
+						Ricorda: con noi la spedizione è gratuita!
 					</p>
 					<div class="product-info-price">
 						<c:choose>

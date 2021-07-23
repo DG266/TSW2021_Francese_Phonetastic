@@ -37,4 +37,6 @@ public interface ProductDAO {
 	public Collection<CategoryBean> retrieveAllCategories() throws SQLException;
 	
 	public CategoryBean retrieveCategoryByName(String categoryName) throws SQLException;
+	
+	public void updateProductWithCategories(ProductBean product) throws SQLException;
 }

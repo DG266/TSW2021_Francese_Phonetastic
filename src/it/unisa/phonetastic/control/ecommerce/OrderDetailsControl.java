@@ -16,6 +16,7 @@ import it.unisa.phonetastic.model.dao.AddressDAO;
 import it.unisa.phonetastic.model.dao.DAOFactory;
 import it.unisa.phonetastic.model.dao.PaymentMethodDAO;
 import it.unisa.phonetastic.model.dao.ProductDAO;
+import it.unisa.phonetastic.model.dao.UserDAO;
 
 /**
  * Retrieves the products belonging to a specific order.
@@ -29,6 +30,7 @@ public class OrderDetailsControl extends HttpServlet{
 	private static ProductDAO productModel = DAOFactory.getDAOFactory(DAOFactory.MYSQL).getProductDAO();
 	private static AddressDAO addressModel = DAOFactory.getDAOFactory(DAOFactory.MYSQL).getAddressDAO();
 	private static PaymentMethodDAO paymentMethodModel = DAOFactory.getDAOFactory(DAOFactory.MYSQL).getPaymentMethodDAO();
+	private static UserDAO userModel = DAOFactory.getDAOFactory(DAOFactory.MYSQL).getUserDAO();
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		
@@ -43,6 +45,7 @@ public class OrderDetailsControl extends HttpServlet{
 			
 			request.setAttribute("orderAddress", addressModel.retrieveAddressByID(orderInfo.getCustomerId(), orderInfo.getAddressId()));
 			request.setAttribute("orderPaymentMethod", paymentMethodModel.retrievePaymentMethodByID(orderInfo.getCustomerId(), orderInfo.getPaymentMethodId()));
+			request.setAttribute("customerData", userModel.retrieveUserByID(orderInfo.getCustomerId()));
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

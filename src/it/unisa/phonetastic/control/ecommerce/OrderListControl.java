@@ -42,7 +42,8 @@ public class OrderListControl extends HttpServlet{
 			}
 			
 			// This is needed, a customer should be able to check ONLY his orders
-			if(order.getCustomerId() == user.getId()) {
+			// ...but the admin can see the details of all orders.
+			if(order.getCustomerId() == user.getId() || user.isAdmin()) {
 				request.setAttribute("orderInfo", order);
 			}
 			else {

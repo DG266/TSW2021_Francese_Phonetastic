@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.JsonObject;
 
 import it.unisa.phonetastic.model.bean.UserBean;
+import it.unisa.phonetastic.model.cart.Cart;
 import it.unisa.phonetastic.model.dao.DAOFactory;
 import it.unisa.phonetastic.model.dao.UserDAO;
 
@@ -57,8 +58,21 @@ public class LoginControl extends HttpServlet {
 					UserBean user = new UserBean();
 					user = model.retrieveUserByEmailPwd(request.getParameter("email"), request.getParameter("pwd"));
 					if (user.isValid()) {
-						//System.out.println("User found (isAdmin = " + user.isAdmin() + "): " + user.toString());
+						
+						// save the cart (it may not be present)
+						Cart cart = (Cart)request.getSession().getAttribute("cart");
+						
+						// invalidate previous session
+						request.getSession().invalidate();
+					
+						// create new session
 						HttpSession session = request.getSession(true);
+						
+						// if the cart was actually present, save it
+						if(cart != null) {
+							session.setAttribute("cart", cart);
+						}
+						
 						session.setAttribute("currentSessionUser", user);
 						
 						if(user.isAdmin()) {

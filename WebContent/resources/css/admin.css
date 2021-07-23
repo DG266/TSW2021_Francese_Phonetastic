@@ -282,6 +282,9 @@ tr:hover {
 	background-color: #f5f5f5;
 }
 
+.admin-order-ids {
+	color: #c0392b;
+}
 
 @media only screen and (max-width: 1280px) {
     .sidebar {

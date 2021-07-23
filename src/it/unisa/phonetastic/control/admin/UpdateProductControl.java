@@ -84,7 +84,7 @@ public class UpdateProductControl extends HttpServlet {
 					updatedProduct.setDeleted(false);
 				}
 				
-				model.updateProduct(updatedProduct);
+				model.updateProductWithCategories(updatedProduct);
 				
 				request.setAttribute("success", true);
 			}

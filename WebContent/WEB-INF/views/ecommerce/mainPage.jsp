@@ -18,7 +18,7 @@
                                 Clicca qui sotto per acquistarlo!
                             </p>
                             <div class="top-down trans-delay-0-6">
-                                <button class="button-flat button-hover"><span>Acquista adesso</span></button>
+                                <a href="${pageContext.request.contextPath}/info?id=11"><button class="button-flat button-hover"><span>Acquista adesso</span></button></a>
                             </div>
 						</div>
 					</div>
@@ -37,7 +37,7 @@
                                 Clicca qui sotto per acquistarlo!
                             </p>
                             <div class="top-down trans-delay-0-6">
-                                <button class="button-flat button-hover"><span>Acquista adesso</span></button>
+                                <a href="${pageContext.request.contextPath}/info?id=5"><button class="button-flat button-hover"><span>Acquista adesso</span></button></a>
                             </div>
 						</div>
 					</div>
@@ -56,7 +56,7 @@
                                 Clicca qui sotto per acquistarlo!
                             </p>
                             <div class="top-down trans-delay-0-6">
-                                <button class="button-flat button-hover"><span>Acquista adesso</span></button>
+                                <a href="${pageContext.request.contextPath}/info?id=8"><button class="button-flat button-hover"><span>Acquista adesso</span></button></a>
                             </div>
 						</div>
 					</div>

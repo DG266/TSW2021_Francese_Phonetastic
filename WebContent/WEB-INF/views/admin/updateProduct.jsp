@@ -21,10 +21,13 @@
 					<form action="update-product" method="POST" class="productForm">
 						<input type ="hidden" name="id" value="${productToUpdate.id}">
 						<br><br>
-						<input type="text" name="name" value="${productToUpdate.name}" placeholder="${productToUpdate.name}" autofocus required/>
+						<label for="product-name">Nome</label> <br>
+						<input type="text" id="product-name" name="name" value="${productToUpdate.name}" placeholder="${productToUpdate.name}" autofocus required/>
 						<br><br>
-						<input type="text" name="manufacturer" value="${productToUpdate.manufacturer}" placeholder="${productToUpdate.manufacturer}" autofocus required/>
+						<label for="product-manufacturer">Casa produttrice</label> <br>
+						<input type="text" id="product-manufacturer" name="manufacturer" value="${productToUpdate.manufacturer}" placeholder="${productToUpdate.manufacturer}" autofocus required/>
 						<br><br>
+						<label for="category">Categoria</label> <br>
 						<input list="categories" name="category" id="category" placeholder="Categoria" autofocus required>
 						<datalist id="categories">
 							<c:forEach var="cat" items="${categories}">
@@ -32,18 +35,23 @@
 							</c:forEach>
 						</datalist>
 						<br><br>
-						<input type="number" name="price" value="${productToUpdate.price}" placeholder="${productToUpdate.price}" step="any" min="1" autofocus required/>
+						<label for="product-price">Prezzo (&euro;)</label> <br>
+						<input type="number" id="product-price" name="price" value="${productToUpdate.price}" placeholder="${productToUpdate.price}" step="any" min="1" autofocus required/>
 						<br><br>
-						<input type="number" name="discount" value="${productToUpdate.discount}" placeholder="${productToUpdate.discount}" min="0" max="100" autofocus required/>
+						<label for="product-discount">Sconto (%)</label> <br>
+						<input type="number" id="product-discount" name="discount" value="${productToUpdate.discount}" placeholder="${productToUpdate.discount}" min="0" max="100" autofocus required/>
 						<br><br>
-						<input type="number" name="iva" value="${productToUpdate.iva}" placeholder="${productToUpdate.iva}" min="0" max="100" autofocus required/>
+						<label for="product-iva">IVA (%)</label> <br>
+						<input type="number" id="product-iva" name="iva" value="${productToUpdate.iva}" placeholder="${productToUpdate.iva}" min="0" max="100" autofocus required/>
 						<br><br>
-						<textarea name="description" rows="5" cols="48" placeholder="${productToUpdate.description}" autofocus required>${productToUpdate.description}</textarea>
+						<label for="product-description">Descrizione</label> <br>
+						<textarea name="description" id="product-description" rows="5" cols="48" placeholder="${productToUpdate.description}" autofocus required>${productToUpdate.description}</textarea>
 						<br><br>
-						<input type="number" name="quantity" value="${productToUpdate.quantity}" placeholder="${productToUpdate.quantity}" min="1" autofocus required/>
+						<label for="product-quantity">Quantità</label> <br>
+						<input type="number" id="product-quantity" name="quantity" value="${productToUpdate.quantity}" placeholder="${productToUpdate.quantity}" min="1" autofocus required/>
 						<br><br>
 						<label for="checkbox1">Da cancellare:</label><br>
-						<input type="checkbox" name="is-deleted" id="checkbox1" value="true" autofocus />
+						<input type="checkbox" name="is-deleted" id="checkbox1" value="true" autofocus <c:if test="${productToUpdate.deleted == true}"> checked</c:if> />
 						<br><br>
 						<!-- Maybe we should add the option to update the product image -->
 						<input type ="hidden" name="insertion-date" value="${productToUpdate.insertionDate}">

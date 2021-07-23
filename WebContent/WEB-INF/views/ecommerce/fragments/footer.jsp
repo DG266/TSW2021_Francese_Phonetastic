@@ -9,28 +9,32 @@
                     <div class="footer-grid-item">
                         <h3>Categorie</h3>
                         <ul>
-                            <li><a href="#">Smartphone</a></li>
-                            <li><a href="#">Smartwatch</a></li>
-                            <li><a href="#">Accessori</a></li>
-                            <li><a href="#">Usato</a></li>
+                            <li><a href="${pageContext.request.contextPath}/catalog?category=Smartphone">Smartphone</a></li>
+                            <li><a href="${pageContext.request.contextPath}/catalog?category=Smartwatch">Smartwatch</a></li>
+                            <li><a href="${pageContext.request.contextPath}/catalog?category=Accessori">Accessori</a></li>
+                            <!--  <li><a href="#">Usato</a></li> -->
                         </ul>
                     </div>
                     <div class="footer-grid-item">
-                        <h3>La nostra azienda</h3>
+                        <h3>UNISA - Progetto TSW 2021</h3>
                         <ul>
-                            <li><a href="#">Chi siamo</a></li>
-                            <li><a href="#">Ordini</a></li>
-                            <li><a href="#">Pagamenti</a></li>
-                            <li><a href="#">Spedizioni</a></li>
-                            <li><a href="#">Contattaci</a></li>
+                            <!-- <li><a href="#">Chi siamo</a></li>  -->
+                            <!-- <li><a href="#">Ordini</a></li> -->
+                            <!-- <li><a href="#">Pagamenti</a></li> -->
+                            <!-- <li><a href="#">Spedizioni</a></li> -->
+                            <!-- <li><a href="#">Contattaci</a></li> -->
+                            <li></li>
+                            <li>Ferdinando Esposito 0512108686</li>
+							<li>Daniele Galloppo 0512106955</li>
+							<li>Antonio F. Monetti 0512108617</li>
                         </ul>
                     </div>
                     <div class="footer-grid-item">
                         <h3>Il tuo account</h3>
                         <ul>
-                            <li><a href="#">Informazioni personali</a></li>
-                            <li><a href="#">Restituzione prodotto</a></li>
-                            <li><a href="#">Indirizzi</a></li>
+                            <li><a href="${pageContext.request.contextPath}/my-orders">I tuoi ordini</a></li>
+                            <li><a href="${pageContext.request.contextPath}/my-payment-methods">Metodi di pagamento</a></li>
+                            <li><a href="${pageContext.request.contextPath}/my-addresses">Indirizzi</a></li>
                         </ul>
                     </div>
                     <div class="footer-grid-item">

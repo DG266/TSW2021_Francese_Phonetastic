@@ -23,10 +23,13 @@
 			<h2>Aggiungi un prodotto</h2>
 			<form action="add-product" method="POST" enctype="multipart/form-data" class="productForm">
 				<br><br>
-				<input type="text" name="name" placeholder="Nome" autofocus required/>
+				<label for="product-name">Nome</label> <br>
+				<input type="text" id="product-name" name="name" placeholder="Nome" autofocus required/>
 				<br><br>
-				<input type="text" name="manufacturer" placeholder="Casa produttrice" autofocus required/>
+				<label for="product-manufacturer">Casa produttrice</label> <br>
+				<input type="text" id="product-manufacturer" name="manufacturer" placeholder="Casa produttrice" autofocus required/>
 				<br><br>
+				<label for="category">Categoria</label> <br>
 				<input list="categories" name="category" id="category" placeholder="Categoria" autofocus required>
 				<datalist id="categories">
 					<c:forEach var="cat" items="${categories}">
@@ -34,15 +37,20 @@
 					</c:forEach>
 				</datalist>
 				<br><br>
-				<input type="number" name="price" placeholder="Prezzo" step="any" min="1" autofocus required/>
+				<label for="product-price">Prezzo (&euro;)</label> <br>
+				<input type="number" id="product-price" name="price" placeholder="Prezzo" step="any" min="1" autofocus required/>
 				<br><br>
-				<input type="number" name="discount" placeholder="% Sconto" min="0" max="100" autofocus required/>
+				<label for="product-discount">Sconto (%)</label> <br>
+				<input type="number" id="product-discount" name="discount" placeholder="% Sconto" min="0" max="100" autofocus required/>
 				<br><br>
-				<input type="number" name="iva" placeholder="IVA" min="0" max="100" autofocus required/>
+				<label for="product-iva">IVA (%)</label> <br>
+				<input type="number" id="product-iva" name="iva" placeholder="IVA" min="0" max="100" autofocus required/>
 				<br><br>
-				<textarea name="description" rows="5" cols="48" placeholder="Aggiungi una descrizione del prodotto..." autofocus required></textarea>
+				<label for="product-description">Descrizione</label> <br>
+				<textarea name="description" id="product-description" rows="5" cols="48" placeholder="Aggiungi una descrizione del prodotto..." autofocus required></textarea>
 				<br><br>
-				<input type="number" name="quantity" placeholder="Quantità" min="1" autofocus required/>
+				<label for="product-quantity">Quantità</label> <br>
+				<input type="number" id="product-quantity" name="quantity" placeholder="Quantità" min="1" autofocus required/>
 				<br><br>
 				<label>Immagine:</label>
 				<input type="file" name="image" autofocus required/>

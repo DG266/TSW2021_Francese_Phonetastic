@@ -151,7 +151,7 @@
                                                 </ul>
                                             </div>
                                             <div class="category-grid-item">
-                                                <h3><a href="${pageContext.request.contextPath}/catalog?category=Accessori">Accessori</a></h3>
+                                                <h3>Accessori</h3>
                                                 <ul>
                                                     <li><a href="${pageContext.request.contextPath}/catalog?category=Auricolari">Auricolari</a></li>
                                                     <li><a href="${pageContext.request.contextPath}/catalog?category=Cover">Cover</a></li>

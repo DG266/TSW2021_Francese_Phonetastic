@@ -16,6 +16,9 @@
 		</div>
 		<div class="main-content">
 			
+			<h3>Clicca sull'ID ordine (in rosso) per visualizzare i dettagli</h3>
+			<br>
+			
 			<form action="orders" method="POST">	
 				<p>Ricerca per data</p>
 				<br>
@@ -45,18 +48,16 @@
 					<th>Data creazione</th>
 					<th>Ultimo aggiornamento</th>
 					<th>Codice cliente</th>
-					<th>Codice indrizzo</th>
 				</tr>
 				<c:choose>
 					<c:when test="${orders != null && orders.size() != 0}">
 						<c:forEach var="order" items="${orders}">
 							<tr>
-								<td>${order.id}</td>
+								<td><a class="admin-order-ids" href="${pageContext.request.contextPath}/my-orders?id=${order.id}">${order.id}</a></td>
 								<td>${order.total}</td>
 								<td><fmt:formatDate type="both" timeZone="UTC" value="${order.creationDate}"/></td>
 								<td><fmt:formatDate type="both" timeZone="UTC" value="${order.lastUpdateDate}"/></td>
 								<td>${order.customerId}</td>
-								<td>${order.addressId}</td>
 							</tr>
 						</c:forEach>
 					</c:when>
