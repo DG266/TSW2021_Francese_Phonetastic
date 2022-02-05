@@ -8,4 +8,5 @@ Membri del gruppo:
 * Daniele Galloppo - Matricola: 0512106955
 * Ferdinando Esposito - Matricola: 0512108686
 <br/>
+
 **Importante**: il progetto è stato presentato il 23 Luglio 2021. Ci sono _parecchi_ aspetti migliorabili e non escludiamo la possibilità di effettuare ulteriori modifiche in futuro (magari migliorie del codice, correzione di errori di battitura nella documentazione, ecc.).
